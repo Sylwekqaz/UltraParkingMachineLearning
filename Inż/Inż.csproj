@@ -93,6 +93,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="utils\EmguCVHelper.cs" />
+    <Compile Include="Model\ImageSet.cs" />
+    <Compile Include="Model\ImageSubset.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
