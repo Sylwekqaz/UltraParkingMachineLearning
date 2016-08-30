@@ -11,7 +11,7 @@ namespace In¿.Model
         public Mat Org { get; set; } = new Mat();
         public Mat Gray { get; set; } = new Mat();
         public Mat Edges { get; set; } = new Mat();
-        public LineSegmentPoint[] HoughSpace { get; set; }
+        public LineSegmentPolar[] HoughSpace { get; set; }
         public Mat HoughP { get; set; } = new Mat();
 
         public Mat this[int value]

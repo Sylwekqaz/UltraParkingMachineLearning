@@ -63,7 +63,8 @@ namespace Inż.Views
 
             Cv2.CvtColor(subset.Org, subset.Gray, ColorConversionCodes.BGR2GRAY);
             Cv2.Canny(subset.Gray, subset.Edges, 120, 150);
-            subset.HoughSpace = Cv2.HoughLinesP(subset.Edges, 5, Math.PI/180, (int) ASlider.Value, (int)BSlider.Value, (int)CSlider.Value);
+            var threshold = (int) (ASlider.Value * Math.Sqrt(subset.Gray.Height * subset.Gray.Width) / 255);
+            subset.HoughSpace = Cv2.HoughLines(subset.Edges, 5, Math.PI/180, threshold, (int)BSlider.Value, (int)CSlider.Value);
 
             DrawHouhgP(subset);
         }
@@ -73,7 +74,15 @@ namespace Inż.Views
             Cv2.CvtColor(subset.Edges, subset.HoughP, ColorConversionCodes.GRAY2BGR);
             foreach (var lineSegment2D in subset.HoughSpace)
             {
-                Cv2.Line(subset.HoughP, lineSegment2D.P1, lineSegment2D.P2, Scalar.Green);
+                OpenCvSharp.Point pt1;
+                OpenCvSharp.Point pt2;
+                double a = Math.Cos(lineSegment2D.Theta), b = Math.Sin(lineSegment2D.Theta);
+                double x0 = a* lineSegment2D.Rho, y0 = b* lineSegment2D.Rho;
+                pt1.X = (int) Math.Round(x0 + 1000*(-b));
+                pt1.Y = (int) Math.Round(y0 + 1000*(a));
+                pt2.X = (int) Math.Round(x0 - 1000*(-b));
+                pt2.Y = (int) Math.Round(y0 - 1000*(a));
+                Cv2.Line(subset.HoughP, pt1, pt2, Scalar.Green);
             }
         }
     }
