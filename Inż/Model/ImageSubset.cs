@@ -1,7 +1,8 @@
 using System;
+using System.Drawing;
 using System.Windows.Media;
-using Emgu.CV;
-using Emgu.CV.Structure;
+using OpenCvSharp;
+
 
 namespace In¿.Model
 {
@@ -10,7 +11,7 @@ namespace In¿.Model
         public Mat Org { get; set; } = new Mat();
         public Mat Gray { get; set; } = new Mat();
         public Mat Edges { get; set; } = new Mat();
-        public LineSegment2D[] HoughSpaceP { get; set; }
+        public LineSegmentPoint[] HoughSpace { get; set; }
         public Mat HoughP { get; set; } = new Mat();
 
         public Mat this[int value]

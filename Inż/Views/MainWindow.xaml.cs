@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using Emgu.CV;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
 using Inż.Model;
 using Inż.utils;
+using OpenCvSharp;
+using OpenCvSharp.Extensions;
+using Window = System.Windows.Window;
 
 namespace Inż.Views
 {
@@ -30,8 +30,9 @@ namespace Inż.Views
                 {
                     Sets.Add(new ImageSet() {Free = new ImageSubset() {}, Taken = new ImageSubset() {}});
 
-                    Sets[i - 1].Free.Org = CvInvoke.Imread($"Images/test{i}a.jpg", LoadImageType.AnyColor);
-                    Sets[i - 1].Taken.Org = CvInvoke.Imread($"Images/test{i}b.jpg", LoadImageType.AnyColor);
+
+                    Sets[i - 1].Free.Org = new Mat($"Images/test{i}a.jpg", ImreadModes.AnyColor);
+                    Sets[i - 1].Taken.Org = new Mat($"Images/test{i}b.jpg", ImreadModes.AnyColor);
                 }
 
                 SetSlider.Maximum = 5;
@@ -61,19 +62,19 @@ namespace Inż.Views
         {
             var subset = Sets[(int) SetSlider.Value - 1][(int) FtSlider.Value];
 
-            CvInvoke.CvtColor(subset.Org, subset.Gray, ColorConversion.Bgr2Gray);
-            CvInvoke.Canny(subset.Gray, subset.Edges, 120, 150);
-            subset.HoughSpaceP = CvInvoke.HoughLinesP(subset.Edges, 5, Math.PI/180, 10, 10, 10);
+            Cv2.CvtColor(subset.Org, subset.Gray, ColorConversionCodes.BGR2GRAY);
+            Cv2.Canny(subset.Gray, subset.Edges, 120, 150);
+            subset.HoughSpace = Cv2.HoughLinesP(subset.Edges, 5, Math.PI/180, 10, 10, 10);
 
             DrawHouhgP(subset);
         }
 
         private static void DrawHouhgP(ImageSubset subset)
         {
-            CvInvoke.CvtColor(subset.Edges, subset.HoughP, ColorConversion.Gray2Bgr);
-            foreach (var lineSegment2D in subset.HoughSpaceP)
+            Cv2.CvtColor(subset.Edges, subset.HoughP, ColorConversionCodes.GRAY2BGR);
+            foreach (var lineSegment2D in subset.HoughSpace)
             {
-                CvInvoke.Line(subset.HoughP, lineSegment2D.P1, lineSegment2D.P2, new MCvScalar(0, 255, 0));
+                Cv2.Line(subset.HoughP, lineSegment2D.P1, lineSegment2D.P2, Scalar.Green);
             }
         }
     }
