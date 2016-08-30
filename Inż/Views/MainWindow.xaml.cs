@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using Inż.Model;
-using Inż.utils;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using Window = System.Windows.Window;
@@ -64,7 +63,7 @@ namespace Inż.Views
 
             Cv2.CvtColor(subset.Org, subset.Gray, ColorConversionCodes.BGR2GRAY);
             Cv2.Canny(subset.Gray, subset.Edges, 120, 150);
-            subset.HoughSpace = Cv2.HoughLinesP(subset.Edges, 5, Math.PI/180, 10, 10, 10);
+            subset.HoughSpace = Cv2.HoughLinesP(subset.Edges, 5, Math.PI/180, (int) ASlider.Value, (int)BSlider.Value, (int)CSlider.Value);
 
             DrawHouhgP(subset);
         }
