@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inż", "Inż\Inż.csproj", "{CB5F4724-9C4E-42EA-ACA0-13AD1F981D2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContourMaker", "ContourMaker\ContourMaker.csproj", "{02D90150-8B6A-442D-BA83-D7A765AABD2B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{CB5F4724-9C4E-42EA-ACA0-13AD1F981D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB5F4724-9C4E-42EA-ACA0-13AD1F981D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB5F4724-9C4E-42EA-ACA0-13AD1F981D2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02D90150-8B6A-442D-BA83-D7A765AABD2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02D90150-8B6A-442D-BA83-D7A765AABD2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02D90150-8B6A-442D-BA83-D7A765AABD2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02D90150-8B6A-442D-BA83-D7A765AABD2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
