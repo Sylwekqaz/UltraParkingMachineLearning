@@ -45,7 +45,7 @@
         <Label x:Name="ImgTypeLabel" Content="Podgląd" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,282,0,0" Width="180"/>
         <DockPanel VerticalAlignment="Top" Margin="10,308,10,0">
             <TextBox Text="{Binding ElementName=ImgTypeSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider Maximum="3" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" Name="ImgTypeSlider"  ValueChanged="OnSliderChange" />
+            <Slider Maximum="2" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" Name="ImgTypeSlider"  ValueChanged="OnSliderChange" />
         </DockPanel>
         
         <Image x:Name="ImagePreview" Grid.Column="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />

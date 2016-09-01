@@ -11,8 +11,6 @@ namespace In¿.Model
         public Mat Org { get; set; } = new Mat();
         public Mat Gray { get; set; } = new Mat();
         public Mat Edges { get; set; } = new Mat();
-        public LineSegmentPolar[] HoughSpace { get; set; }
-        public Mat HoughP { get; set; } = new Mat();
 
         public Mat this[int value]
         {
@@ -25,8 +23,6 @@ namespace In¿.Model
                         return Gray;
                     case 2:
                         return Edges;
-                    case 3:
-                        return HoughP;
 
                     default:
                         throw new IndexOutOfRangeException(nameof(value));
