@@ -14,17 +14,17 @@
         <DockPanel VerticalAlignment="Top" Margin="10,253,10,0"/>
 
         <Image x:Name="ImagePreview" Grid.Column="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" MouseUp="PreviewImage_OnMouseUp"/>
-        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
             <Label x:Name="ImgTypeLabel" Content="Podgląd" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,-80,0" Width="180"/>
             <DockPanel VerticalAlignment="Top" HorizontalAlignment="Stretch">
                 <TextBox Text="{Binding Value, ElementName=ImgTypeSlider, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
                 <Slider Maximum="1" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" x:Name="ImgTypeSlider" />
             </DockPanel>
-            <Button Margin="10" HorizontalAlignment="Stretch" x:Name="AddCountur" Content="Add New Countur" Click="AddCountur_Click" />
-            <Button Margin="10" HorizontalAlignment="Stretch" x:Name="CleatLastPoint" Content="Cleat Last Point" Click="CleatLastPoint_Click"/>
-            <Button Margin="10" HorizontalAlignment="Stretch" x:Name="CleatLastCountur" Content="Cleat Last Countur" Click="CleatLastCountur_Click" />
-            <Button Margin="10" HorizontalAlignment="Stretch" x:Name="SaveButton" Content="Save" Click="SaveButton_OnClick" />
-            <Button Margin="10" HorizontalAlignment="Stretch" x:Name="LoadButton" Content="Load"  Click="LoadButton_OnClick" />
+            <Button HorizontalAlignment="Stretch" x:Name="AddCountur" Content="Add New Countur" Click="AddCountur_Click" />
+            <Button HorizontalAlignment="Stretch" x:Name="CleatLastPoint" Content="Cleat Last Point" Click="CleatLastPoint_Click"/>
+            <Button HorizontalAlignment="Stretch" x:Name="CleatLastCountur" Content="Cleat Last Countur" Click="CleatLastCountur_Click" />
+            <Button HorizontalAlignment="Stretch" x:Name="SaveButton" Content="Save" Click="SaveButton_OnClick" />
+            <Button HorizontalAlignment="Stretch" x:Name="LoadButton" Content="Load"  Click="LoadButton_OnClick" />
 
         </StackPanel>
 
