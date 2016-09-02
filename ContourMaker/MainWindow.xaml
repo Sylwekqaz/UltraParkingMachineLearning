@@ -11,9 +11,7 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Image x:Name="BackgroundImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1"/>
-        <Image x:Name="MaskImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1"/>
-        <Image x:Name="TempImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" MouseUp="TempImage_OnMouseUp"/>
+        <Image x:Name="PreviewImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1"/>
 
     </Grid>
 </Window>
