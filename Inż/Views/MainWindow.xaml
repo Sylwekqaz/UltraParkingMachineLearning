@@ -20,9 +20,9 @@
                 <TextBox Text="{Binding Value, ElementName=ImgTypeSlider, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
                 <Slider Maximum="1" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" x:Name="ImgTypeSlider" />
             </DockPanel>
-            <Button x:Name="AddCountur" Content="Add New Countur" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="106" Click="AddCountur_Click" />
-            <Button x:Name="CleatLastPoint" Content="Cleat Last Point" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="92" Click="CleatLastPoint_Click"/>
-            <Button x:Name="CleatLastCountur" Content="Cleat Last Countur" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="108" Click="CleatLastCountur_Click" />
+            <Button Margin="10" HorizontalAlignment="Stretch" x:Name="AddCountur" Content="Add New Countur" Click="AddCountur_Click" />
+            <Button Margin="10" HorizontalAlignment="Stretch" x:Name="CleatLastPoint" Content="Cleat Last Point" Click="CleatLastPoint_Click"/>
+            <Button Margin="10" HorizontalAlignment="Stretch" x:Name="CleatLastCountur" Content="Cleat Last Countur" Click="CleatLastCountur_Click" />
 
         </StackPanel>
 
