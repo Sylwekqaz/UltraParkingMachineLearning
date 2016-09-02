@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Inż.Model;
+using Newtonsoft.Json;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using Point = OpenCvSharp.Point;
@@ -22,7 +24,7 @@ namespace Inż.Views
         private readonly FrameSource frameSourceCamera = Cv2.CreateFrameSource_Camera(1);
         private readonly ImageSubset subset = new ImageSubset();
 
-        private readonly List<List<Point>> PolysList = new List<List<Point>>();
+        private List<List<Point>> PolysList = new List<List<Point>>();
 
         public MainWindow()
         {
@@ -65,6 +67,7 @@ namespace Inż.Views
             if (full)
             {
                 #region redrawMask
+
                 var sizes = new[] {subset.Org.Size(0), subset.Org.Size(1)};
                 subset.Mask = new Mat(sizes, subset.Org.Type(), new Scalar(0, 0, 0, 0));
                 var pts = PolysList.Where(list => list.Count > 0);
@@ -113,6 +116,28 @@ namespace Inż.Views
             };
             PolysList.Last().Add(position);
             Redraw(true);
+        }
+
+        private void SaveButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var json = JsonConvert.SerializeObject(PolysList.ToArray());
+            File.WriteAllText(@"ctr.json", json);
+        }
+
+        private void LoadButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (var r = new StreamReader("ctr.json"))
+                {
+                    var json = r.ReadToEnd();
+                    PolysList = JsonConvert.DeserializeObject<List<List<Point>>>(json);
+                }
+                Redraw(true);
+            }
+            catch (Exception exception)
+            {
+            }
         }
     }
 }

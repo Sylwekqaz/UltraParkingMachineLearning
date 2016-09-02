@@ -23,6 +23,8 @@
             <Button Margin="10" HorizontalAlignment="Stretch" x:Name="AddCountur" Content="Add New Countur" Click="AddCountur_Click" />
             <Button Margin="10" HorizontalAlignment="Stretch" x:Name="CleatLastPoint" Content="Cleat Last Point" Click="CleatLastPoint_Click"/>
             <Button Margin="10" HorizontalAlignment="Stretch" x:Name="CleatLastCountur" Content="Cleat Last Countur" Click="CleatLastCountur_Click" />
+            <Button Margin="10" HorizontalAlignment="Stretch" x:Name="SaveButton" Content="Save" Click="SaveButton_OnClick" />
+            <Button Margin="10" HorizontalAlignment="Stretch" x:Name="LoadButton" Content="Load"  Click="LoadButton_OnClick" />
 
         </StackPanel>
 
