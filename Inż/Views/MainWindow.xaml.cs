@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Threading;
 using Inż.Model;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
@@ -14,8 +15,10 @@ namespace Inż.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public List<ImageSet> Sets { get; set; }
         private readonly bool _initializing = true;
+        private FrameSource _frameSourceCamera;
+        private ImageSubset _subset;
+        DispatcherTimer dispatcherTimer = new DispatcherTimer(); // get progress every second
 
         public MainWindow()
         {
@@ -24,20 +27,12 @@ namespace Inż.Views
                 InitializeComponent();
                 _initializing = false;
 
-                Sets = new List<ImageSet>();
+                _frameSourceCamera = Cv2.CreateFrameSource_Camera(1);
 
-                for (int i = 1; i <= 5; i++)
-                {
-                    Sets.Add(new ImageSet() {Free = new ImageSubset() {}, Taken = new ImageSubset() {}});
+                dispatcherTimer.Tick += dispatcherTimer_Tick;
+                dispatcherTimer.Interval = new TimeSpan(1000);
+                dispatcherTimer.Start();
 
-
-                    Sets[i - 1].Free.Org = new Mat($"Images/test{i}a.jpg", ImreadModes.AnyColor);
-                    Sets[i - 1].Taken.Org = new Mat($"Images/test{i}b.jpg", ImreadModes.AnyColor);
-                }
-
-                SetSlider.Maximum = 5;
-
-                OnSliderChange(null, null);
             }
             catch (Exception e)
             {
@@ -45,25 +40,20 @@ namespace Inż.Views
             }
         }
 
-        private void OnSliderChange(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             if (_initializing) return;
-
             Recalculate();
-
-            ImagePreview.Source =
-                Sets[(int) SetSlider.Value - 1]
-                    [(int) FtSlider.Value]
-                    [(int) ImgTypeSlider.Value]
-                    .ToBitmapSource();
+            ImagePreview.Source = _subset[(int)ImgTypeSlider.Value].ToBitmapSource();
         }
 
         private void Recalculate()
         {
-            var subset = Sets[(int) SetSlider.Value - 1][(int) FtSlider.Value];
+            _subset = new ImageSubset();
+            _frameSourceCamera.NextFrame(_subset.Org);
 
-            Cv2.CvtColor(subset.Org, subset.Gray, ColorConversionCodes.BGR2GRAY);
-            Cv2.Canny(subset.Gray, subset.Edges, ASlider.Value, BSlider.Value);
+            Cv2.CvtColor(_subset.Org, _subset.Gray, ColorConversionCodes.BGR2GRAY);
+            Cv2.Canny(_subset.Gray, _subset.Edges, ASlider.Value, BSlider.Value);
         }
     }
 }

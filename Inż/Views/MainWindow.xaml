@@ -15,37 +15,27 @@
         <Label x:Name="ALabel" Content="A" VerticalAlignment="Top" Margin="10"/>
         <DockPanel VerticalAlignment="Top" Margin="10,36,10,0">
             <TextBox Text="{Binding ElementName=ASlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider Maximum="255" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" Name="ASlider" ValueChanged="OnSliderChange" />
+            <Slider Maximum="255" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" Name="ASlider" />
         </DockPanel>
 
         <Label x:Name="BLabel" Content="B" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,64,0,0" Width="180"/>
         <DockPanel VerticalAlignment="Top" Margin="10,89,10,0">
             <TextBox Text="{Binding ElementName=BSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider Maximum="255" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" Name="BSlider" ValueChanged="OnSliderChange" />
+            <Slider Maximum="255" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" Name="BSlider" />
         </DockPanel>
 
         <Label x:Name="CLabel" Content="C" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,118,0,0" Width="180"/>
         <DockPanel VerticalAlignment="Top" Margin="10,143,10,0">
             <TextBox Text="{Binding ElementName=CSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider Maximum="255" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" Name="CSlider" ValueChanged="OnSliderChange" />
+            <Slider Maximum="255" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" Name="CSlider" />
         </DockPanel>
-
-        <Label x:Name="SetLabel" Content="Set" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,172,0,0" Width="180"/>
-        <DockPanel VerticalAlignment="Top" Margin="10,198,10,0">
-            <TextBox Text="{Binding ElementName=SetSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" Name="SetSlider" ValueChanged="OnSliderChange" Minimum="1" Maximum="1" />
-        </DockPanel>
-
-        <Label x:Name="FtLabel" Content="Wolne / Zajęte" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,227,0,0" Width="180"/>
-        <DockPanel VerticalAlignment="Top" Margin="10,253,10,0">
-            <TextBox Text="{Binding ElementName=FtSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider TickPlacement="BottomRight"  Maximum="1" IsSnapToTickEnabled="True" Ticks="1" Name="FtSlider"  TickFrequency="1" ValueChanged="OnSliderChange"/>
-        </DockPanel>
+        <DockPanel VerticalAlignment="Top" Margin="10,198,10,0"/>
+        <DockPanel VerticalAlignment="Top" Margin="10,253,10,0"/>
 
         <Label x:Name="ImgTypeLabel" Content="Podgląd" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,282,0,0" Width="180"/>
         <DockPanel VerticalAlignment="Top" Margin="10,308,10,0">
             <TextBox Text="{Binding ElementName=ImgTypeSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider Maximum="2" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" Name="ImgTypeSlider"  ValueChanged="OnSliderChange" />
+            <Slider Maximum="2" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" Name="ImgTypeSlider" />
         </DockPanel>
         
         <Image x:Name="ImagePreview" Grid.Column="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
