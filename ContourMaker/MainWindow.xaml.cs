@@ -1,37 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using OpenCvSharp;
-using OpenCvSharp.Extensions;
-using Window = System.Windows.Window;
+using ContourMaker.utils;
 
 namespace ContourMaker
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-            BackgroundMat = new Mat("Images/test1a.jpg");
-            BackgroundImage.Source = BackgroundMat.ToBitmapSource();
+            try
+            {
+                BackgroundBitmap = new Bitmap("Images/test1a.jpg");
+                MaskBitmap = new Bitmap(BackgroundBitmap.Width, BackgroundBitmap.Height, PixelFormat.Format32bppArgb);
+                TempBitmap = new Bitmap(BackgroundBitmap.Width, BackgroundBitmap.Height, PixelFormat.Format32bppArgb);
+
+                BackgroundImage.Source = BackgroundBitmap.ToImageSource();
+                MaskImage.Source = MaskBitmap.ToImageSource();
+                TempImage.Source = TempBitmap.ToImageSource();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
-        public Mat BackgroundMat { get; set; }
-        public Mat MaskMat { get; set; }
-        public Mat TempMat { get; set; }
+        public Bitmap BackgroundBitmap { get; set; }
+        public Bitmap MaskBitmap { get; set; }
+        public Bitmap TempBitmap { get; set; }
 
         private void TempImage_OnMouseUp(object sender, MouseButtonEventArgs e)
         {
