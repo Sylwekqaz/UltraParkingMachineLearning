@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 using Inż.Model;
 using OpenCvSharp;
@@ -11,14 +13,16 @@ using Window = System.Windows.Window;
 namespace Inż.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
         private readonly bool _initializing = true;
-        private FrameSource _frameSourceCamera;
-        private ImageSubset _subset;
-        DispatcherTimer dispatcherTimer = new DispatcherTimer(); // get progress every second
+        private readonly DispatcherTimer dispatcherTimer = new DispatcherTimer(); // get progress every second
+        private readonly FrameSource frameSourceCamera = Cv2.CreateFrameSource_Camera(1);
+        private readonly ImageSubset subset = new ImageSubset();
+
+        private readonly List<List<Point>> PolysList = new List<List<Point>>();
 
         public MainWindow()
         {
@@ -27,12 +31,9 @@ namespace Inż.Views
                 InitializeComponent();
                 _initializing = false;
 
-                _frameSourceCamera = Cv2.CreateFrameSource_Camera(1);
-
                 dispatcherTimer.Tick += dispatcherTimer_Tick;
                 dispatcherTimer.Interval = new TimeSpan(1000);
                 dispatcherTimer.Start();
-
             }
             catch (Exception e)
             {
@@ -44,16 +45,74 @@ namespace Inż.Views
         {
             if (_initializing) return;
             Recalculate();
-            ImagePreview.Source = _subset[(int)ImgTypeSlider.Value].ToBitmapSource();
+            Redraw();
         }
 
         private void Recalculate()
         {
-            _subset = new ImageSubset();
-            _frameSourceCamera.NextFrame(_subset.Org);
+            frameSourceCamera.NextFrame(subset.Org);
+            var temp = new Mat();
+            Cv2.Canny(subset.Org, temp, 120, 150);
+            Cv2.CvtColor(temp, subset.Edges, ColorConversionCodes.GRAY2BGR);
+        }
 
-            Cv2.CvtColor(_subset.Org, _subset.Gray, ColorConversionCodes.BGR2GRAY);
-            Cv2.Canny(_subset.Gray, _subset.Edges, ASlider.Value, BSlider.Value);
+        private void Redraw(bool full = false)
+        {
+            if (subset.Mask == null)
+            {
+                full = true;
+            }
+            if (full)
+            {
+                #region redrawMask
+                var sizes = new[] {subset.Org.Size(0), subset.Org.Size(1)};
+                subset.Mask = new Mat(sizes, subset.Org.Type(), new Scalar(0, 0, 0, 0));
+                var pts = PolysList.Where(list => list.Count > 0);
+                Cv2.FillPoly(subset.Mask, pts, new Scalar(150, 150, 150, 150));
+
+                #endregion
+            }
+
+            var tempMat = new Mat();
+            Cv2.Add(subset[(int) ImgTypeSlider.Value], subset.Mask, tempMat);
+
+            ImagePreview.Source = tempMat.ToBitmapSource();
+        }
+
+        private void AddCountur_Click(object sender, RoutedEventArgs e)
+        {
+            PolysList.Add(new List<Point>());
+        }
+
+        private void CleatLastPoint_Click(object sender, RoutedEventArgs e)
+        {
+            var lastSet = PolysList.Last();
+            if (!lastSet.Any()) return;
+            lastSet.RemoveAt(lastSet.Count - 1);
+            Redraw(true);
+        }
+
+        private void CleatLastCountur_Click(object sender, RoutedEventArgs e)
+        {
+            if (!PolysList.Any()) return;
+            PolysList.RemoveAt(PolysList.Count - 1);
+            Redraw(true);
+        }
+
+        private void PreviewImage_OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (PolysList.Count == 0)
+            {
+                PolysList.Add(new List<Point>());
+            }
+
+            var position = new Point
+            {
+                X = (int) (e.GetPosition(ImagePreview).X*subset.Org.Width/ImagePreview.ActualWidth),
+                Y = (int) (e.GetPosition(ImagePreview).Y*subset.Org.Height/ImagePreview.ActualHeight)
+            };
+            PolysList.Last().Add(position);
+            Redraw(true);
         }
     }
 }

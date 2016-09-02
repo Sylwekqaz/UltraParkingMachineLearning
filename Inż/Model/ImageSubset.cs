@@ -9,8 +9,8 @@ namespace In¿.Model
     public class ImageSubset
     {
         public Mat Org { get; set; } = new Mat();
-        public Mat Gray { get; set; } = new Mat();
         public Mat Edges { get; set; } = new Mat();
+        public Mat Mask { get; set; }
 
         public Mat this[int value]
         {
@@ -20,8 +20,6 @@ namespace In¿.Model
                     case 0:
                         return Org;
                     case 1:
-                        return Gray;
-                    case 2:
                         return Edges;
 
                     default:

@@ -11,34 +11,20 @@
             <ColumnDefinition Width="200"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-
-        <Label x:Name="ALabel" Content="A" VerticalAlignment="Top" Margin="10"/>
-        <DockPanel VerticalAlignment="Top" Margin="10,36,10,0">
-            <TextBox Text="{Binding ElementName=ASlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider Maximum="255" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" Name="ASlider" />
-        </DockPanel>
-
-        <Label x:Name="BLabel" Content="B" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,64,0,0" Width="180"/>
-        <DockPanel VerticalAlignment="Top" Margin="10,89,10,0">
-            <TextBox Text="{Binding ElementName=BSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider Maximum="255" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" Name="BSlider" />
-        </DockPanel>
-
-        <Label x:Name="CLabel" Content="C" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,118,0,0" Width="180"/>
-        <DockPanel VerticalAlignment="Top" Margin="10,143,10,0">
-            <TextBox Text="{Binding ElementName=CSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider Maximum="255" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" Name="CSlider" />
-        </DockPanel>
-        <DockPanel VerticalAlignment="Top" Margin="10,198,10,0"/>
         <DockPanel VerticalAlignment="Top" Margin="10,253,10,0"/>
 
-        <Label x:Name="ImgTypeLabel" Content="Podgląd" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,282,0,0" Width="180"/>
-        <DockPanel VerticalAlignment="Top" Margin="10,308,10,0">
-            <TextBox Text="{Binding ElementName=ImgTypeSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider Maximum="2" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" Name="ImgTypeSlider" />
-        </DockPanel>
-        
-        <Image x:Name="ImagePreview" Grid.Column="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+        <Image x:Name="ImagePreview" Grid.Column="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" MouseUp="PreviewImage_OnMouseUp"/>
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Label x:Name="ImgTypeLabel" Content="Podgląd" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,-80,0" Width="180"/>
+            <DockPanel VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                <TextBox Text="{Binding Value, ElementName=ImgTypeSlider, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
+                <Slider Maximum="1" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" x:Name="ImgTypeSlider" />
+            </DockPanel>
+            <Button x:Name="AddCountur" Content="Add New Countur" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="106" Click="AddCountur_Click" />
+            <Button x:Name="CleatLastPoint" Content="Cleat Last Point" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="92" Click="CleatLastPoint_Click"/>
+            <Button x:Name="CleatLastCountur" Content="Cleat Last Countur" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="108" Click="CleatLastCountur_Click" />
+
+        </StackPanel>
 
     </Grid>
 </Window>
