@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Inż.Model;
 using OpenCvSharp;
 
@@ -8,11 +9,21 @@ namespace Inż.utils
     {
         public static Mat GetMask(Contour[] pts, int[] sizes, Scalar color)
         {
+            return GetMask(pts, sizes, color, Scalar.Black);
+        }
+
+        public static Mat GetMask(Contour[] pts, int[] sizes, Scalar color, Scalar background)
+        {
             var ptss = pts.Where(c => c.Pts.Count > 0).Select(c => c.Pts.Select(p => (Point) p)).ToArray();
-            var ret = new Mat(sizes, MatType.CV_8UC3, new Scalar(0, 0, 0, 0));
+            var ret = new Mat(sizes, MatType.CV_8UC3, background);
 
             Cv2.FillPoly(ret, ptss, color);
             return ret;
+        }
+
+        public static Mat GetMask(Contour contour, int[] sizes, Scalar color)
+        {
+            return GetMask(new[] { contour }, sizes, color);
         }
 
         public static int[] GetSizes(this Mat mat)
@@ -35,11 +46,45 @@ namespace Inż.utils
 
         public static Mat Canny(Mat src)
         {
-            var temp = new Mat();
-            var ret = new Mat();
-            Cv2.Canny(src, temp, 120, 150);
-            Cv2.CvtColor(temp, ret, ColorConversionCodes.GRAY2BGR);
-            return ret;
+            return src.CvtColor(ColorConversionCodes.BGR2GRAY)
+                .MedianBlur(5)
+                .Canny(40,50)
+                //.AdaptiveThreshold(255, AdaptiveThresholdTypes.GaussianC, ThresholdTypes.BinaryInv, 51, 2)
+                .CvtColor(ColorConversionCodes.GRAY2BGR);
+        }
+
+        public static bool EdgeTreshold(Contour contour,Mat srcEdges)
+        {
+            var m = GetMask(contour, srcEdges.GetSizes(), Scalar.White,Scalar.Black).CvtColor(ColorConversionCodes.BGR2GRAY);
+            var e = srcEdges.CvtColor(ColorConversionCodes.BGR2GRAY);
+            var mask = new MatOfByte(m).GetIndexer();
+            var edge = new MatOfByte(e).GetIndexer();
+            double all = 0;
+            double white = 0;
+
+
+
+            for (int y = 0; y < m.Height; y++)
+            {
+                for (int x = 0; x < m.Width; x++)
+                {
+                    if (mask[y,x]==255)
+                    {
+                        all++;
+                        if (edge[y,x]==255)
+                        {
+                            white++;
+                        }
+                    }
+                }
+            }
+
+            return white/all >0.1;
+        }
+
+        public static Mat GetMask(Contour contour, int[] sizes, Scalar color, Scalar background)
+        {
+            return GetMask(new[] {contour}, sizes, color, background);
         }
     }
 }

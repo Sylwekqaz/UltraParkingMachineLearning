@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -47,17 +48,18 @@ namespace Inż.Views
             _camera.NextFrame(frame);
 
             var pts = _db.Contours.FindAll().ToArray();
-            var mask = Gu.GetMask(pts, frame.GetSizes(), new Scalar(150, 150, 150, 150));
-            switch ((int) ImgTypeSlider.Value)
+            Mat edges = Gu.Canny(frame);
+            var masks = new List<Mat>();
+            foreach (var contour in pts)
             {
-                case 0:
-                    ImagePreview.Source = Gu.AddLayers(frame, mask).ToBitmapSource();
-                    break;
-                case 1:
-                    ImagePreview.Source = Gu.AddLayers(Gu.Canny(frame), mask).ToBitmapSource();
-                    break;
+                var scalar = Gu.EdgeTreshold(contour, edges) ? Scalar.Red : Scalar.Blue;
+                masks.Add(Gu.GetMask(contour, frame.GetSizes(), scalar));
             }
+            masks.Insert(0, (int) ImgTypeSlider.Value == 0 ? frame : edges);
+            ImagePreview.Source = Gu.AddLayers(masks.ToArray()).ToBitmapSource();
         }
+
+     
 
         private void EditCounturButton_OnClick(object sender, RoutedEventArgs e)
         {
