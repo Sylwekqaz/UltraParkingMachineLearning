@@ -62,11 +62,16 @@ namespace Inż.utils
             double all = 0;
             double white = 0;
 
+            int minX = (int) Math.Floor(contour.Pts.Min(p => p.X));
+            int minY = (int) Math.Floor(contour.Pts.Min(p => p.Y));
+            int maxX = (int) Math.Ceiling(contour.Pts.Max(p => p.X));
+            int maxY = (int) Math.Ceiling(contour.Pts.Max(p => p.Y));
 
 
-            for (int y = 0; y < m.Height; y++)
+
+            for (int y = minY; y <= maxY; y++)
             {
-                for (int x = 0; x < m.Width; x++)
+                for (int x = minX; x < maxX; x++)
                 {
                     if (mask[y,x]==255)
                     {
