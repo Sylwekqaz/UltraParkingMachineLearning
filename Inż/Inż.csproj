@@ -88,6 +88,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\ParkingPreviewWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\CounturEditorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -101,6 +105,9 @@
     <Compile Include="Model\DbContext.cs" />
     <Compile Include="utils\GU.cs" />
     <Compile Include="utils\WpfUtils.cs" />
+    <Compile Include="Views\ParkingPreviewWindow.xaml.cs">
+      <DependentUpon>ParkingPreviewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CounturEditorWindow.xaml.cs">
       <DependentUpon>CounturEditorWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

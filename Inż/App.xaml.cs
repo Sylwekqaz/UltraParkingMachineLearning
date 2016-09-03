@@ -21,7 +21,7 @@ namespace Inż
         {
             InitializeDi();
 
-            var mainWindow = IoC.Resolve<CounturEditorWindow>();
+            var mainWindow = IoC.Resolve<ParkingPreviewWindow>();
             mainWindow.Show();
 
             base.OnStartup(e);
