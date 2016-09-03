@@ -47,7 +47,7 @@ namespace Inż.Views
             _camera.NextFrame(frame);
 
             var pts = _db.Contours.FindAll().ToArray();
-            var mask = Gu.GetMask(pts, frame.GetSizes());
+            var mask = Gu.GetMask(pts, frame.GetSizes(), new Scalar(150, 150, 150, 150));
             switch ((int) ImgTypeSlider.Value)
             {
                 case 0:

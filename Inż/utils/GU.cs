@@ -6,12 +6,12 @@ namespace Inż.utils
 {
     internal static class Gu
     {
-        public static Mat GetMask(Contour[] pts, int[] sizes)
+        public static Mat GetMask(Contour[] pts, int[] sizes, Scalar color)
         {
             var ptss = pts.Where(c => c.Pts.Count > 0).Select(c => c.Pts.Select(p => (Point) p)).ToArray();
             var ret = new Mat(sizes, MatType.CV_8UC3, new Scalar(0, 0, 0, 0));
 
-            Cv2.FillPoly(ret, ptss, new Scalar(150, 150, 150, 150));
+            Cv2.FillPoly(ret, ptss, color);
             return ret;
         }
 
