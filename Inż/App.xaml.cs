@@ -19,17 +19,30 @@ namespace Inż
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            IKernel kernel = new StandardKernel();
+            InitializeDi();
 
-            kernel.Bind<LiteDatabase>().ToMethod(context => new LiteDatabase("Inz.db"));
-            kernel.Bind<DbContext>().ToSelf();
-
-            kernel.Bind<CounturEditorWindow>().ToSelf();
-
-            var mainWindow = kernel.Get<CounturEditorWindow>();
+            var mainWindow = IoC.Resolve<CounturEditorWindow>();
             mainWindow.Show();
 
             base.OnStartup(e);
+        }
+
+        private static void InitializeDi()
+        {
+            IKernel kernel = new StandardKernel();
+
+            kernel.Bind<LiteDatabase>()
+                .ToMethod(context => new LiteDatabase("Inz.db"))
+                .InSingletonScope();
+
+            kernel.Bind<DbContext>()
+                .ToSelf()
+                .InSingletonScope(); ;
+
+            kernel.Bind<CounturEditorWindow>().ToSelf();
+            kernel.Bind<ParkingPreviewWindow>().ToSelf();
+
+            IoC.Initialize(kernel);
         }
     }
 }
