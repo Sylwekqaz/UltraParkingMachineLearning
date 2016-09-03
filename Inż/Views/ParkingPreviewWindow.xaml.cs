@@ -47,19 +47,19 @@ namespace Inż.Views
             var frame = new Mat();
             _camera.NextFrame(frame);
 
-            var pts = _db.Contours.FindAll().ToArray();
-            Mat edges = Gu.Canny(frame);
-            var masks = new List<Mat>();
-            foreach (var contour in pts)
-            {
-                var scalar = Gu.EdgeTreshold(contour, edges) ? Scalar.Red : Scalar.Blue;
-                masks.Add(Gu.GetMask(contour, frame.GetSizes(), scalar));
-            }
+            Mat edges = frame.DetectEdges();
+            var masks =
+                _db.Contours.FindAll()
+                .Where(c => c.Pts.Any())
+                    .Select(
+                        contour =>
+                            Gu.GetMask(contour, frame.GetSizes(),
+                                Gu.EdgeTreshold(contour, edges) ? Scalar.Red : Scalar.Blue))
+                    .ToList();
             masks.Insert(0, (int) ImgTypeSlider.Value == 0 ? frame : edges);
             ImagePreview.Source = Gu.AddLayers(masks.ToArray()).ToBitmapSource();
         }
 
-     
 
         private void EditCounturButton_OnClick(object sender, RoutedEventArgs e)
         {

@@ -44,7 +44,7 @@ namespace Inż.utils
             return ret;
         }
 
-        public static Mat Canny(Mat src)
+        public static Mat DetectEdges(this Mat src)
         {
             return src.CvtColor(ColorConversionCodes.BGR2GRAY)
                 .MedianBlur(5)
