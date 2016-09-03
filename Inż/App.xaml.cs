@@ -24,9 +24,9 @@ namespace Inż
             kernel.Bind<LiteDatabase>().ToMethod(context => new LiteDatabase("Inz.db"));
             kernel.Bind<DbContext>().ToSelf();
 
-            kernel.Bind<MainWindow>().ToSelf();
+            kernel.Bind<CounturEditorWindow>().ToSelf();
 
-            var mainWindow = kernel.Get<MainWindow>();
+            var mainWindow = kernel.Get<CounturEditorWindow>();
             mainWindow.Show();
 
             base.OnStartup(e);

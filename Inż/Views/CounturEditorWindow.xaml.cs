@@ -13,9 +13,9 @@ using Window = System.Windows.Window;
 namespace Inż.Views
 {
     /// <summary>
-    ///     Interaction logic for MainWindow.xaml
+    ///     Interaction logic for CounturEditorWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class CounturEditorWindow : Window
     {
         private readonly bool _initializing = true;
 
@@ -23,7 +23,7 @@ namespace Inż.Views
         private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer(); // get progress every second
         private readonly FrameSource _camera = Cv2.CreateFrameSource_Camera(1);
 
-        public MainWindow(DbContext db)
+        public CounturEditorWindow(DbContext db)
         {
             _db = db;
             InitializeComponent();
