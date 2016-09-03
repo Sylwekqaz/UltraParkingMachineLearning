@@ -98,7 +98,8 @@
     </Compile>
     <Compile Include="Model\Contour.cs" />
     <Compile Include="Model\DbContext.cs" />
-    <Compile Include="Model\ImageSubset.cs" />
+    <Compile Include="utils\GU.cs" />
+    <Compile Include="utils\WpfUtils.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
