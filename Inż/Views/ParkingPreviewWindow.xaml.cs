@@ -22,11 +22,12 @@ namespace Inż.Views
 
         private readonly DbContext _db;
         private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer(); // get progress every second
-        private readonly FrameSource _camera = Cv2.CreateFrameSource_Camera(1);
+        private readonly FrameSource _camera;
 
-        public ParkingPreviewWindow(DbContext db)
+        public ParkingPreviewWindow(DbContext db, FrameSource camera)
         {
             _db = db;
+            _camera = camera;
             InitializeComponent();
             _initializing = false;
 

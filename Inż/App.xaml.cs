@@ -9,6 +9,7 @@ using Inż.Model;
 using Inż.Views;
 using LiteDB;
 using Ninject;
+using OpenCvSharp;
 
 namespace Inż
 {
@@ -37,7 +38,11 @@ namespace Inż
 
             kernel.Bind<DbContext>()
                 .ToSelf()
-                .InSingletonScope(); ;
+                .InSingletonScope();
+
+            kernel.Bind<FrameSource>()
+                .ToMethod(context => Cv2.CreateFrameSource_Camera(2))
+                .InTransientScope();
 
             kernel.Bind<CounturEditorWindow>().ToSelf();
             kernel.Bind<ParkingPreviewWindow>().ToSelf();
