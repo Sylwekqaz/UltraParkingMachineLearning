@@ -24,14 +24,16 @@ namespace Inż.utils
         {
             return src.CvtColor(ColorConversionCodes.BGR2GRAY)
                 //.MedianBlur(5)
-                .Canny(40,50)
+                .Canny(40, 50)
                 //.AdaptiveThreshold(255, AdaptiveThresholdTypes.GaussianC, ThresholdTypes.BinaryInv, 51, 2)
                 .CvtColor(ColorConversionCodes.GRAY2BGR);
         }
 
-        public static bool EdgeTreshold(Contour contour,Mat srcEdges)
+        public static bool EdgeTreshold(Contour contour, Mat srcEdges)
         {
-            var m = GetMask(contour, srcEdges.GetSizes(), Scalar.White,Scalar.Black).CvtColor(ColorConversionCodes.BGR2GRAY);
+            var m =
+                GetMask(contour, srcEdges.GetSizes(), Scalar.White, Scalar.Black)
+                    .CvtColor(ColorConversionCodes.BGR2GRAY);
             var e = srcEdges.CvtColor(ColorConversionCodes.BGR2GRAY);
             var mask = new MatOfByte(m).GetIndexer();
             var edge = new MatOfByte(e).GetIndexer();
@@ -44,15 +46,14 @@ namespace Inż.utils
             int maxY = (int) Math.Ceiling(contour.Pts.Max(p => p.Y));
 
 
-
             for (int y = minY; y <= maxY; y++)
             {
                 for (int x = minX; x < maxX; x++)
                 {
-                    if (mask[y,x]==255)
+                    if (mask[y, x] == 255)
                     {
                         all++;
-                        if (edge[y,x]==255)
+                        if (edge[y, x] == 255)
                         {
                             white++;
                         }
@@ -60,7 +61,7 @@ namespace Inż.utils
                 }
             }
 
-            return white/all >0.1;
+            return white/all > 0.1;
         }
     }
 }

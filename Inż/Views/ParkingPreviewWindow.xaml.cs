@@ -51,7 +51,7 @@ namespace Inż.Views
             Mat edges = frame.DetectEdges();
             var masks =
                 _db.Contours.FindAll()
-                .Where(c => c.Pts.Any())
+                    .Where(c => c.Pts.Any())
                     .Select(
                         contour =>
                             Gu.GetMask(contour, frame.GetSizes(),
