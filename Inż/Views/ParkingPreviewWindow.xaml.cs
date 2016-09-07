@@ -47,17 +47,22 @@ namespace Inż.Views
         {
             var frame = new Mat();
             _camera.NextFrame(frame);
+            //frame = frame.FastNlMeansDenoisingColored(3, 10);
 
-            Mat edges = frame.DetectEdges();
+            Mat saturation = frame.CvtColor(ColorConversionCodes.BGR2HSV)
+                .ScaleSaturationWithValue()
+                .Split()[1]
+                .CvtColor(ColorConversionCodes.GRAY2BGR);
             var masks =
                 _db.Contours.FindAll()
                     .Where(c => c.Pts.Any())
                     .Select(
                         contour =>
                             Gu.GetMask(contour, frame.GetSizes(),
-                                Gu.EdgeTreshold(contour, edges) ? Scalar.Red : Scalar.Blue))
+                                Gu.SaturationTreshold(contour, frame) ? Scalar.Red : Scalar.Blue))
                     .ToList();
-            masks.Insert(0, (int) ImgTypeSlider.Value == 0 ? frame : edges);
+
+            masks.Insert(0, (int) ImgTypeSlider.Value == 0 ? frame : saturation);
             ImagePreview.Source = Gu.AddLayers(masks.ToArray()).ToBitmapSource();
         }
 
