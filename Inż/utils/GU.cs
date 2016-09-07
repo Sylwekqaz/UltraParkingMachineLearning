@@ -63,5 +63,39 @@ namespace Inż.utils
 
             return white/all > 0.1;
         }
+
+        public static bool SaturationTreshold(Contour contour, Mat src)
+        {
+            var m = GetMask(contour, src.GetSizes(), Scalar.White, Scalar.Black)
+                .CvtColor(ColorConversionCodes.BGR2GRAY);
+            var satMat = src.CvtColor(ColorConversionCodes.BGR2HSV).Split()[1]; // saturation is second chanel in HSV
+            var mask = new MatOfByte(m).GetIndexer();
+            var sat = new MatOfByte(satMat).GetIndexer();
+            double all = 0;
+            double white = 0;
+
+            int minX = (int) Math.Floor(contour.Pts.Min(p => p.X));
+            int minY = (int) Math.Floor(contour.Pts.Min(p => p.Y));
+            int maxX = (int) Math.Ceiling(contour.Pts.Max(p => p.X));
+            int maxY = (int) Math.Ceiling(contour.Pts.Max(p => p.Y));
+
+
+            for (int y = minY; y <= maxY; y++)
+            {
+                for (int x = minX; x < maxX; x++)
+                {
+                    if (mask[y, x] == 255)
+                    {
+                        all++;
+                        if (sat[y, x] > 150)
+                        {
+                            white++;
+                        }
+                    }
+                }
+            }
+
+            return white/all > 0.1;
+        }
     }
 }
