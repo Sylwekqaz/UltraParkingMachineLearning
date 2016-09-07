@@ -104,6 +104,9 @@
     <Compile Include="Model\Contour.cs" />
     <Compile Include="Model\DbContext.cs" />
     <Compile Include="utils\GU.cs" />
+    <Compile Include="utils\GU.GetMask.cs">
+      <DependentUpon>GU.cs</DependentUpon>
+    </Compile>
     <Compile Include="utils\WpfUtils.cs" />
     <Compile Include="Views\ParkingPreviewWindow.xaml.cs">
       <DependentUpon>ParkingPreviewWindow.xaml</DependentUpon>
