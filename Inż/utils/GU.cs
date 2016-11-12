@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using Inż.Model;
 using OpenCvSharp;
+using OpenCvSharp.Extensions;
 
 namespace Inż.utils
 {
@@ -46,7 +47,7 @@ namespace Inż.utils
             int maxX = (int)Math.Ceiling(contour.Pts.Max(p => p.X));
             int maxY = (int)Math.Ceiling(contour.Pts.Max(p => p.Y));
 
-
+            
             for (int y = minY; y <= maxY; y++)
             {
                 for (int x = minX; x < maxX; x++)
@@ -67,40 +68,31 @@ namespace Inż.utils
 
         public static bool SaturationTreshold(Contour contour, Mat src)
         {
-            var m = GetMask(contour, src.GetSizes(), Scalar.White, Scalar.Black)
-                .CvtColor(ColorConversionCodes.BGR2GRAY);
-
-            var satMat = src.CvtColor(ColorConversionCodes.BGR2HSV)
-                .ScaleSaturationWithValue()
-                .Split()[1]; // saturation is second chanel in HSV
-
-            var mask = new MatOfByte(m).GetIndexer();
-            var sat = new MatOfByte(satMat).GetIndexer();
-            double all = 0;
-            double white = 0;
-
             int minX = (int)Math.Floor(contour.Pts.Min(p => p.X));
             int minY = (int)Math.Floor(contour.Pts.Min(p => p.Y));
             int maxX = (int)Math.Ceiling(contour.Pts.Max(p => p.X));
             int maxY = (int)Math.Ceiling(contour.Pts.Max(p => p.Y));
 
+            var rect = new Rect(minX, minY, maxX - minX, maxY - minY);
 
-            for (int y = minY; y <= maxY; y++)
-            {
-                for (int x = minX; x < maxX; x++)
-                {
-                    if (mask[y, x] == 255)
-                    {
-                        all++;
-                        if (sat[y, x] > 100)
-                        {
-                            white++;
-                        }
-                    }
-                }
-            }
+            var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
+                .Clone(rect)
+                .CvtColor(ColorConversionCodes.BGR2GRAY)
+                .Threshold(200,1,ThresholdTypes.Binary);
 
-            var ratio = white/all;
+            var satMat = src
+                .Clone(rect)
+                .CvtColor(ColorConversionCodes.BGR2HSV)
+                .ScaleSaturationWithValue() // returns only saturation layer
+                .Mul(mask)
+                .ToMat()
+                .Threshold(100, 255, ThresholdTypes.Binary);
+
+
+            var all = Cv2.CountNonZero(mask);
+            var white = Cv2.CountNonZero(satMat);
+
+            var ratio = (double)white/all;
             Debug.WriteLine($"{contour.Id} with ratio {ratio}");
             return ratio > 0.1;
         }
@@ -113,25 +105,15 @@ namespace Inż.utils
             return dst;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns>Only Saturate Layer</returns>
         public static Mat ScaleSaturationWithValue(this Mat src)
         {
-            var dst = new Mat(src.GetSizes(), MatType.CV_8UC3);
-
-            var srcInd = new MatOfByte3(src).GetIndexer();
-            var dstInd = new MatOfByte3(dst).GetIndexer();
-
-
-            for (int y = 0; y < src.Height; y++)
-            {
-                for (int x = 0; x < src.Width; x++)
-                {
-                    var vec3B = srcInd[y, x];
-                    vec3B.Item1 = (byte) ((double) srcInd[y, x].Item1*srcInd[y, x].Item2/255);
-                    dstInd[y, x] = vec3B;
-                }
-            }
-
-            return dst;
+            Mat[] mats = src.Split();
+            return mats[1].Mul(mats[2], 1.0 / 255); 
         }
     }
 }

@@ -50,15 +50,15 @@ namespace Inż.Views
 
             Mat saturation = frame.CvtColor(ColorConversionCodes.BGR2HSV)
                 .ScaleSaturationWithValue()
-                .Split()[1]
                 .CvtColor(ColorConversionCodes.GRAY2BGR);
             var masks =
                 _db.Contours.FindAll()
                     .Where(c => c.Pts.Any())
+                    .Select(contour => new {contour, treshold = Gu.SaturationTreshold(contour, frame)})
                     .Select(
-                        contour =>
-                            Gu.GetMask(contour, frame.GetSizes(),
-                                Gu.SaturationTreshold(contour, frame) ? Scalar.Red : Scalar.Blue))
+                        a =>
+                            Gu.GetMask(a.contour, frame.GetSizes(),
+                                a.treshold ? Scalar.Red : Scalar.Blue))
                     .ToList();
 
             masks.Insert(0, (int) ImgTypeSlider.Value == 0 ? frame : saturation);
