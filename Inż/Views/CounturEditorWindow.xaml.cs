@@ -21,9 +21,9 @@ namespace Inż.Views
 
         private readonly DbContext _db;
         private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer(); // get progress every second
-        private readonly FrameSource _camera;
+        private readonly IIageSrc _camera;
 
-        public CounturEditorWindow(DbContext db, FrameSource camera)
+        public CounturEditorWindow(DbContext db, IIageSrc camera)
         {
             _db = db;
             _camera = camera;
@@ -44,8 +44,7 @@ namespace Inż.Views
 
         private void Redraw()
         {
-            var frame = new Mat();
-            _camera.NextFrame(frame);
+            var frame= _camera.GetFrame();
 
             var pts = _db.Contours.FindAll().ToArray();
             var mask = Gu.GetMask(pts, frame.GetSizes(), new Scalar(150, 150, 150, 150));

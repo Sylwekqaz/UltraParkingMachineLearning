@@ -22,9 +22,9 @@ namespace Inż.Views
 
         private readonly DbContext _db;
         private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer(); // get progress every second
-        private readonly FrameSource _camera;
+        private readonly IIageSrc _camera;
 
-        public ParkingPreviewWindow(DbContext db, FrameSource camera)
+        public ParkingPreviewWindow(DbContext db, IIageSrc camera)
         {
             _db = db;
             _camera = camera;
@@ -45,8 +45,7 @@ namespace Inż.Views
 
         private void Redraw()
         {
-            var frame = new Mat();
-            _camera.NextFrame(frame);
+            var frame = _camera.GetFrame();
             //frame = frame.FastNlMeansDenoisingColored(3, 10);
 
             Mat saturation = frame.CvtColor(ColorConversionCodes.BGR2HSV)

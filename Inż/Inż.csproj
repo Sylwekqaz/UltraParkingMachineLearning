@@ -107,6 +107,7 @@
     <Compile Include="utils\GU.GetMask.cs">
       <DependentUpon>GU.cs</DependentUpon>
     </Compile>
+    <Compile Include="utils\ImageSrc.cs" />
     <Compile Include="utils\WpfUtils.cs" />
     <Compile Include="Views\ParkingPreviewWindow.xaml.cs">
       <DependentUpon>ParkingPreviewWindow.xaml</DependentUpon>

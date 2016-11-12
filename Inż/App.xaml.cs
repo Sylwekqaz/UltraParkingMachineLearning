@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Inż.Model;
+using Inż.utils;
 using Inż.Views;
 using LiteDB;
 using Ninject;
@@ -40,8 +41,8 @@ namespace Inż
                 .ToSelf()
                 .InSingletonScope();
 
-            kernel.Bind<FrameSource>()
-                .ToMethod(context => Cv2.CreateFrameSource_Camera(2))
+            kernel.Bind<IIageSrc>()
+                .ToMethod(context => new ImageSrc(@"C:\Users\Sylwekqaz\Pictures\Camera Roll\WIN_20160902_18_56_36_Pro.jpg"))
                 .InTransientScope();
 
             kernel.Bind<CounturEditorWindow>().ToSelf();
