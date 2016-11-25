@@ -54,7 +54,7 @@ namespace Inż.Views
                     ImagePreview.Source = Gu.AddLayers(frame, mask).ToBitmapSource();
                     break;
                 case 1:
-                    ImagePreview.Source = Gu.AddLayers(frame.DetectEdges(), mask).ToBitmapSource();
+                    ImagePreview.Source = Gu.AddLayers(frame.DetectEdges().CvtColor(ColorConversionCodes.GRAY2BGR), mask).ToBitmapSource();
                     break;
             }
         }

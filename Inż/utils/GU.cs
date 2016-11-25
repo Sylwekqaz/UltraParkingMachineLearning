@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Linq;
 using Inż.Model;
 using OpenCvSharp;
-using OpenCvSharp.Extensions;
 
 namespace Inż.utils
 {
@@ -17,7 +16,7 @@ namespace Inż.utils
             }
 
             var ret = new Mat();
-            Mat layers = AddLayers(mats.Skip(1).ToArray());
+            var layers = AddLayers(mats.Skip(1).ToArray());
             Cv2.Add(mats.First(), layers, ret);
             return ret;
         }
@@ -26,59 +25,44 @@ namespace Inż.utils
         {
             return src.CvtColor(ColorConversionCodes.BGR2GRAY)
                 //.MedianBlur(5)
-                .Canny(40, 50)
-                //.AdaptiveThreshold(255, AdaptiveThresholdTypes.GaussianC, ThresholdTypes.BinaryInv, 51, 2)
-                .CvtColor(ColorConversionCodes.GRAY2BGR);
+                .Canny(40, 50);
+            //.AdaptiveThreshold(255, AdaptiveThresholdTypes.GaussianC, ThresholdTypes.BinaryInv, 51, 2)
         }
 
-        public static bool EdgeTreshold(Contour contour, Mat srcEdges)
+        public static bool EdgeTreshold(Contour contour, Mat src)
         {
-            var m =
-                GetMask(contour, srcEdges.GetSizes(), Scalar.White, Scalar.Black)
-                    .CvtColor(ColorConversionCodes.BGR2GRAY);
-            var e = srcEdges.CvtColor(ColorConversionCodes.BGR2GRAY);
-            var mask = new MatOfByte(m).GetIndexer();
-            var edge = new MatOfByte(e).GetIndexer();
-            double all = 0;
-            double white = 0;
-
-            int minX = (int)Math.Floor(contour.Pts.Min(p => p.X));
-            int minY = (int)Math.Floor(contour.Pts.Min(p => p.Y));
-            int maxX = (int)Math.Ceiling(contour.Pts.Max(p => p.X));
-            int maxY = (int)Math.Ceiling(contour.Pts.Max(p => p.Y));
-
-            
-            for (int y = minY; y <= maxY; y++)
-            {
-                for (int x = minX; x < maxX; x++)
-                {
-                    if (mask[y, x] == 255)
-                    {
-                        all++;
-                        if (edge[y, x] == 255)
-                        {
-                            white++;
-                        }
-                    }
-                }
-            }
-
-            return white / all > 0.1;
-        }
-
-        public static bool SaturationTreshold(Contour contour, Mat src)
-        {
-            int minX = (int)Math.Floor(contour.Pts.Min(p => p.X));
-            int minY = (int)Math.Floor(contour.Pts.Min(p => p.Y));
-            int maxX = (int)Math.Ceiling(contour.Pts.Max(p => p.X));
-            int maxY = (int)Math.Ceiling(contour.Pts.Max(p => p.Y));
-
-            var rect = new Rect(minX, minY, maxX - minX, maxY - minY);
+            var rect = GetContourRect(contour);
 
             var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
                 .Clone(rect)
                 .CvtColor(ColorConversionCodes.BGR2GRAY)
-                .Threshold(200,1,ThresholdTypes.Binary);
+                .Threshold(200, 1, ThresholdTypes.Binary);
+
+            var satMat = src
+                .Clone(rect)
+                .DetectEdges()
+                .Mul(mask)
+                .ToMat()
+                .Threshold(100, 255, ThresholdTypes.Binary);
+
+
+            var all = Cv2.CountNonZero(mask);
+            var white = Cv2.CountNonZero(satMat);
+
+            var ratio = (double) white/all;
+            Debug.WriteLine($"{contour.Id} with ratio {ratio}");
+            return ratio > 0.1;
+        }
+
+
+        public static bool SaturationTreshold(Contour contour, Mat src)
+        {
+            var rect = GetContourRect(contour);
+
+            var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
+                .Clone(rect)
+                .CvtColor(ColorConversionCodes.BGR2GRAY)
+                .Threshold(200, 1, ThresholdTypes.Binary);
 
             var satMat = src
                 .Clone(rect)
@@ -92,7 +76,7 @@ namespace Inż.utils
             var all = Cv2.CountNonZero(mask);
             var white = Cv2.CountNonZero(satMat);
 
-            var ratio = (double)white/all;
+            var ratio = (double) white/all;
             Debug.WriteLine($"{contour.Id} with ratio {ratio}");
             return ratio > 0.1;
         }
@@ -106,14 +90,23 @@ namespace Inż.utils
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="src"></param>
         /// <returns>Only Saturate Layer</returns>
         public static Mat ScaleSaturationWithValue(this Mat src)
         {
-            Mat[] mats = src.Split();
-            return mats[1].Mul(mats[2], 1.0 / 255); 
+            var mats = src.Split();
+            return mats[1].Mul(mats[2], 1.0/255);
+        }
+
+        private static Rect GetContourRect(Contour contour)
+        {
+            var minX = (int) Math.Floor(contour.Pts.Min(p => p.X));
+            var minY = (int) Math.Floor(contour.Pts.Min(p => p.Y));
+            var maxX = (int) Math.Ceiling(contour.Pts.Max(p => p.X));
+            var maxY = (int) Math.Ceiling(contour.Pts.Max(p => p.Y));
+
+            return new Rect(minX, minY, maxX - minX, maxY - minY);
         }
     }
 }

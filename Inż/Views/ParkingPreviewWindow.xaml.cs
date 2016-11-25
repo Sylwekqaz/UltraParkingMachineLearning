@@ -48,20 +48,19 @@ namespace Inż.Views
             var frame = _camera.GetFrame();
             //frame = frame.FastNlMeansDenoisingColored(3, 10);
 
-            Mat saturation = frame.CvtColor(ColorConversionCodes.BGR2HSV)
-                .ScaleSaturationWithValue()
+            Mat edges = frame.DetectEdges()
                 .CvtColor(ColorConversionCodes.GRAY2BGR);
             var masks =
                 _db.Contours.FindAll()
                     .Where(c => c.Pts.Any())
-                    .Select(contour => new {contour, treshold = Gu.SaturationTreshold(contour, frame)})
+                    .Select(contour => new {contour, treshold = Gu.EdgeTreshold(contour, frame)})
                     .Select(
                         a =>
                             Gu.GetMask(a.contour, frame.GetSizes(),
                                 a.treshold ? Scalar.Red : Scalar.Blue))
                     .ToList();
 
-            masks.Insert(0, (int) ImgTypeSlider.Value == 0 ? frame : saturation);
+            masks.Insert(0, (int) ImgTypeSlider.Value == 0 ? frame : edges);
             ImagePreview.Source = Gu.AddLayers(masks.ToArray()).ToBitmapSource();
         }
 
