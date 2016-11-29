@@ -55,6 +55,19 @@ Promotor: Dr Hoser Paweł
 <!--
     metodyka agile
     mvp
+    wybór biblioteki openCV
+        popularna
+        posiada dużo możliwości w przetwarzaniu obrazów 
+        ?? posiada podstawowe funkcję do klasyfikacji 
+
+    wybór c# i WPF vs pyton
+        przewaga nad językiem python - okienka 
+        przewaga nad c# - wspierany przez openCV, 
+            c# posiada wrapper openCV Sharp
+                ?? problem z ffmpeg 
+        MVC -> c# 
+        ostateczny wykonanie projektu ?? c# vs python
+
 
     napisanie klasyfikatora hSv
         problem z szumem RGB
