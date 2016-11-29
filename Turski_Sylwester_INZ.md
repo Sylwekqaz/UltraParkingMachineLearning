@@ -113,8 +113,7 @@ Promotor: Dr Hoser Paweł
 -->
 ## Podsumowanie i wnioski
 <!--
-	problem z samochodzmi o kolorze zbliżonym do koloru podłorza
-	widok perspektywiczny 
+	
 -->
 ## Spis piśmiennictwa
 
