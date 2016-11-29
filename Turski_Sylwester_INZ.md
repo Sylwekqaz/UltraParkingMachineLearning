@@ -41,7 +41,43 @@
 		https://www.youtube.com/watch?v=pEvd5FlELis
 	}
 -->
-## Materiał i metodykę pracy
+## Materiały i metodykę pracy
+<!--
+    metodyka agile
+    mvp
+
+    napisanie klasyfikatora hSv
+        problem z szumem RGB
+        binaryzacja 
+            problem przy niskim V, 
+                skalowanie s/v
+            binaryzacja v>50% s>50%
+        problem z samochodami o niskiej saturacji
+
+    napisanie klasyfikatora liczebności krawędzi
+        zliczanie pixeli z krawędzią
+        problem z szumem RGB
+        problem z samochodami zlewającymi się z tłem 
+        problem z nielednolitym podłorzem (kostka brukowa)
+        this - - > załorzenie o zdjęciach dobrej jakości 
+    
+    -------[Future]------------
+    spreparowanie danych testowych do nauczenia klasyfikatora 
+    sensitivity specificity roc curve
+        dobranie odpowiednich wartości dla tresholdów 
+
+    Nauczanie maszynowe 
+        k-nn - metoda najbliższych sąsiadów 
+        SVM - metoda vektorów nośnych
+        
+    wyliczanie dodatkowych cech 
+        historgamy dla hSV
+            wyliczanie wartości średniej i odchylenia standardowego
+
+        badanie wykrytych krawędzi pod kątem ich długości i liczebności 
+            histogram i badanie średniej i odchylenia standardowego
+        badanie texture measurement haralick  
+-->
 ## Omówienie i dyskusję wyników
 ## Podsumowanie i wnioski
 <!--
