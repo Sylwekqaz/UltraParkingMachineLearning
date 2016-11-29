@@ -34,7 +34,10 @@ Promotor: Dr Hoser Paweł
 ## Cel i zakres pracy
 
 <!--
-	opracowanie algorytmu 
+    celem jest opracowanie i stworznie algorytmu na podstawie zdjęć z 
+    kamery przemysłowej będzie rozpoznawał czy zadane miejsce parkingowe jest wolne.
+    Przygotowanie serii zdjęć uczących dla nauczania. 
+    Opracowanie programu prezentującego wyniki działania algorytmu.
 -->
 ## Przegląd piśmiennictwa
 <!--
