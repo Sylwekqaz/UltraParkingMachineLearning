@@ -1,11 +1,21 @@
 ﻿# Inteligentny algorytm do rozpoznawania i zliczania miejsc parkingowych na podstawie serii obrazów z kamery
+
+Autor: Turski Sylwester
+
+Promotor: Dr Hoser Paweł
+
+
+## Streszczenie 
+
+
+
 ## Spis treści
 
   1. [Spis treści](#)
   2. [Wstęp](#)
   2. [Cel i zakres pracy](#)
   4. [Przegląd piśmiennictwa](#)
-  5. [Materiał i metodykę pracy](#)
+  5. [Materiały i metodykę pracy](#)
   6. [Omówienie i dyskusję wyników](#)
   7. [Podsumowanie i wnioski](#)
   8. [Spis piśmiennictwa](#)
@@ -94,7 +104,3 @@
 - Digital Image processing handbook 
 - Systemy uczące się krzyskio 
 - Rozpoznawanie obrazów tadeusiewicz 
-
-
-
-
