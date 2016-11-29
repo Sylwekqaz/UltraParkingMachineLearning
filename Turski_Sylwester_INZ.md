@@ -89,6 +89,15 @@ Promotor: Dr Hoser Paweł
         badanie texture measurement haralick  
 -->
 ## Omówienie i dyskusję wyników
+
+<!--
+    klasyfikator na podstawie hSv nie wykrywa samochodów o 
+    kolorze białym szarym lub czarnym
+
+    klasyfikator oparty o % krawędzi działa tak dobrze jak działa wykrywanie krawędzi
+       klasyfikator przy pewnych warunkach oświetlenia i szumu RGB generowanego przez kamerę 
+       nie jest w stanie wykryć czarnego samochodu
+-->
 ## Podsumowanie i wnioski
 <!--
 	problem z samochodzmi o kolorze zbliżonym do koloru podłorza
