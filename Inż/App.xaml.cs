@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using CsvHelper;
 using Inż.Model;
 using Inż.utils;
 using Inż.Views;
@@ -13,6 +14,7 @@ using LiteDB;
 using Newtonsoft.Json;
 using Ninject;
 using OpenCvSharp;
+using OpenCvSharp.ML;
 
 namespace Inż
 {
@@ -29,12 +31,38 @@ namespace Inż
             mainWindow.Show(); // hold app live
 
             //SetContourOnImages(@"..\..\Images\DataSet\", "*.png");
-            SetOccupiedOnImages(@"..\..\Images\DataSet\", "*.png");
+            //SetOccupiedOnImages(@"..\..\Images\DataSet\", "*.png");
+            //GetFeatures(@"..\..\Images\DataSet\", "*.png", @"..\..\Images\DataSet\features.csv");
 
 
 
 
             base.OnStartup(e);
+        }
+
+        private void GetFeatures(string folderPath, string pattern ,string jsonlocation)
+        {
+            // sat edge isOcc
+            var csv = new CsvWriter(new StreamWriter(jsonlocation, append: false));
+            csv.Configuration.Delimiter = ";";
+            var files = Directory.EnumerateFiles(folderPath, pattern);
+            foreach (string filePath in files)
+            {
+                var jsonFilePath = Path.ChangeExtension(filePath, ".json");
+                var json = File.ReadAllText(jsonFilePath);
+                var slots = JsonConvert.DeserializeObject<List<ParkingSlot>>(json);
+                var image = new Mat(filePath);
+                foreach (var slot in slots)
+                {
+                    double saturationRatio = Gu.SaturationTreshold(slot.Contour, image);
+                    double edgeRatio = Gu.EdgeTreshold(slot.Contour, image);
+
+                    csv.WriteField(saturationRatio);
+                    csv.WriteField(edgeRatio);
+                    csv.WriteField(slot.IsOccupied);
+                    csv.NextRecord();
+                }
+            }
         }
 
         private static void InitializeDi()

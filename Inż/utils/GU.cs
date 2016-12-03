@@ -27,7 +27,7 @@ namespace Inż.utils
                 .Canny(40, 50);
         }
 
-        public static bool EdgeTreshold(Contour contour, Mat src)
+        public static double EdgeTreshold(Contour contour, Mat src)
         {
             var rect = GetContourRect(contour, src.Height,src.Width);
 
@@ -49,11 +49,11 @@ namespace Inż.utils
 
             var ratio = (double) white/all;
             Debug.WriteLine($"{contour.Id} with ratio {ratio}");
-            return ratio > 0.1;
+            return ratio;
         }
 
 
-        public static bool SaturationTreshold(Contour contour, Mat src)
+        public static double SaturationTreshold(Contour contour, Mat src)
         {
             var rect = GetContourRect(contour,src.Height,src.Width);
 
@@ -76,7 +76,7 @@ namespace Inż.utils
 
             var ratio = (double) white/all;
             Debug.WriteLine($"{contour.Id} with ratio {ratio}");
-            return ratio > 0.1;
+            return ratio;
         }
 
         public static Mat FastNlMeansDenoisingColored(this Mat src, float h = 3F, float hColor = 3F,

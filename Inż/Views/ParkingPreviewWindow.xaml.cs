@@ -58,7 +58,7 @@ namespace Inż.Views
                     .Select(
                         a =>
                             Gu.GetMask(a.contour, frame.GetSizes(),
-                                a.treshold ? Scalar.Red : Scalar.Blue))
+                                a.treshold >0.1? Scalar.Red : Scalar.Blue))
                     .ToList();
 
             masks.Insert(0, (int) ImgTypeSlider.Value == 0 ? frame : edges);
