@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using Inż.Model;
 using Inż.utils;
+using LiteDB;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using Window = System.Windows.Window;
@@ -67,7 +68,18 @@ namespace Inż.Views
 
         private void EditCounturButton_OnClick(object sender, RoutedEventArgs e)
         {
-            IoC.Resolve<CounturEditorWindow>().Show();
+            var counturEditorWindow = IoC.Resolve<CounturEditorWindow>();
+            counturEditorWindow.Contours = _db.Contours.FindAll().ToList();
+            if (counturEditorWindow.ShowDialog() == true)
+            {
+                _db.Contours
+                    .FindAll()
+                    .Select(c=>c.Id)
+                    .ToList()
+                    .ForEach(id => _db.Contours.Delete(id));
+
+                _db.Contours.Insert(counturEditorWindow.Contours);
+            }
         }
     }
 }

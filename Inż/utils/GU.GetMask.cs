@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Inż.Model;
 using OpenCvSharp;
 
@@ -6,7 +7,7 @@ namespace Inż.utils
 {
     internal static partial class Gu
     {
-        public static Mat GetMask(Contour[] pts, int[] sizes, Scalar color, Scalar background)
+        public static Mat GetMask(IEnumerable<Contour> pts, int[] sizes, Scalar color, Scalar background)
         {
             var ptss = pts.Where(c => c.Pts.Count > 0).Select(c => c.Pts.Select(p => (Point) p)).ToArray();
             var ret = new Mat(sizes, MatType.CV_8UC3, background);
@@ -15,7 +16,7 @@ namespace Inż.utils
             return ret;
         }
 
-        public static Mat GetMask(Contour[] pts, int[] sizes, Scalar color)
+        public static Mat GetMask(IEnumerable<Contour> pts, int[] sizes, Scalar color)
         {
             return GetMask(pts, sizes, color, Scalar.Black);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,16 +20,15 @@ namespace Inż.Views
     {
         private readonly bool _initializing = true;
 
-        private readonly DbContext _db;
         private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer(); // get progress every second
         private readonly IIageSrc _camera;
 
-        public CounturEditorWindow(DbContext db, IIageSrc camera)
+        public CounturEditorWindow(IIageSrc camera)
         {
-            _db = db;
             _camera = camera;
             InitializeComponent();
             _initializing = false;
+            Contours = new List<Contour>();
 
             _dispatcherTimer.Tick += dispatcherTimer_Tick;
             _dispatcherTimer.Interval = new TimeSpan(1000);
@@ -46,8 +46,8 @@ namespace Inż.Views
         {
             var frame= _camera.GetFrame();
 
-            var pts = _db.Contours.FindAll().ToArray();
-            var mask = Gu.GetMask(pts, frame.GetSizes(), new Scalar(150, 150, 150, 150));
+            
+            var mask = Gu.GetMask(Contours, frame.GetSizes(), new Scalar(150, 150, 150, 150));
             switch ((int) ImgTypeSlider.Value)
             {
                 case 0:
@@ -59,37 +59,42 @@ namespace Inż.Views
             }
         }
 
+        public List<Contour> Contours { get; set; }
+
 
         private void AddCountur_Click(object sender, RoutedEventArgs e)
         {
-            _db.Contours.Insert(new Contour());
+            Contours.Add(new Contour());
         }
 
         private void CleatLastPoint_Click(object sender, RoutedEventArgs e)
         {
-            var lastSet = _db.Contours.FindAll().LastOrDefault();
+            var lastSet = Contours.LastOrDefault();
             if (!(lastSet?.Pts?.Any() ?? false)) return;
             lastSet.Pts.RemoveAt(lastSet.Pts.Count - 1);
-            _db.Contours.Update(lastSet);
         }
 
         private void CleatLastCountur_Click(object sender, RoutedEventArgs e)
         {
-            var lastSet = _db.Contours.FindAll().LastOrDefault();
-            if (lastSet != null) _db.Contours.Delete(lastSet.Id);
+            var lastSet = Contours.LastOrDefault();
+            if (lastSet != null) Contours.Remove(lastSet);
         }
 
         private void PreviewImage_OnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (_db.Contours.Count() == 0)
+            if (!Contours.Any())
             {
-                _db.Contours.Insert(new Contour());
+                Contours.Add(new Contour());
             }
 
             var position = e.GetPointRelativeToSource((Image) sender);
-            var contour = _db.Contours.FindAll().Last();
+            var contour = Contours.Last();
             contour.Pts.Add(position);
-            _db.Contours.Update(contour);
+        }
+
+        private void OkButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
         }
     }
 }
