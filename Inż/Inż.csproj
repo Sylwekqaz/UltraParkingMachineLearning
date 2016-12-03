@@ -107,6 +107,7 @@
     <Compile Include="IoC.cs" />
     <Compile Include="Model\Contour.cs" />
     <Compile Include="Model\DbContext.cs" />
+    <Compile Include="Model\ParkingSlot.cs" />
     <Compile Include="utils\GU.cs" />
     <Compile Include="utils\GU.GetMask.cs">
       <DependentUpon>GU.cs</DependentUpon>
