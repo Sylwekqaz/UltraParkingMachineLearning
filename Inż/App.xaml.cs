@@ -42,7 +42,7 @@ namespace Inż
                 .InSingletonScope();
 
             kernel.Bind<IIageSrc>()
-                .ToMethod(context => new ImageSrc(@"..\..\Images\parking_test.jpg"))
+                .ToMethod(context => new CameraSource(2))
                 .InTransientScope();
 
             kernel.Bind<CounturEditorWindow>().ToSelf();
