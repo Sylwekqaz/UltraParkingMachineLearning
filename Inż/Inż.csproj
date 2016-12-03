@@ -88,6 +88,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\SSMakerWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ParkingPreviewWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -112,6 +116,9 @@
     </Compile>
     <Compile Include="utils\ImageSrc.cs" />
     <Compile Include="utils\WpfUtils.cs" />
+    <Compile Include="Views\SSMakerWindow.xaml.cs">
+      <DependentUpon>SSMakerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ParkingPreviewWindow.xaml.cs">
       <DependentUpon>ParkingPreviewWindow.xaml</DependentUpon>
     </Compile>
