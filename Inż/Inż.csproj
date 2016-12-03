@@ -88,6 +88,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\OccupyMarkDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SSMakerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -117,6 +121,9 @@
     </Compile>
     <Compile Include="utils\ImageSrc.cs" />
     <Compile Include="utils\WpfUtils.cs" />
+    <Compile Include="Views\OccupyMarkDialog.xaml.cs">
+      <DependentUpon>OccupyMarkDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SSMakerWindow.xaml.cs">
       <DependentUpon>SSMakerWindow.xaml</DependentUpon>
     </Compile>

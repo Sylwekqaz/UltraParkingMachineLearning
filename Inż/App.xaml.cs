@@ -28,9 +28,11 @@ namespace Inż
             var mainWindow = IoC.Resolve<ParkingPreviewWindow>();
             mainWindow.Show(); // hold app live
 
-            SetContourOnImages(@"..\..\Images\DataSet\", "*.png");
+            //SetContourOnImages(@"..\..\Images\DataSet\", "*.png");
+            SetOccupiedOnImages(@"..\..\Images\DataSet\", "*.png");
 
-           
+
+
 
             base.OnStartup(e);
         }
@@ -79,6 +81,27 @@ namespace Inż
                     var json = JsonConvert.SerializeObject(parkingSlots);
                     File.WriteAllText(jsonFilePath, json);
                 }
+            }
+        }
+
+        private void SetOccupiedOnImages(string folderPath, string pattern)
+        {
+            var files = Directory.EnumerateFiles(folderPath, pattern);
+            foreach (string filePath in files)
+            {
+                var jsonFilePath = Path.ChangeExtension(filePath, ".json");
+                var json = File.ReadAllText(jsonFilePath);
+                var slots = JsonConvert.DeserializeObject<List<ParkingSlot>>(json);
+                foreach (var slot in slots)
+                {
+                    var window = new OccupyMarkDialog(new ImageSrc(filePath),slot.Contour );
+                    if (window.ShowDialog() == true)
+                    {
+                        slot.IsOccupied = window.DialogResult.Value;
+                    }
+                }
+                json = JsonConvert.SerializeObject(slots);
+                File.WriteAllText(jsonFilePath, json);
             }
         }
     }
