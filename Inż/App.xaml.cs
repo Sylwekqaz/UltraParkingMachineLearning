@@ -27,14 +27,14 @@ namespace Inż
         {
             InitializeDi();
 
-            var mainWindow = IoC.Resolve<ParkingPreviewWindow>();
-            mainWindow.Show(); // hold app live
+            
 
             //SetContourOnImages(@"..\..\Images\DataSet\", "*.png");
             //SetOccupiedOnImages(@"..\..\Images\DataSet\", "*.png");
-            //GetFeatures(@"..\..\Images\DataSet\", "*.png", @"..\..\Images\DataSet\features.csv");
+            GetFeatures(@"..\..\Images\DataSet\", "*.png", @"..\..\Images\DataSet\features.csv");
 
-
+            var mainWindow = IoC.Resolve<ParkingPreviewWindow>();
+            mainWindow.Show(); // hold app live
 
 
             base.OnStartup(e);
@@ -43,24 +43,26 @@ namespace Inż
         private void GetFeatures(string folderPath, string pattern ,string jsonlocation)
         {
             // sat edge isOcc
-            var csv = new CsvWriter(new StreamWriter(jsonlocation, append: false));
-            csv.Configuration.Delimiter = ";";
-            var files = Directory.EnumerateFiles(folderPath, pattern);
-            foreach (string filePath in files)
+            using (var csv = new CsvWriter(new StreamWriter(jsonlocation, append: false)))
             {
-                var jsonFilePath = Path.ChangeExtension(filePath, ".json");
-                var json = File.ReadAllText(jsonFilePath);
-                var slots = JsonConvert.DeserializeObject<List<ParkingSlot>>(json);
-                var image = new Mat(filePath);
-                foreach (var slot in slots)
+                csv.Configuration.Delimiter = ";";
+                var files = Directory.EnumerateFiles(folderPath, pattern);
+                foreach (string filePath in files)
                 {
-                    double saturationRatio = Gu.SaturationTreshold(slot.Contour, image);
-                    double edgeRatio = Gu.EdgeTreshold(slot.Contour, image);
+                    var jsonFilePath = Path.ChangeExtension(filePath, ".json");
+                    var json = File.ReadAllText(jsonFilePath);
+                    var slots = JsonConvert.DeserializeObject<List<ParkingSlot>>(json);
+                    var image = new Mat(filePath);
+                    foreach (var slot in slots)
+                    {
+                        double saturationRatio = Gu.SaturationTreshold(slot.Contour, image);
+                        double edgeRatio = Gu.EdgeTreshold(slot.Contour, image);
 
-                    csv.WriteField(saturationRatio);
-                    csv.WriteField(edgeRatio);
-                    csv.WriteField(slot.IsOccupied);
-                    csv.NextRecord();
+                        csv.WriteField(saturationRatio);
+                        csv.WriteField(edgeRatio);
+                        csv.WriteField(slot.IsOccupied);
+                        csv.NextRecord();
+                    }
                 }
             }
         }

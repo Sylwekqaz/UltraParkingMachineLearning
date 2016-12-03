@@ -62,7 +62,7 @@ namespace Inż.Views
                 _db.Contours.FindAll()
                     .Where(c => c.Pts.Any())
                     .Select(contour => new {contour, saturation =Gu.SaturationTreshold(contour, frame) ,treshold = Gu.EdgeTreshold(contour, frame)})
-                    .Select(arg => {Debug.WriteLine($"Sat: {arg.saturation} \tEdge: {arg.treshold}");return arg;})
+                    //.Select(arg => {Debug.WriteLine($"Sat: {arg.saturation} \tEdge: {arg.treshold}");return arg;})
                     .Select(arg => new { arg.contour, mat = new Mat(new []{1,2},MatType.CV_32FC1,new []{ arg.saturation,arg.treshold})})
                     .Select(arg => new { arg.contour, pred = _svm.Predict(arg.mat)})
                     .Select(
@@ -118,7 +118,13 @@ namespace Inż.Views
                 doubles);
 
             _svm = SVM.Create();
+            _svm.Type = SVM.Types.CSvc;
+            _svm.C = 0.1;
+            _svm.KernelType = SVM.KernelTypes.Linear;
+
             _svm.Train(trainingMat, SampleTypes.RowSample, labels);
+            var svmPreview = new SVMPreview(_svm, trainData);
+            svmPreview.Show();
         }
     }
 }

@@ -48,7 +48,6 @@ namespace Inż.utils
             var white = Cv2.CountNonZero(satMat);
 
             var ratio = (double) white/all;
-            Debug.WriteLine($"{contour.Id} with ratio {ratio}");
             return ratio;
         }
 
@@ -75,7 +74,6 @@ namespace Inż.utils
             var white = Cv2.CountNonZero(satMat);
 
             var ratio = (double) white/all;
-            Debug.WriteLine($"{contour.Id} with ratio {ratio}");
             return ratio;
         }
 
