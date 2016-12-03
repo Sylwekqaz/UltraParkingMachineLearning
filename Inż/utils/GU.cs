@@ -31,7 +31,7 @@ namespace Inż.utils
 
         public static bool EdgeTreshold(Contour contour, Mat src)
         {
-            var rect = GetContourRect(contour);
+            var rect = GetContourRect(contour, src.Height,src.Width);
 
             var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
                 .Clone(rect)
@@ -57,7 +57,7 @@ namespace Inż.utils
 
         public static bool SaturationTreshold(Contour contour, Mat src)
         {
-            var rect = GetContourRect(contour);
+            var rect = GetContourRect(contour,src.Height,src.Width);
 
             var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
                 .Clone(rect)
@@ -99,12 +99,22 @@ namespace Inż.utils
             return mats[1].Mul(mats[2], 1.0/255);
         }
 
-        private static Rect GetContourRect(Contour contour)
+        private static Rect GetContourRect(Contour contour, int height, int width)
         {
             var minX = (int) Math.Floor(contour.Pts.Min(p => p.X));
             var minY = (int) Math.Floor(contour.Pts.Min(p => p.Y));
             var maxX = (int) Math.Ceiling(contour.Pts.Max(p => p.X));
             var maxY = (int) Math.Ceiling(contour.Pts.Max(p => p.Y));
+
+            var valueBetwen = new Func<int, int, int>((value, max) =>
+                value < 0
+                    ? 0
+                    : value > max ? max : value);
+
+            minX = valueBetwen(minX, width);
+            maxX = valueBetwen(maxX, width);
+            minY = valueBetwen(minY, height);
+            maxY = valueBetwen(maxY, height);
 
             return new Rect(minX, minY, maxX - minX, maxY - minY);
         }
