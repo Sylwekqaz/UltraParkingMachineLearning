@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -9,6 +10,7 @@ using Inż.Model;
 using Inż.utils;
 using Inż.Views;
 using LiteDB;
+using Newtonsoft.Json;
 using Ninject;
 using OpenCvSharp;
 
@@ -24,7 +26,11 @@ namespace Inż
             InitializeDi();
 
             var mainWindow = IoC.Resolve<ParkingPreviewWindow>();
-            mainWindow.Show();
+            mainWindow.Show(); // hold app live
+
+            SetContourOnImages(@"..\..\Images\DataSet\", "*.png");
+
+           
 
             base.OnStartup(e);
         }
@@ -49,6 +55,31 @@ namespace Inż
             kernel.Bind<ParkingPreviewWindow>().ToSelf();
 
             IoC.Initialize(kernel);
+        }
+
+        private void SetContourOnImages(string folderPath,string pattern)
+        {
+            var files = Directory.EnumerateFiles(folderPath, pattern);
+            foreach (string filePath in files)
+            {
+                var window = new CounturEditorWindow(new ImageSrc(filePath));
+                var jsonFilePath = Path.ChangeExtension(filePath, ".json");
+                if (File.Exists(jsonFilePath))
+                {
+                    var text = File.ReadAllText(jsonFilePath);
+                    window.Contours = JsonConvert.DeserializeObject<List<ParkingSlot>>(text)
+                        .Select(ps=>ps.Contour)
+                        .ToList();
+                }
+                if (window.ShowDialog() == true)
+                {
+                    var parkingSlots = window.Contours
+                        .Select(c=>new ParkingSlot() {Contour = c})
+                        .ToList();
+                    var json = JsonConvert.SerializeObject(parkingSlots);
+                    File.WriteAllText(jsonFilePath, json);
+                }
+            }
         }
     }
 }
