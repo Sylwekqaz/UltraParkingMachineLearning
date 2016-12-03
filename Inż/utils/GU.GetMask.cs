@@ -25,10 +25,7 @@ namespace Inż.utils
             return GetMask(new[] {contour}, sizes, color);
         }
 
-        public static int[] GetSizes(this Mat mat)
-        {
-            return new[] {mat.Size(0), mat.Size(1)};
-        }
+       
 
         public static Mat GetMask(Contour contour, int[] sizes, Scalar color, Scalar background)
         {

@@ -24,9 +24,7 @@ namespace Inż.utils
         public static Mat DetectEdges(this Mat src)
         {
             return src.CvtColor(ColorConversionCodes.BGR2GRAY)
-                //.MedianBlur(5)
                 .Canny(40, 50);
-            //.AdaptiveThreshold(255, AdaptiveThresholdTypes.GaussianC, ThresholdTypes.BinaryInv, 51, 2)
         }
 
         public static bool EdgeTreshold(Contour contour, Mat src)
