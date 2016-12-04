@@ -27,15 +27,12 @@ namespace Inż
         {
             InitializeDi();
 
-            
-
-            //SetContourOnImages(@"..\..\Images\DataSet\", "*.png");
-            //SetOccupiedOnImages(@"..\..\Images\DataSet\", "*.png");
-            GetFeatures(@"..\..\Images\DataSet\", "*.png", @"..\..\Images\DataSet\features.csv");
+//            SetContourOnImages(@"..\..\Images\DataSet\", "*.png");
+//            SetOccupiedOnImages(@"..\..\Images\DataSet\", "*.png");
+//            GetFeatures(@"..\..\Images\DataSet\", "*.png", @"..\..\Images\DataSet\features.csv");
 
             var mainWindow = IoC.Resolve<ParkingPreviewWindow>();
             mainWindow.Show(); // hold app live
-
 
             base.OnStartup(e);
         }
@@ -80,6 +77,7 @@ namespace Inż
                 .InSingletonScope();
 
             kernel.Bind<IIageSrc>()
+                //.ToMethod(context => new ImageSrc(@"..\..\Images\test1a.jpg"))
                 .ToMethod(context => new CameraSource(1))
                 .InTransientScope();
 

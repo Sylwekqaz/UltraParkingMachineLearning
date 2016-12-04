@@ -102,15 +102,15 @@ namespace Inż.utils
             var maxX = (int) Math.Ceiling(contour.Pts.Max(p => p.X));
             var maxY = (int) Math.Ceiling(contour.Pts.Max(p => p.Y));
 
-            var valueBetwen = new Func<int, int, int>((value, max) =>
-                value < 0
-                    ? 0
+            var valueBetwen = new Func<int, int, int, int>((value, min, max) =>
+                value < min
+                    ? min
                     : value > max ? max : value);
 
-            minX = valueBetwen(minX, width);
-            maxX = valueBetwen(maxX, width);
-            minY = valueBetwen(minY, height);
-            maxY = valueBetwen(maxY, height);
+            minX = valueBetwen(minX, 0, width - 1);
+            maxX = valueBetwen(maxX, 1, width);
+            minY = valueBetwen(minY, 0, height - 1);
+            maxY = valueBetwen(maxY, 1, height);
 
             return new Rect(minX, minY, maxX - minX, maxY - minY);
         }
