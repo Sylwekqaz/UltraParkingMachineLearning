@@ -8,12 +8,7 @@
         Background="LemonChiffon"
         Title="SVMPreview" Height="300" Width="300">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="15"/>
-        </Grid.RowDefinitions>
-        <Image x:Name="ImageControl"  RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0"/>
-        <ProgressBar x:Name="ProgressBarControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" />
+        <Image x:Name="ImageControl"  RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
     </Grid>
 </Window>

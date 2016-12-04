@@ -94,36 +94,41 @@ namespace Inż.Views
 
         private void BuildModel()
         {
-            var csv = new CsvReader(new StreamReader(@"..\..\Images\DataSet\features.csv"));
-            csv.Configuration.Delimiter = ";";
-            var trainData = new List<Tuple<double, double, bool>>();
-            while (csv.Read())
+            Point2f[] points;
+            int[] responses;
+            using (var csv = new CsvReader(new StreamReader(@"..\..\Images\DataSet\features.csv")))
             {
-                var tuple = new Tuple<double, double, bool>(csv.GetField<double>(0), csv.GetField<double>(1),
-                    csv.GetField<bool>(2));
-                trainData.Add(tuple);
+                List<Point2f> p = new List<Point2f>();
+                List<int> r = new List<int>();
+                csv.Configuration.Delimiter = ";";
+                while (csv.Read())
+                {
+                    p.Add(new Point2f()
+                    {
+                        X = csv.GetField<float>(0),
+                        Y = csv.GetField<float>(1)
+                    });
+                    r.Add(csv.GetField<bool>(2) ? 1 : 2);
+                }
+                points = p.ToArray();
+                responses = r.ToArray();
             }
-
-            var labels = new Mat(new[] {trainData.Count, 1}, MatType.CV_32SC1,
-                trainData.Select(t => t.Item3 ? 1 : 0).ToArray());
-
-            double[,] doubles = new double[trainData.Count,2];
-            for (int i = 0; i < doubles.GetLength(0); i++)
-            {
-                doubles[i, 0] = trainData[i].Item1;
-                doubles[i, 1] = trainData[i].Item2;
-            }
-
-            var trainingMat = new Mat(new[] {trainData.Count, 2}, MatType.CV_32FC1,
-                doubles);
+            var dataMat = new Mat(points.Length, 2, MatType.CV_32FC1, points);
+            var resMat = new Mat(responses.Length, 1, MatType.CV_32SC1, responses);
 
             _svm = SVM.Create();
             _svm.Type = SVM.Types.CSvc;
-            _svm.C = 0.1;
-            _svm.KernelType = SVM.KernelTypes.Linear;
+            _svm.KernelType = SVM.KernelTypes.Rbf;
+            _svm.TermCriteria = TermCriteria.Both(1000, 0.000001);
+            _svm.Degree = 100.0;
+            _svm.Gamma = 100.0;
+            _svm.Coef0 = 1.0;
+            _svm.C = 1.0;
+            _svm.Nu = 0.5;
+            _svm.P = 0.1;
 
-            _svm.Train(trainingMat, SampleTypes.RowSample, labels);
-            var svmPreview = new SVMPreview(_svm, trainData);
+            _svm.Train(dataMat, SampleTypes.RowSample, resMat);
+            var svmPreview = new SVMPreview(_svm, points, responses);
             svmPreview.Show();
         }
     }

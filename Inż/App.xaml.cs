@@ -80,7 +80,7 @@ namespace Inż
                 .InSingletonScope();
 
             kernel.Bind<IIageSrc>()
-                .ToMethod(context => new CameraSource(2))
+                .ToMethod(context => new CameraSource(1))
                 .InTransientScope();
 
             kernel.Bind<CounturEditorWindow>().ToSelf();

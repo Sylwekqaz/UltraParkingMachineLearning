@@ -26,57 +26,55 @@ namespace Inż.Views
     {
         private readonly SVM _svm;
         private BackgroundWorker backgroundWorker = new BackgroundWorker();
-        private List<Tuple<double, double, bool>> doubles;
+        private Point2f[] _points;
+        private int[] _responses;
 
-        public SVMPreview(SVM svm, List<Tuple<double, double, bool>> doubles)
+        public SVMPreview(SVM _svm, Point2f[] points, int[] responses)
         {
-            _svm = svm;
-            this.doubles = doubles;
+            this._svm = _svm;
+            this._points = points;
+            this._responses = responses;
 
             InitializeComponent();
 
-            backgroundWorker.WorkerReportsProgress = true;
-            backgroundWorker.ProgressChanged += ProgressChanged;
-            backgroundWorker.DoWork += Draw;
-            backgroundWorker.RunWorkerAsync();
+            Draw();
         }
 
-        private void ProgressChanged(object sender, ProgressChangedEventArgs e)
+        
+
+
+        private void Draw()
         {
-            ProgressBarControl.Value = e.ProgressPercentage;
-        }
-
-
-        private void Draw(object sender, DoWorkEventArgs e)
-        {
-            
-            var image = Mat.Zeros(30, 50, MatType.CV_8UC3).ToMat();
-            var matIndexer = image.GetGenericIndexer<Vec3b> ();
-
-            for (int y = 0; y < image.Height; y++)
+            using (Mat retPlot = Mat.Zeros(300, 300, MatType.CV_8UC3))
             {
-                for (int x = 0; x < image.Width; x++)
+                //plot predictions
+                for (int x = 0; x < 300; x++)
                 {
-                    var vec = new Mat(new[] {1, 2}, MatType.CV_32FC1, new[] { x/100.0, y / 100.0});
-                    var predict = _svm.Predict(vec);
-                    Debug.WriteLine(predict);
-                    matIndexer[y, x] = predict == 1 ? new Vec3b(255, 0, 0) : new Vec3b(0, 0, 255); 
+                    for (int y = 0; y < 300; y++)
+                    {
+                        float[] sample = {x/300f, y/300f};
+                        var sampleMat = new Mat(1, 2, MatType.CV_32FC1, sample);
+                        int ret = (int) _svm.Predict(sampleMat);
+                        var plotRect = new Rect(x, 300 - y, 1, 1);
+                        if (ret == 1)
+                            retPlot.Rectangle(plotRect, Scalar.Red);
+                        else if (ret == 2)
+                            retPlot.Rectangle(plotRect, Scalar.GreenYellow);
+                    }
                 }
-                backgroundWorker.ReportProgress(100*(y+1)/image.Height);
-            }
 
-            foreach (var tuple in doubles)
-            {
-                matIndexer[ (int) (tuple.Item2*100), (int)(tuple.Item1 * 100)] = tuple.Item3 ? new Vec3b(255, 255, 255) : new Vec3b(0, 0, 0);
-            }
+                //plot points
+                for (int i = 0; i < _points.Length; i++)
+                {
+                    int x = (int) (_points[i].X * 300);
+                    int y = (int) (300 - _points[i].Y*300);
+                    int res = _responses[i];
+                    Scalar color = (res == 1) ? Scalar.OrangeRed : Scalar.DarkOliveGreen;
+                    retPlot.Circle(x, y, 2, color, -1);
+                }
 
-            ImageControl.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                var imageSource = image
-                    //.CvtColor(ColorConversionCodes.GRAY2BGR)
-                    .ToBitmapSource();
-                ImageControl.Source = imageSource;
-            }));
+                ImageControl.Source = retPlot.ToBitmapSource();
+            }
         }
     }
 }
