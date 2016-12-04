@@ -77,14 +77,6 @@ namespace Inż.utils
             return ratio;
         }
 
-        public static Mat FastNlMeansDenoisingColored(this Mat src, float h = 3F, float hColor = 3F,
-            int templateWindowSize = 7, int searchWindowSize = 21)
-        {
-            var dst = new Mat();
-            Cv2.FastNlMeansDenoisingColored(src, dst, h, hColor, templateWindowSize, searchWindowSize);
-            return dst;
-        }
-
         /// <summary>
         /// </summary>
         /// <param name="src"></param>
