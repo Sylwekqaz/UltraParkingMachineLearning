@@ -29,6 +29,7 @@ namespace Inż.Views
         private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer(); // get progress every second
         private readonly IIageSrc _camera;
         private SVM _svm;
+        private SVMPreview _svmPreview;
 
         public ParkingPreviewWindow(DbContext db, IIageSrc camera)
         {
@@ -61,18 +62,34 @@ namespace Inż.Views
             var masks =
                 _db.Contours.FindAll()
                     .Where(c => c.Pts.Any())
-                    .Select(contour => new {contour, saturation =Gu.SaturationTreshold(contour, frame) ,treshold = Gu.EdgeTreshold(contour, frame)})
-                    //.Select(arg => {Debug.WriteLine($"Sat: {arg.saturation} \tEdge: {arg.treshold}");return arg;})
-                    .Select(arg => new { arg.contour, mat = new Mat(new []{1,2},MatType.CV_32FC1,new []{ arg.saturation,arg.treshold})})
+                    .Select(contour =>
+                    {
+                        float[] sample =
+                        {
+                            (float) Gu.SaturationTreshold(contour, frame),
+                            (float) Gu.EdgeTreshold(contour, frame)
+                        };
+                        return new {contour, mat = new Mat(1, 2, MatType.CV_32FC1, sample)};
+                    })
                     .Select(arg => new { arg.contour, pred = _svm.Predict(arg.mat)})
                     .Select(
                         a => 
                             Gu.GetMask(a.contour, frame.GetSizes(),
-                                a.pred >0? Scalar.Red : Scalar.Blue))
+                                a.pred ==1? Scalar.Red : Scalar.Blue))
                     .ToList();
 
             masks.Insert(0, (int) ImgTypeSlider.Value == 0 ? frame : edges);
             ImagePreview.Source = Gu.AddLayers(masks.ToArray()).ToBitmapSource();
+
+
+            var points = _db.Contours.FindAll()
+                .Where(c => c.Pts.Any())
+                .Select(contour => new Point2f()
+                {
+                    X= (float) Gu.SaturationTreshold(contour, frame),
+                    Y = (float) Gu.EdgeTreshold(contour, frame)
+                }).ToList();
+            _svmPreview.PreviewPoints(points);
         }
 
 
@@ -128,8 +145,8 @@ namespace Inż.Views
             _svm.P = 0.1;
 
             _svm.Train(dataMat, SampleTypes.RowSample, resMat);
-            var svmPreview = new SVMPreview(_svm, points, responses);
-            svmPreview.Show();
+            _svmPreview = new SVMPreview(_svm, points, responses);
+            _svmPreview.Show();
         }
     }
 }
