@@ -27,54 +27,60 @@ namespace Inż.utils
                 .Canny(40, 50);
         }
 
-        public static double EdgeTreshold(Contour contour, Mat src)
+        public static int CountEdgePixels(Contour contour, Mat src)
         {
             var rect = GetContourRect(contour, src.Height,src.Width);
 
             var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
                 .Clone(rect)
                 .CvtColor(ColorConversionCodes.BGR2GRAY)
-                .Threshold(200, 1, ThresholdTypes.Binary);
+                .Threshold(200,255, ThresholdTypes.Binary);
 
             var satMat = src
                 .Clone(rect)
                 .DetectEdges()
-                .Mul(mask)
-                .ToMat()
+                .BitwiseAnd(mask)
                 .Threshold(100, 255, ThresholdTypes.Binary);
 
-
-            var all = Cv2.CountNonZero(mask);
             var white = Cv2.CountNonZero(satMat);
 
-            var ratio = (double) white/all;
-            return ratio;
+            return white;
         }
 
 
-        public static double SaturationTreshold(Contour contour, Mat src)
+        public static int CountSaturationPixels(Contour contour, Mat src)
         {
             var rect = GetContourRect(contour,src.Height,src.Width);
 
             var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
                 .Clone(rect)
                 .CvtColor(ColorConversionCodes.BGR2GRAY)
-                .Threshold(200, 1, ThresholdTypes.Binary);
+                .Threshold(200, 255, ThresholdTypes.Binary);
 
             var satMat = src
                 .Clone(rect)
                 .CvtColor(ColorConversionCodes.BGR2HSV)
                 .ScaleSaturationWithValue() // returns only saturation layer
-                .Mul(mask)
-                .ToMat()
+                .BitwiseAnd(mask)
                 .Threshold(100, 255, ThresholdTypes.Binary);
 
 
-            var all = Cv2.CountNonZero(mask);
             var white = Cv2.CountNonZero(satMat);
 
-            var ratio = (double) white/all;
-            return ratio;
+            return white;
+        }
+
+        public static int CountMaskArea(Contour contour, Mat src)
+        {
+            var rect = GetContourRect(contour, src.Height, src.Width);
+
+            var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
+                .Clone(rect)
+                .CvtColor(ColorConversionCodes.BGR2GRAY)
+                .Threshold(200, 255, ThresholdTypes.Binary);
+
+            var white = Cv2.CountNonZero(mask);
+            return white;
         }
 
         /// <summary>

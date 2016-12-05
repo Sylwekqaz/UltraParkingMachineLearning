@@ -95,6 +95,8 @@
     <Compile Include="Views\SVMPreview.xaml.cs">
       <DependentUpon>SVMPreview.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\ImageFeatures.cs" />
+    <Compile Include="utils\ImageFeaturesExtensions.cs" />
     <Page Include="Views\OccupyMarkDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

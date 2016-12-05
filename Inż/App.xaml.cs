@@ -29,7 +29,7 @@ namespace Inż
 
 //            SetContourOnImages(@"..\..\Images\DataSet\", "*.png");
 //            SetOccupiedOnImages(@"..\..\Images\DataSet\", "*.png");
-//            GetFeatures(@"..\..\Images\DataSet\", "*.png", @"..\..\Images\DataSet\features.csv");
+            GetFeatures(@"..\..\Images\DataSet\", "*.png", @"..\..\Images\DataSet\features.csv");
 
             var mainWindow = IoC.Resolve<ParkingPreviewWindow>();
             mainWindow.Show(); // hold app live
@@ -43,24 +43,21 @@ namespace Inż
             using (var csv = new CsvWriter(new StreamWriter(jsonlocation, append: false)))
             {
                 csv.Configuration.Delimiter = ";";
+                csv.Configuration.HasHeaderRecord = true;
+
                 var files = Directory.EnumerateFiles(folderPath, pattern);
-                foreach (string filePath in files)
+                var imageFeatureses = files.Select(filePath =>
                 {
                     var jsonFilePath = Path.ChangeExtension(filePath, ".json");
                     var json = File.ReadAllText(jsonFilePath);
                     var slots = JsonConvert.DeserializeObject<List<ParkingSlot>>(json);
                     var image = new Mat(filePath);
-                    foreach (var slot in slots)
-                    {
-                        double saturationRatio = Gu.SaturationTreshold(slot.Contour, image);
-                        double edgeRatio = Gu.EdgeTreshold(slot.Contour, image);
+                    return new {slots, image};
+                }).SelectMany(
+                        arg => arg.slots.Select(slot => arg.image.CalculateFeatures(slot.Contour, slot.IsOccupied)));
 
-                        csv.WriteField(saturationRatio);
-                        csv.WriteField(edgeRatio);
-                        csv.WriteField(slot.IsOccupied);
-                        csv.NextRecord();
-                    }
-                }
+                csv.WriteRecords(imageFeatureses);
+                
             }
         }
 

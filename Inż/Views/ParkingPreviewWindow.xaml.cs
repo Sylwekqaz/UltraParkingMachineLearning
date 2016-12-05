@@ -62,15 +62,7 @@ namespace Inż.Views
             var masks =
                 _db.Contours.FindAll()
                     .Where(c => c.Pts.Any())
-                    .Select(contour =>
-                    {
-                        float[] sample =
-                        {
-                            (float) Gu.SaturationTreshold(contour, frame),
-                            (float) Gu.EdgeTreshold(contour, frame)
-                        };
-                        return new {contour, mat = new Mat(1, 2, MatType.CV_32FC1, sample)};
-                    })
+                    .Select(contour => new {contour, mat = frame.CalculateFeatures(contour).ToPredictionMat()})
                     .Select(arg => new { arg.contour, pred = _svm.Predict(arg.mat)})
                     .Select(
                         a => 
@@ -84,11 +76,7 @@ namespace Inż.Views
 
             var points = _db.Contours.FindAll()
                 .Where(c => c.Pts.Any())
-                .Select(contour => new Point2f()
-                {
-                    X= (float) Gu.SaturationTreshold(contour, frame),
-                    Y = (float) Gu.EdgeTreshold(contour, frame)
-                }).ToList();
+                .Select(contour => frame.CalculateFeatures(contour)).ToList();
             _svmPreview.PreviewPoints(points);
         }
 
@@ -111,27 +99,14 @@ namespace Inż.Views
 
         private void BuildModel()
         {
-            Point2f[] points;
-            int[] responses;
+            List<ImageFeatures> imageFeatureses;
             using (var csv = new CsvReader(new StreamReader(@"..\..\Images\DataSet\features.csv")))
             {
-                List<Point2f> p = new List<Point2f>();
-                List<int> r = new List<int>();
                 csv.Configuration.Delimiter = ";";
-                while (csv.Read())
-                {
-                    p.Add(new Point2f()
-                    {
-                        X = csv.GetField<float>(0),
-                        Y = csv.GetField<float>(1)
-                    });
-                    r.Add(csv.GetField<bool>(2) ? 1 : 2);
-                }
-                points = p.ToArray();
-                responses = r.ToArray();
+                csv.Configuration.HasHeaderRecord = true;
+
+                imageFeatureses = csv.GetRecords<ImageFeatures>().ToList();
             }
-            var dataMat = new Mat(points.Length, 2, MatType.CV_32FC1, points);
-            var resMat = new Mat(responses.Length, 1, MatType.CV_32SC1, responses);
 
             _svm = SVM.Create();
             _svm.Type = SVM.Types.CSvc;
@@ -144,8 +119,8 @@ namespace Inż.Views
             _svm.Nu = 0.5;
             _svm.P = 0.1;
 
-            _svm.Train(dataMat, SampleTypes.RowSample, resMat);
-            _svmPreview = new SVMPreview(_svm, points, responses);
+            _svm.Train(imageFeatureses.ToTrainingMat(), SampleTypes.RowSample, imageFeatureses.ToResponseMat());
+            _svmPreview = new SVMPreview(_svm, imageFeatureses);
             _svmPreview.Show();
         }
     }

@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Inż.Model;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using OpenCvSharp.ML;
@@ -25,15 +26,13 @@ namespace Inż.Views
     public partial class SVMPreview : Window
     {
         private readonly SVM _svm;
-        private Point2f[] _points;
-        private List<Point2f> _additionalPoints = new List<Point2f>();
-        private int[] _responses;
+        private readonly List<ImageFeatures> _points;
+        private List<ImageFeatures> _additionalPoints = new List<ImageFeatures>();
 
-        public SVMPreview(SVM svm, Point2f[] points, int[] responses)
+        public SVMPreview(SVM svm, List<ImageFeatures> points)
         {
             _svm = svm;
             _points = points;
-            _responses = responses;
 
             InitializeComponent();
 
@@ -64,29 +63,18 @@ namespace Inż.Views
                 }
 
                 //plot points
-                for (int i = 0; i < _points.Length; i++)
+                foreach (ImageFeatures point in _points)
                 {
-                    int x = (int) (_points[i].X * 300);
-                    int y = (int) (300 - _points[i].Y*300);
-                    int res = _responses[i];
-                    Scalar color = (res == 1) ? Scalar.DarkRed : Scalar.DarkBlue;
-                    retPlot.Circle(x, y, 2, color, -1);
-                }
-                
-                //plot points
-                for (int i = 0; i < _points.Length; i++)
-                {
-                    int x = (int) (_points[i].X * 300);
-                    int y = (int) (300 - _points[i].Y*300);
-                    int res = _responses[i];
-                    Scalar color = (res == 1) ? Scalar.DarkRed : Scalar.DarkBlue;
+                    int x = (int) (point.SaturatedPixelsRatio * 300);
+                    int y = (int) (300 - point.EdgePixelsRatio*300);
+                    Scalar color = point.IsOccupied.Value ? Scalar.DarkRed : Scalar.DarkBlue;
                     retPlot.Circle(x, y, 2, color, -1);
                 }
 
                 foreach (var point in _additionalPoints)
                 {
-                    int x = (int)(point.X * 300);
-                    int y = (int)(300 - point.Y * 300);
+                    int x = (int)(point.SaturatedPixelsRatio * 300);
+                    int y = (int)(300 - point.EdgePixelsRatio * 300);
                     Scalar color = Scalar.GreenYellow;
                     retPlot.Circle(x, y, 2, color, -1);
                 }
@@ -95,7 +83,7 @@ namespace Inż.Views
             }
         }
 
-        public void PreviewPoints(List<Point2f> points)
+        public void PreviewPoints(List<ImageFeatures> points)
         {
             _additionalPoints = points;
             Draw();
