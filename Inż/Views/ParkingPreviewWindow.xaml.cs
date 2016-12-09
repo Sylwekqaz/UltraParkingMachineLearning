@@ -32,7 +32,6 @@ namespace Inż.Views
         private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer(); // get progress every second
         private readonly IIageSrc _camera;
         private IClassifier _svm;
-        private SVMPreview _svmPreview;
 
         public ParkingPreviewWindow(DbContext db, IIageSrc camera)
         {
@@ -74,12 +73,6 @@ namespace Inż.Views
 
             masks.Insert(0, (int) ImgTypeSlider.Value == 0 ? frame : edges);
             ImagePreview.Source = Gu.AddLayers(masks.ToArray()).ToBitmapSource();
-
-
-            var points = _db.Contours.FindAll()
-                .Where(c => c.Pts.Any())
-                .Select(contour => frame.CalculateFeatures(contour)).ToList();
-            _svmPreview.PreviewPoints(points);
         }
 
 
