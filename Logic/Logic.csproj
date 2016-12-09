@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classifiers\IClassifierr.cs" />
     <Compile Include="Model\Contour.cs" />
     <Compile Include="Model\DbContext.cs" />
     <Compile Include="Model\ImageFeatures.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="utils\GU.MatExtensions.cs">
       <DependentUpon>GU.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classifiers\SMVClassifier.cs" />
     <Compile Include="utils\ImageFeaturesExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

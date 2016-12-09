@@ -10,6 +10,8 @@ using System.Windows.Threading;
 using CsvHelper;
 using Inż.utils;
 using LiteDB;
+using Logic;
+using Logic.Classifiers;
 using Logic.Model;
 using Logic.utils;
 using OpenCvSharp;
@@ -29,7 +31,7 @@ namespace Inż.Views
         private readonly DbContext _db;
         private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer(); // get progress every second
         private readonly IIageSrc _camera;
-        private SVM _svm;
+        private IClassifier _svm;
         private SVMPreview _svmPreview;
 
         public ParkingPreviewWindow(DbContext db, IIageSrc camera)
@@ -63,12 +65,11 @@ namespace Inż.Views
             var masks =
                 _db.Contours.FindAll()
                     .Where(c => c.Pts.Any())
-                    .Select(contour => new {contour, mat = frame.CalculateFeatures(contour).ToPredictionMat()})
-                    .Select(arg => new { arg.contour, pred = _svm.Predict(arg.mat)})
+                    .Select(contour => new {contour, pred = _svm.Predict(frame.CalculateFeatures(contour))})
                     .Select(
-                        a => 
+                        a =>
                             Gu.GetMask(a.contour, frame.GetSizes(),
-                                a.pred ==1? Scalar.Red : Scalar.Blue))
+                                a.pred == 1 ? Scalar.Red : Scalar.Blue))
                     .ToList();
 
             masks.Insert(0, (int) ImgTypeSlider.Value == 0 ? frame : edges);
@@ -90,7 +91,7 @@ namespace Inż.Views
             {
                 _db.Contours
                     .FindAll()
-                    .Select(c=>c.Id)
+                    .Select(c => c.Id)
                     .ToList()
                     .ForEach(id => _db.Contours.Delete(id));
 
@@ -109,20 +110,7 @@ namespace Inż.Views
                 imageFeatureses = csv.GetRecords<ImageFeatures>().ToList();
             }
 
-            _svm = SVM.Create();
-            _svm.Type = SVM.Types.CSvc;
-            _svm.KernelType = SVM.KernelTypes.Rbf;
-            _svm.TermCriteria = TermCriteria.Both(1000, 0.000001);
-            _svm.Degree = 100.0;
-            _svm.Gamma = 100.0;
-            _svm.Coef0 = 1.0;
-            _svm.C = 1.0;
-            _svm.Nu = 0.5;
-            _svm.P = 0.1;
-
-            _svm.Train(imageFeatureses.ToTrainingMat(), SampleTypes.RowSample, imageFeatureses.ToResponseMat());
-            _svmPreview = new SVMPreview(_svm, imageFeatureses);
-            _svmPreview.Show();
+            _svm = SMVClassifier.Create(imageFeatureses)
         }
     }
 }
