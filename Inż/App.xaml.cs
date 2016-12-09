@@ -10,6 +10,7 @@ using CsvHelper;
 using Inż.utils;
 using Inż.Views;
 using LiteDB;
+using Logic.Classifiers;
 using Logic.Model;
 using Logic.utils;
 using Newtonsoft.Json;
@@ -78,6 +79,22 @@ namespace Inż
                 //.ToMethod(context => new ImageSrc(@"..\..\Images\test1a.jpg"))
                 .ToMethod(context => new CameraSource(1))
                 .InTransientScope();
+
+            kernel.Bind<IClassifier>()
+                .ToMethod(context =>
+                {
+                    List<ImageFeatures> imageFeatureses;
+                    using (var csv = new CsvReader(new StreamReader(@"..\..\..\DataSet\features.csv")))
+                    {
+                        csv.Configuration.Delimiter = ";";
+                        csv.Configuration.HasHeaderRecord = true;
+
+                        imageFeatureses = csv.GetRecords<ImageFeatures>().ToList();
+                    }
+
+                    return SMVClassifier.Create(imageFeatureses);
+                })
+                .InSingletonScope();
 
             kernel.Bind<CounturEditorWindow>().ToSelf();
             kernel.Bind<ParkingPreviewWindow>().ToSelf();

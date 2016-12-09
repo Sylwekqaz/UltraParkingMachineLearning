@@ -31,16 +31,16 @@ namespace Inż.Views
         private readonly DbContext _db;
         private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer(); // get progress every second
         private readonly IIageSrc _camera;
-        private IClassifier _svm;
+        private readonly IClassifier _svm;
 
-        public ParkingPreviewWindow(DbContext db, IIageSrc camera)
+        public ParkingPreviewWindow(DbContext db, IIageSrc camera, IClassifier svm)
         {
             _db = db;
             _camera = camera;
+            _svm = svm;
             InitializeComponent();
             _initializing = false;
 
-            BuildModel();
 
             _dispatcherTimer.Tick += dispatcherTimer_Tick;
             _dispatcherTimer.Interval = new TimeSpan(1000);
@@ -92,18 +92,6 @@ namespace Inż.Views
             }
         }
 
-        private void BuildModel()
-        {
-            List<ImageFeatures> imageFeatureses;
-            using (var csv = new CsvReader(new StreamReader(@"..\..\..\DataSet\features.csv")))
-            {
-                csv.Configuration.Delimiter = ";";
-                csv.Configuration.HasHeaderRecord = true;
-
-                imageFeatureses = csv.GetRecords<ImageFeatures>().ToList();
-            }
-
-            _svm = SMVClassifier.Create(imageFeatureses)
-        }
+       
     }
 }
