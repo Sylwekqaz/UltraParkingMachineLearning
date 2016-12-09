@@ -12,7 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Inż.Model;
+using Logic.Model;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using OpenCvSharp.ML;

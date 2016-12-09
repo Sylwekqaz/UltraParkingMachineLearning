@@ -95,8 +95,6 @@
     <Compile Include="Views\SVMPreview.xaml.cs">
       <DependentUpon>SVMPreview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\ImageFeatures.cs" />
-    <Compile Include="utils\ImageFeaturesExtensions.cs" />
     <Page Include="Views\OccupyMarkDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -118,16 +116,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IoC.cs" />
-    <Compile Include="Model\Contour.cs" />
-    <Compile Include="Model\DbContext.cs" />
-    <Compile Include="Model\ParkingSlot.cs" />
-    <Compile Include="utils\GU.cs" />
-    <Compile Include="utils\GU.GetMask.cs">
-      <DependentUpon>GU.cs</DependentUpon>
-    </Compile>
-    <Compile Include="utils\GU.MatExtensions.cs">
-      <DependentUpon>GU.cs</DependentUpon>
-    </Compile>
     <Compile Include="utils\ImageSrc.cs" />
     <Compile Include="utils\WpfUtils.cs" />
     <Compile Include="Views\OccupyMarkDialog.xaml.cs">
@@ -177,58 +165,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\parking_test.jpg" />
-    <Resource Include="Images\DataSet\0662b37c-5913-435e-9fc5-77bd872a2b87.png" />
-    <Resource Include="Images\DataSet\11591fdf-72cd-4de4-9aae-e59dea4dec54.png" />
-    <Resource Include="Images\DataSet\3974e36f-1509-4c0d-aaf1-c98aea7607da.png" />
-    <Resource Include="Images\DataSet\3c7b9a23-1b25-4c1a-bd99-cc10ff33ff72.png" />
-    <Resource Include="Images\DataSet\3e07d25b-fcb9-46b3-a6de-fb82b074c075.png" />
-    <Resource Include="Images\DataSet\4c784cf6-4a13-45fd-b810-2978e675387a.png" />
-    <Resource Include="Images\DataSet\55215566-7ad8-4f70-9d02-63df6ffee247.png" />
-    <Resource Include="Images\DataSet\6154873a-91ee-4ca4-8108-94515d1c1a93.png" />
-    <Resource Include="Images\DataSet\6723d651-4f6f-4024-bd6e-cf31b8ed52e6.png" />
-    <Resource Include="Images\DataSet\67c34e30-3b4f-4c0b-b9cf-7dbfb5e67a74.png" />
-    <Resource Include="Images\DataSet\6e0c1c56-25ee-4e3e-839c-0310e2effaff.png" />
-    <Resource Include="Images\DataSet\75599526-f64d-4013-80b2-4d86ab75697d.png" />
-    <Resource Include="Images\DataSet\98747ce1-8239-4ee0-9052-110a0bc9fe77.png" />
-    <Resource Include="Images\DataSet\bcd55990-cb83-4ecc-b620-beab7eee10fb.png" />
-    <Resource Include="Images\DataSet\c129747e-9d7e-47d0-a30d-255ee0e6bb38.png" />
-    <Resource Include="Images\DataSet\c56546d7-33cc-4453-bc80-62b9d679bb2b.png" />
-    <Resource Include="Images\DataSet\d3cbfa6a-18b0-4949-bbac-5f3a30aecdde.png" />
-    <Resource Include="Images\DataSet\d4039a6d-f373-4f02-9997-7ca8a5b7f93d.png" />
-    <Resource Include="Images\DataSet\e122e842-e92f-4da0-b6b9-35f88abd1266.png" />
-    <Resource Include="Images\DataSet\e31a459a-a9e2-46b6-b763-2cb28427fa96.png" />
-    <Resource Include="Images\DataSet\fa115868-cc2e-4a62-bdf4-f3de50806d3b.png" />
-    <Content Include="Images\test1a.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\test1b.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\test2a.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\test2b.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\test3a.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\test3b.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\test4a.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\test4b.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\test5a.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\test5b.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\Logic\Logic.csproj">
+      <Project>{50e8fd66-ded2-46fa-a3e3-2b6d371b7524}</Project>
+      <Name>Logic</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -1,4 +1,4 @@
-﻿namespace Inż.Model
+﻿namespace Logic.Model
 {
     public class ParkingSlot
     {

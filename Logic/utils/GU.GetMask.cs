@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Inż.Model;
+using Logic.Model;
 using OpenCvSharp;
 
-namespace Inż.utils
+namespace Logic.utils
 {
-    internal static partial class Gu
+    public static partial class Gu
     {
         public static Mat GetMask(IEnumerable<Contour> pts, int[] sizes, Scalar color, Scalar background)
         {

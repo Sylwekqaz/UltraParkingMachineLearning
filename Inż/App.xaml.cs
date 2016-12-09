@@ -7,10 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using CsvHelper;
-using Inż.Model;
 using Inż.utils;
 using Inż.Views;
 using LiteDB;
+using Logic.Model;
+using Logic.utils;
 using Newtonsoft.Json;
 using Ninject;
 using OpenCvSharp;
@@ -27,9 +28,9 @@ namespace Inż
         {
             InitializeDi();
 
-//            SetContourOnImages(@"..\..\Images\DataSet\", "*.png");
-//            SetOccupiedOnImages(@"..\..\Images\DataSet\", "*.png");
-            GetFeatures(@"..\..\Images\DataSet\", "*.png", @"..\..\Images\DataSet\features.csv");
+//            SetContourOnImages(@"..\..\..\DataSet\", "*.png");
+//            SetOccupiedOnImages(@"..\..\..\DataSet\", "*.png");
+            GetFeatures(@"..\..\..\DataSet\", "*.png", @"..\..\..\DataSet\features.csv");
 
             var mainWindow = IoC.Resolve<ParkingPreviewWindow>();
             mainWindow.Show(); // hold app live

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenCvSharp;
+﻿using OpenCvSharp;
 
-namespace Inż.utils
+namespace Logic.utils
 {
-    partial class Gu
+    public partial class Gu
     {
         public static int[] GetSizes(this Mat mat)
         {

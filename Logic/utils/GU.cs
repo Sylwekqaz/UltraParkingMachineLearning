@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
-using Inż.Model;
+using Logic.Model;
 using OpenCvSharp;
 
-namespace Inż.utils
+namespace Logic.utils
 {
-    internal static partial class Gu
+    public static partial class Gu
     {
         public static Mat AddLayers(params Mat[] mats)
         {

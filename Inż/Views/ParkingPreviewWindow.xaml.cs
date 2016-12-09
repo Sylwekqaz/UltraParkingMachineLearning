@@ -8,9 +8,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using CsvHelper;
-using Inż.Model;
 using Inż.utils;
 using LiteDB;
+using Logic.Model;
+using Logic.utils;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using OpenCvSharp.ML;
@@ -100,7 +101,7 @@ namespace Inż.Views
         private void BuildModel()
         {
             List<ImageFeatures> imageFeatureses;
-            using (var csv = new CsvReader(new StreamReader(@"..\..\Images\DataSet\features.csv")))
+            using (var csv = new CsvReader(new StreamReader(@"..\..\..\DataSet\features.csv")))
             {
                 csv.Configuration.Delimiter = ";";
                 csv.Configuration.HasHeaderRecord = true;

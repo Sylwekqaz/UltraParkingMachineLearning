@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Inż.Model;
+using Logic.Model;
 using OpenCvSharp;
 
-namespace Inż.utils
+namespace Logic.utils
 {
     public static class ImageFeaturesExtensions
     {
