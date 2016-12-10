@@ -20,11 +20,21 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <ListBox x:Name="ImageListBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                 ItemsSource="{Binding Images}">
+                 ItemsSource="{Binding Images}" SelectedItem="{Binding SelectedImage}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Image Source="{Binding Path=ImagePath, Converter={StaticResource UriToBitmapConverter},IsAsync=True}"
                            MaxWidth="100" Height="50px" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
+
+        <ListBox x:Name="Contour" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                 ItemsSource="{Binding SelectedImage.ParkingSlots}"  Grid.Column="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Contour.Pts.Count}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
 
