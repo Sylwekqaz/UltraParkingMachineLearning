@@ -4,21 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:PrepareData.ViewModels"
+        xmlns:utils="clr-namespace:PrepareData.Utils"
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized">
     <Window.DataContext>
         <viewModels:MainWindowVM />
     </Window.DataContext>
+    <Window.Resources>
+        <utils:UriToBitmapConverter x:Key="UriToBitmapConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="ImageListBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Images}">
+        <ListBox x:Name="ImageListBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                 ItemsSource="{Binding Images}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding ImagePath}" MaxWidth="100" Height="50px" />
+                    <Image Source="{Binding Path=ImagePath, Converter={StaticResource UriToBitmapConverter},IsAsync=True}"
+                           MaxWidth="100" Height="50px" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
 
