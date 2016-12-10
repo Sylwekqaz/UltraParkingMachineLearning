@@ -27,14 +27,15 @@ namespace Inż
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             InitializeDi();
 
-//            SetContourOnImages(@"..\..\..\DataSet\", "*.png");
-//            SetOccupiedOnImages(@"..\..\..\DataSet\", "*.png");
+            SetContourOnImages(@"..\..\..\DataSet\", "*.png");
+            SetOccupiedOnImages(@"..\..\..\DataSet\", "*.png");
             GetFeatures(@"..\..\..\DataSet\", "*.png", @"..\..\..\DataSet\features.csv");
 
-            var mainWindow = IoC.Resolve<ParkingPreviewWindow>();
-            mainWindow.Show(); // hold app live
+            MainWindow = IoC.Resolve<ParkingPreviewWindow>();
+            MainWindow.Show(); 
 
             base.OnStartup(e);
         }

@@ -92,6 +92,11 @@ namespace Inż.Views
             }
         }
 
-       
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            Application.Current.Shutdown();
+        }
     }
 }
