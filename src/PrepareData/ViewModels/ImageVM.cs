@@ -18,12 +18,13 @@ namespace PrepareData.ViewModels
             if (File.Exists(JsonPath))
             {
                 ParkingSlots =
-                    new ObservableCollection<ParkingSlot>(
-                        JsonConvert.DeserializeObject<List<ParkingSlot>>(File.ReadAllText(JsonPath)));
+                    new ObservableCollection<ParkingSlotVM>(
+                        JsonConvert.DeserializeObject<List<ParkingSlot>>(File.ReadAllText(JsonPath))
+                        .Select(ps => new ParkingSlotVM(ps)));
             }
             else
             {
-                ParkingSlots = new ObservableCollection<ParkingSlot>();
+                ParkingSlots = new ObservableCollection<ParkingSlotVM>();
             }
 
         }
@@ -31,6 +32,6 @@ namespace PrepareData.ViewModels
         public string ImagePath { get; set; }
         public string Name => Path.GetFileNameWithoutExtension(ImagePath);
         public string JsonPath => Path.ChangeExtension(ImagePath, ".json");
-        public ObservableCollection<ParkingSlot> ParkingSlots { get; set; }
+        public ObservableCollection<ParkingSlotVM> ParkingSlots { get; set; }
     }
 }

@@ -10,7 +10,10 @@ namespace PrepareData.Utils
         {
             BitmapImage bi = new BitmapImage();
             bi.BeginInit();
-            bi.DecodePixelWidth = 100;
+            if (parameter is int)
+            {
+                bi.DecodePixelWidth = (int) parameter;
+            }
             bi.CacheOption = BitmapCacheOption.OnLoad;
             bi.UriSource = new Uri(value.ToString());
             bi.EndInit();

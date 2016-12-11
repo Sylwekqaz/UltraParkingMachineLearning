@@ -20,25 +20,104 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <ListBox x:Name="ImageListBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                 ItemsSource="{Binding Images}" SelectedItem="{Binding SelectedImage}">
+                 ItemsSource="{Binding Images}" SelectedIndex="0" SelectedItem="{Binding SelectedImage}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding Path=ImagePath, Converter={StaticResource UriToBitmapConverter},IsAsync=True}"
-                           MaxWidth="100" Height="50px" />
+                    <Image
+                        Source="{Binding Path=ImagePath,
+                        Converter={StaticResource UriToBitmapConverter},
+                        ConverterParameter=100,
+                        IsAsync=True}"
+                        MaxWidth="100" Height="50px" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
 
         </ListBox>
 
         <ListBox x:Name="Contour" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                 ItemsSource="{Binding SelectedImage.ParkingSlots}"  Grid.Column="1">
+                 ItemsSource="{Binding SelectedImage.ParkingSlots}" SelectedItem="{Binding SelectedSlot}"
+                 Grid.Column="1"
+                 HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Contour.Pts.Count}"/>
+                    <TextBlock Text="{Binding Pts.Count}" VerticalAlignment="Stretch">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsOccupied}" Value="false">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsOccupied}" Value="true">
+                                        <Setter Property="Background" Value="IndianRed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </DataTemplate>
             </ListBox.ItemTemplate>
 
         </ListBox>
+        <Viewbox Grid.Column="2">
+            <Canvas Height="{Binding Path=ActualHeight,ElementName=PreviewImage}" Width="{Binding Path=ActualWidth,ElementName=PreviewImage}">
+                <Image Name="PreviewImage" Source="{Binding Path=SelectedImage.ImagePath,
+                        Converter={StaticResource UriToBitmapConverter},
+                        ConverterParameter=1000,
+                        IsAsync=True}" />
 
+                <!--draw lines-->
+                <ItemsControl ItemsSource="{Binding SelectedImage.ParkingSlots}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Polyline Points="{Binding Pts}"  Opacity="0.4">
+                                <Polyline.Style>
+                                    <Style TargetType="{x:Type Polyline}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOccupied}" Value="false">
+                                                <Setter Property="Fill" Value="LightBlue" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsOccupied}" Value="true">
+                                                <Setter Property="Fill" Value="IndianRed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Polyline.Style>
+                            </Polyline>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
+                <!--draw points-->
+                <ItemsControl ItemsSource="{Binding SelectedSlot.Pts}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                            <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Ellipse Width="10" Height="10" Fill="Black" Stroke="White" StrokeThickness="1">
+                                <Ellipse.RenderTransform>
+                                    <TranslateTransform X="-5" Y="-5" />
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Canvas>
+
+        </Viewbox>
+        
     </Grid>
 </Window>
