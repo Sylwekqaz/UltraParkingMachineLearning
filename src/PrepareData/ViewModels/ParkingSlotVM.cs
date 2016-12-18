@@ -16,7 +16,7 @@ namespace PrepareData.ViewModels
         {
             IsOccupied = ps.IsOccupied;
             Id = ps.Contour.Id;
-            Pts = new PointCollection(ps.Contour.Pts.Select(point => new Point()
+            Pts = new ObservableCollection<Point>(ps.Contour.Pts.Select(point => new Point()
             {
                 X = point.X,
                 Y = point.Y,
@@ -25,11 +25,11 @@ namespace PrepareData.ViewModels
 
         public ParkingSlotVM()
         {
-            Pts = new PointCollection();
+            Pts = new ObservableCollection<Point>();
         }
 
         public bool? IsOccupied { get; set; }
         public int Id { get; set; }
-        public PointCollection Pts { get; set; }
+        public ObservableCollection<Point> Pts { get; set; }
     }
 }
