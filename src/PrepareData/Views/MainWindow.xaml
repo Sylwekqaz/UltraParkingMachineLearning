@@ -76,7 +76,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Polyline Points="{Binding Pts}"  Opacity="0.4">
+                                <Polyline Points="{Binding PtsCollection}"  Opacity="0.4">
                                     <Polyline.Style>
                                         <Style TargetType="{x:Type Polyline}">
                                             <Style.Triggers>
