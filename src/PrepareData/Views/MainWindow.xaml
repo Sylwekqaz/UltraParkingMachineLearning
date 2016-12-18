@@ -41,20 +41,27 @@
                  HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Pts.Count}" VerticalAlignment="Stretch">
-                        <TextBlock.Style>
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsOccupied}" Value="false">
-                                        <Setter Property="Background" Value="LightBlue" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsOccupied}" Value="true">
-                                        <Setter Property="Background" Value="IndianRed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Pts.Count}" VerticalAlignment="Stretch">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsOccupied}" Value="false">
+                                            <Setter Property="Background" Value="LightBlue" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsOccupied}" Value="true">
+                                            <Setter Property="Background" Value="IndianRed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <CheckBox IsChecked="{Binding IsOccupied}" Grid.Column="1"></CheckBox>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
 
