@@ -6,6 +6,7 @@
         xmlns:viewModels="clr-namespace:PrepareData.ViewModels"
         xmlns:utils="clr-namespace:PrepareData.Utils"
         xmlns:views="clr-namespace:PrepareData.Views"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized">
     <Window.DataContext>
@@ -36,7 +37,9 @@
         </ListBox>
 
         <DockPanel Grid.Column="1">
-            <Button DockPanel.Dock="Top" Command="{Binding AddContour}">+</Button>
+            <Button DockPanel.Dock="Top" Command="{Binding AddContour}">
+                <fa:FontAwesome Icon="Plus" />
+            </Button>
             <ListBox x:Name="Contour" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                      ItemsSource="{Binding SelectedImage.ParkingSlots}" SelectedItem="{Binding SelectedSlot}"
                      HorizontalContentAlignment="Stretch" DockPanel.Dock="Top">
@@ -105,8 +108,8 @@
                 <views:ContourManipulator VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Contour="{Binding SelectedSlot.Pts}"/>
 
             </Grid>
-            
+
         </Viewbox>
-        
+
     </Grid>
 </Window>
