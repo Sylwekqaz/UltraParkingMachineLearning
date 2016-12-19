@@ -26,9 +26,13 @@ namespace PrepareData.ViewModels
 
             AddContour = new RelayCommand<object>(AddSlotHandler, CanAddContour);
             DeleteContour = new RelayCommand<ParkingSlotVM>(DeleteSlotHandler);
+            SaveToFile = new RelayCommand<object>(SaveToFileHandler);
+            MarkEmptySlot = new RelayCommand<ParkingSlotVM>(o => MarkSlot(o,occupied: false));
+            MarkOccupiedSlot = new RelayCommand<ParkingSlotVM>(o => MarkSlot(o,occupied: true));
         }
 
-      
+       
+
 
         public ObservableCollection<ImageVM> Images { get; set; }
 
@@ -39,19 +43,44 @@ namespace PrepareData.ViewModels
         public RelayCommand<object> AddContour { get; }
         public RelayCommand<ParkingSlotVM> DeleteContour { get; }
 
+        public RelayCommand<object> SaveToFile { get; }
+
+        public RelayCommand<ParkingSlotVM> MarkEmptySlot { get; }
+
+        public RelayCommand<ParkingSlotVM> MarkOccupiedSlot { get; }
+
         private void AddSlotHandler(object o)
         {
             SelectedImage.ParkingSlots.Add(new ParkingSlotVM());
+            SelectedSlot = SelectedImage.ParkingSlots.LastOrDefault();
         }
 
         private void DeleteSlotHandler(ParkingSlotVM parkingSlotVM)
         {
+            var index = SelectedImage.ParkingSlots.IndexOf(parkingSlotVM);
             SelectedImage.ParkingSlots.Remove(parkingSlotVM);
+            SelectedSlot = index == -1
+                ? null
+                : SelectedImage.ParkingSlots.Count <= index
+                    ? SelectedImage.ParkingSlots.LastOrDefault()
+                    : SelectedImage.ParkingSlots[index];
         }
 
         private bool CanAddContour(object o)
         {
             return SelectedImage != null;
+        }
+
+        private void SaveToFileHandler(object o)
+        {
+            //todo implement me 
+            return;
+        }
+
+        private void MarkSlot(ParkingSlotVM slotVM, bool occupied)
+        {
+            if (slotVM == null) return;
+            slotVM.IsOccupied = occupied;
         }
     }
 }

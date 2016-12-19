@@ -81,6 +81,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Utils\CommandBindingExtension.cs" />
     <Compile Include="Utils\PointUtils.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="Utils\UriToBitmapConverter.cs" />
