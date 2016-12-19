@@ -35,37 +35,38 @@
 
         </ListBox>
 
-        <ListBox x:Name="Contour" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                 ItemsSource="{Binding SelectedImage.ParkingSlots}" SelectedItem="{Binding SelectedSlot}"
-                 Grid.Column="1"
-                 HorizontalContentAlignment="Stretch">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="20" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Pts.Count}" VerticalAlignment="Stretch">
-                            <TextBlock.Style>
-                                <Style TargetType="{x:Type TextBlock}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsOccupied}" Value="false">
-                                            <Setter Property="Background" Value="LightBlue" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsOccupied}" Value="true">
-                                            <Setter Property="Background" Value="IndianRed" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                        <CheckBox IsChecked="{Binding IsOccupied}" Grid.Column="1"></CheckBox>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-
-        </ListBox>
+        <DockPanel Grid.Column="1">
+            <Button DockPanel.Dock="Top" Command="{Binding AddContour}">+</Button>
+            <ListBox x:Name="Contour" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                     ItemsSource="{Binding SelectedImage.ParkingSlots}" SelectedItem="{Binding SelectedSlot}"
+                     HorizontalContentAlignment="Stretch" DockPanel.Dock="Top">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="20" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Pts.Count}" VerticalAlignment="Stretch">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOccupied}" Value="false">
+                                                <Setter Property="Background" Value="LightBlue" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsOccupied}" Value="true">
+                                                <Setter Property="Background" Value="IndianRed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <CheckBox IsChecked="{Binding IsOccupied}" Grid.Column="1"></CheckBox>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            </DockPanel>
         <Viewbox Grid.Column="2">
             <Grid Height="{Binding Path=ActualHeight,ElementName=PreviewImage}" Width="{Binding Path=ActualWidth,ElementName=PreviewImage}">
                 <Canvas >
