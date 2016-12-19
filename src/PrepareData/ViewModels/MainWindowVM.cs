@@ -24,24 +24,34 @@ namespace PrepareData.ViewModels
             SelectedImage = Images.FirstOrDefault();
             SelectedSlot = SelectedImage?.ParkingSlots.FirstOrDefault();
 
-            AddContour = new RelayCommand<object>(AddContourhandler, CanAddContourhandler);
+            AddContour = new RelayCommand<object>(AddSlotHandler, CanAddContour);
+            DeleteContour = new RelayCommand<ParkingSlotVM>(DeleteSlotHandler);
         }
+
+      
 
         public ObservableCollection<ImageVM> Images { get; set; }
 
         public ImageVM SelectedImage { get; set; }
         public ParkingSlotVM SelectedSlot { get; set; }
 
+
         public RelayCommand<object> AddContour { get; }
+        public RelayCommand<ParkingSlotVM> DeleteContour { get; }
 
-        private bool CanAddContourhandler(object o)
-        {
-            return SelectedImage != null;
-        }
-
-        private void AddContourhandler(object o)
+        private void AddSlotHandler(object o)
         {
             SelectedImage.ParkingSlots.Add(new ParkingSlotVM());
+        }
+
+        private void DeleteSlotHandler(ParkingSlotVM parkingSlotVM)
+        {
+            SelectedImage.ParkingSlots.Remove(parkingSlotVM);
+        }
+
+        private bool CanAddContour(object o)
+        {
+            return SelectedImage != null;
         }
     }
 }

@@ -49,6 +49,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="20" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding Pts.Count}" VerticalAlignment="Stretch">
                                 <TextBlock.Style>
@@ -64,12 +65,18 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <CheckBox IsChecked="{Binding IsOccupied}" Grid.Column="1"></CheckBox>
+                            <CheckBox IsChecked="{Binding IsOccupied}" Grid.Column="1" />
+                            <Button Grid.Column="2"
+                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:MainWindow}},
+                                                      Path=DataContext.DeleteContour}"
+                                    CommandParameter="{Binding}">
+                                <fa:FontAwesome Icon="Trash" />
+                            </Button>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            </DockPanel>
+        </DockPanel>
         <Viewbox Grid.Column="2">
             <Grid Height="{Binding Path=ActualHeight,ElementName=PreviewImage}" Width="{Binding Path=ActualWidth,ElementName=PreviewImage}">
                 <Canvas >
