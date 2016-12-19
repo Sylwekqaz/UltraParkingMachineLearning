@@ -33,8 +33,8 @@ namespace PrepareData.Views
         private void ContourChanged()
         {
             ActivePointIndex = null;
-            if (Contour == null) return;
-            Contour.CollectionChanged += (sender, args) => FullRedraw();
+            if (Contour != null)
+                Contour.CollectionChanged += (sender, args) => FullRedraw();
             FullRedraw();
         }
 
@@ -49,6 +49,8 @@ namespace PrepareData.Views
         {
             RootCanvas.Children.Clear();
             var contour = Contour;
+            if (contour == null) return;
+
 
 
             foreach (var point in contour)
@@ -142,7 +144,7 @@ namespace PrepareData.Views
         private void RootCanvas_OnMouseMove(object sender, MouseEventArgs e)
         {
             var clickPosition = e.GetPosition(RootCanvas);
-            var pointNearby = Contour.Any(p => p.DistanceTo(clickPosition) < 12);
+            var pointNearby = Contour?.Any(p => p.DistanceTo(clickPosition) < 12) ?? false;
             Cursor = pointNearby ? Cursors.SizeAll : Cursors.Arrow;
 
             if (ActivePointIndex != null)
