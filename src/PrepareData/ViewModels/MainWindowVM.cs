@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using Logic.Model;
+using Newtonsoft.Json;
 using PrepareData.Utils;
 using PropertyChanged;
 
@@ -12,17 +14,7 @@ namespace PrepareData.ViewModels
     {
         public MainWindowVM()
         {
-            string[] extensions = {".png", ".jpg", ".jpeg", ".bmp"};
-
-            var files = Directory.EnumerateFiles(Properties.Settings.Default.DataSetPath)
-                .Where(path => extensions
-                    .Any(ext => ext.Equals(Path.GetExtension(path), StringComparison.InvariantCultureIgnoreCase)))
-                .Select(path => new ImageVM(path));
-
-            Images = new ObservableCollection<ImageVM>(files);
-
-            SelectedImage = Images.FirstOrDefault();
-            SelectedSlot = SelectedImage?.ParkingSlots.FirstOrDefault();
+            LoadFromFile(Properties.Settings.Default.DataSetPath);
 
             AddContour = new RelayCommand<object>(AddSlotHandler, CanAddContour);
             DeleteContour = new RelayCommand<ParkingSlotVM>(DeleteSlotHandler);
@@ -73,8 +65,43 @@ namespace PrepareData.ViewModels
 
         private void SaveToFileHandler(object o)
         {
-            //todo implement me 
-            return;
+
+            foreach (var imageVM in Images)
+            {
+                var data = imageVM.ParkingSlots
+                    .Select(slot => new ParkingSlot()
+                    {
+                        IsOccupied = slot.IsOccupied ?? false,
+                        Contour = new Contour()
+                        {
+                            Pts = slot.Pts
+                                .Select(point => new Contour.Point()
+                                {
+                                    X = point.X,
+                                    Y = point.Y,
+                                })
+                                .ToList()
+                        }
+                    });
+
+                var json = JsonConvert.SerializeObject(data);
+                File.WriteAllText(imageVM.JsonPath, json);
+            }
+        }
+
+        private void LoadFromFile(string directoryPath)
+        {
+            string[] extensions = { ".png", ".jpg", ".jpeg", ".bmp" };
+
+            var files = Directory.EnumerateFiles(directoryPath)
+                .Where(path => extensions
+                    .Any(ext => ext.Equals(Path.GetExtension(path), StringComparison.InvariantCultureIgnoreCase)))
+                .Select(path => new ImageVM(path));
+
+            Images = new ObservableCollection<ImageVM>(files);
+
+            SelectedImage = Images.FirstOrDefault();
+            SelectedSlot = SelectedImage?.ParkingSlots?.FirstOrDefault();
         }
 
         private void MarkSlot(ParkingSlotVM slotVM, bool occupied)
