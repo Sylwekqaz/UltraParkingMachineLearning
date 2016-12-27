@@ -32,11 +32,11 @@ namespace Logic.utils
         {
             var count = features.Count;
 
-            float[,] sample = new float[count, 3];
+            float[,] sample = new float[count, 2];
             for (int i = 0; i < count; i++)
             {
-                sample[i, 0] = features[i].SaturatedPixels;
-                sample[i, 1] = features[i].EdgePixels;
+                sample[i, 0] = features[i].SaturatedPixelsRatio;
+                sample[i, 1] = features[i].EdgePixelsRatio;
             }
 
             return new Mat(count, 2, MatType.CV_32FC1, sample);
@@ -44,7 +44,7 @@ namespace Logic.utils
 
         public static Mat ToResponseMat(this List<ImageFeatures> features)
         {
-            int[] responses = features.Select(f => f.IsOccupied.Value ? 1 : 2).ToArray();
+            int[] responses = features.Select(f => f.IsOccupied.Value ? 1 : 0).ToArray();
 
             return new Mat(responses.Length, 1, MatType.CV_32SC1, responses);
         }
