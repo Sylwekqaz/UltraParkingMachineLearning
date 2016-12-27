@@ -70,7 +70,7 @@ namespace ClassyficatorTester
 
         private static IEnumerable<ImageFeatures> GetObservations()
         {
-            string directoryPath = @"..\..\..\..\DataSet";
+            string directoryPath = @"..\..\..\..\DataSet\PhoneCamera";
 
             string[] extensions = {".png", ".jpg", ".jpeg", ".bmp"};
             var files = Directory.EnumerateFiles(directoryPath)
