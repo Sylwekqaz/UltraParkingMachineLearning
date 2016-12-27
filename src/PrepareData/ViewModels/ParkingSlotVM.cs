@@ -15,7 +15,7 @@ namespace PrepareData.ViewModels
     {
         private ObservableCollection<Point> _pts;
         private int _id;
-        private bool? _isOccupied;
+        private bool _isOccupied;
 
         public ParkingSlotVM(ParkingSlot ps) : this()
         {
@@ -35,7 +35,7 @@ namespace PrepareData.ViewModels
             Pts = new ObservableCollection<Point>();
         }
 
-        public bool? IsOccupied
+        public bool IsOccupied
         {
             get { return _isOccupied; }
             set

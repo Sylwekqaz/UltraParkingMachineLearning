@@ -56,11 +56,11 @@ namespace ClassyficatorTester
             {
                 var predict = smvClassifier.Predict(validationObservation);
                 if (predict == 1)
-                    if (validationObservation.IsOccupied.Value)
+                    if (validationObservation.IsOccupied)
                         tp++;
                     else
                         fp++;
-                else if (validationObservation.IsOccupied.Value)
+                else if (validationObservation.IsOccupied)
                     fn++;
                 else
                     tn++;

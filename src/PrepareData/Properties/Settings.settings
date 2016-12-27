@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="DataSetPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\Users\Sylwekqaz\Documents\Visual Studio 2015\Projects\Inż\DataSet</Value>
+      <Value Profile="(Default)">C:\Users\Sylwekqaz\Documents\Visual Studio 2015\Projects\Inż\DataSet\PhoneCamera</Value>
     </Setting>
   </Settings>
 </SettingsFile>

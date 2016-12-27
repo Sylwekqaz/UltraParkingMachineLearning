@@ -7,7 +7,7 @@ namespace Logic.utils
 {
     public static class ImageFeaturesExtensions
     {
-        public static ImageFeatures CalculateFeatures(this Mat mat, Contour contour, bool? isOccupied=null)
+        public static ImageFeatures CalculateFeatures(this Mat mat, Contour contour, bool isOccupied)
         {
             return new ImageFeatures()
             {
@@ -44,7 +44,7 @@ namespace Logic.utils
 
         public static Mat ToResponseMat(this List<ImageFeatures> features)
         {
-            int[] responses = features.Select(f => f.IsOccupied.Value ? 1 : 0).ToArray();
+            int[] responses = features.Select(f => f.IsOccupied ? 1 : 0).ToArray();
 
             return new Mat(responses.Length, 1, MatType.CV_32SC1, responses);
         }

@@ -84,7 +84,7 @@ namespace PrepareData.ViewModels
                 var data = imageVM.ParkingSlots
                     .Select(slot => new ParkingSlot()
                     {
-                        IsOccupied = slot.IsOccupied ?? false,
+                        IsOccupied = slot.IsOccupied,
                         Contour = new Contour()
                         {
                             Pts = slot.Pts
