@@ -16,11 +16,11 @@
         <utils:UriToBitmapConverter x:Key="UriToBitmapConverter" />
     </Window.Resources>
     <Window.InputBindings>
-        <KeyBinding Key="A" Modifiers="Control" Command="{Binding AddContour}"/>
-        <KeyBinding Key="D" Modifiers="Control" Command="{Binding DeleteContour}" CommandParameter="{Binding SelectedSlot}"/>
+        <KeyBinding Key="A" Command="{Binding AddContour}"/>
+        <KeyBinding Key="D" Command="{Binding DeleteContour}" CommandParameter="{Binding SelectedSlot}"/>
         <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveToFile}"/>
-        <KeyBinding Key="Q" Modifiers="Control" Command="{Binding MarkEmptySlot}" CommandParameter="{Binding SelectedSlot}" />
-        <KeyBinding Key="W" Modifiers="Control" Command="{Binding MarkOccupiedSlot}" CommandParameter="{Binding SelectedSlot}"/>
+        <KeyBinding Key="Q" Command="{Binding MarkEmptySlot}" CommandParameter="{Binding SelectedSlot}" />
+        <KeyBinding Key="W" Command="{Binding MarkOccupiedSlot}" CommandParameter="{Binding SelectedSlot}"/>
         <KeyBinding Key="Tab" Command="{Binding MoveNext}"/>
         <KeyBinding Key="Tab" Modifiers="Control" Command="{Binding MovePrev}"/>
     </Window.InputBindings>
