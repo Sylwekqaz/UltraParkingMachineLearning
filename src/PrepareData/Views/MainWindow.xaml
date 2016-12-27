@@ -30,6 +30,13 @@
         </Grid.ColumnDefinitions>
         <ListBox x:Name="ImageListBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                  ItemsSource="{Binding Images}" SelectedIndex="0" SelectedItem="{Binding SelectedImage}">
+            <ListBox.InputBindings>
+                <KeyBinding Key="A" Modifiers="Control" Command="{Binding AddContour}"/>
+                <KeyBinding Key="D" Modifiers="Control" Command="{Binding DeleteContour}" CommandParameter="{Binding SelectedSlot}"/>
+                <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveToFile}"/>
+                <KeyBinding Key="Q" Modifiers="Control" Command="{Binding MarkEmptySlot}" CommandParameter="{Binding SelectedSlot}" />
+                <KeyBinding Key="W" Modifiers="Control" Command="{Binding MarkOccupiedSlot}" CommandParameter="{Binding SelectedSlot}"/>
+            </ListBox.InputBindings>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Image
@@ -50,6 +57,13 @@
             <ListBox x:Name="Contour" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                      ItemsSource="{Binding SelectedImage.ParkingSlots}" SelectedItem="{Binding SelectedSlot}"
                      HorizontalContentAlignment="Stretch" DockPanel.Dock="Top">
+                <ListBox.InputBindings>
+                    <KeyBinding Key="A" Modifiers="Control" Command="{Binding AddContour}"/>
+                    <KeyBinding Key="D" Modifiers="Control" Command="{Binding DeleteContour}" CommandParameter="{Binding SelectedSlot}"/>
+                    <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveToFile}"/>
+                    <KeyBinding Key="Q" Modifiers="Control" Command="{Binding MarkEmptySlot}" CommandParameter="{Binding SelectedSlot}" />
+                    <KeyBinding Key="W" Modifiers="Control" Command="{Binding MarkOccupiedSlot}" CommandParameter="{Binding SelectedSlot}"/>
+                </ListBox.InputBindings>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
