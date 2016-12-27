@@ -55,7 +55,7 @@ namespace ClassyficatorTester
             foreach (var validationObservation in validation)
             {
                 var predict = smvClassifier.Predict(validationObservation);
-                if (predict == 1)
+                if (predict)
                     if (validationObservation.IsOccupied)
                         tp++;
                     else

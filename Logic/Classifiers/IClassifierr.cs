@@ -4,6 +4,6 @@ namespace Logic.Classifiers
 {
     public interface IClassifier
     {
-        int Predict(ImageFeatures imageFeatures);
+        bool Predict(ImageFeatures imageFeatures);
     }
 }

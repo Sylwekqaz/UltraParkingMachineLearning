@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Logic.Model;
 using Logic.utils;
 using OpenCvSharp;
@@ -6,7 +7,6 @@ using OpenCvSharp.ML;
 
 namespace Logic.Classifiers
 {
-
     public class SMVClassifier : IClassifier
     {
         private readonly SVM _svm;
@@ -16,9 +16,9 @@ namespace Logic.Classifiers
             _svm = svm;
         }
 
-        public int Predict(ImageFeatures imageFeatures)
+        public bool Predict(ImageFeatures imageFeatures)
         {
-            return (int) _svm.Predict(imageFeatures.ToPredictionMat());
+            return Convert.ToBoolean(_svm.Predict(imageFeatures.ToPredictionMat()));
         }
 
 
