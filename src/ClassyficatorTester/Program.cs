@@ -9,6 +9,7 @@ using Logic.Model;
 using Logic.utils;
 using Newtonsoft.Json;
 using OpenCvSharp;
+using static ClassyficatorTester.StatusBar;
 
 namespace ClassyficatorTester
 {
@@ -70,13 +71,16 @@ namespace ClassyficatorTester
 
         private static IEnumerable<ImageFeatures> GetObservations()
         {
+            Console.WriteLine("Przetwarzanie danych testowych");
             string directoryPath = @"..\..\..\..\DataSet\PhoneCamera";
 
             string[] extensions = {".png", ".jpg", ".jpeg", ".bmp"};
             var files = Directory.EnumerateFiles(directoryPath)
                 .Where(path => extensions
-                    .Any(ext => ext.Equals(Path.GetExtension(path), StringComparison.InvariantCultureIgnoreCase)));
+                    .Any(ext => ext.Equals(Path.GetExtension(path), StringComparison.InvariantCultureIgnoreCase)))
+                .ToList();
 
+            DrawTextProgressBar(0, files.Count);
             foreach (var path in files)
             {
                 var jsonPath = Path.ChangeExtension(path, ".json");
@@ -93,7 +97,9 @@ namespace ClassyficatorTester
                 }
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
+                DrawTextProgressBar(files.IndexOf(path)+1, files.Count);
             }
+            Console.WriteLine();
         }
     }
 }
