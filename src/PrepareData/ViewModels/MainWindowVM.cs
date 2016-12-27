@@ -21,9 +21,18 @@ namespace PrepareData.ViewModels
             SaveToFile = new RelayCommand<object>(SaveToFileHandler);
             MarkEmptySlot = new RelayCommand<ParkingSlotVM>(o => MarkSlot(o,occupied: false));
             MarkOccupiedSlot = new RelayCommand<ParkingSlotVM>(o => MarkSlot(o,occupied: true));
+            MoveNext = new RelayCommand<object>(o =>
+            {
+                var i = Images.IndexOf(SelectedImage);
+                SelectedImage = Images[++i%Images.Count];
+            });
+            MovePrev = new RelayCommand<object>(o =>
+            {
+                var i = Images.IndexOf(SelectedImage);
+                SelectedImage = Images[(--i+ Images.Count )% Images.Count];
+            });
         }
 
-       
 
 
         public ObservableCollection<ImageVM> Images { get; set; }
@@ -40,6 +49,10 @@ namespace PrepareData.ViewModels
         public RelayCommand<ParkingSlotVM> MarkEmptySlot { get; }
 
         public RelayCommand<ParkingSlotVM> MarkOccupiedSlot { get; }
+
+        public RelayCommand<object> MoveNext { get; }
+        public RelayCommand<object> MovePrev { get; }
+
 
         private void AddSlotHandler(object o)
         {

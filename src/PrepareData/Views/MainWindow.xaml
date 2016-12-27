@@ -21,6 +21,8 @@
         <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveToFile}"/>
         <KeyBinding Key="Q" Modifiers="Control" Command="{Binding MarkEmptySlot}" CommandParameter="{Binding SelectedSlot}" />
         <KeyBinding Key="W" Modifiers="Control" Command="{Binding MarkOccupiedSlot}" CommandParameter="{Binding SelectedSlot}"/>
+        <KeyBinding Key="Tab" Command="{Binding MoveNext}"/>
+        <KeyBinding Key="Tab" Modifiers="Control" Command="{Binding MovePrev}"/>
     </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -29,14 +31,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <ListBox x:Name="ImageListBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                 ItemsSource="{Binding Images}" SelectedIndex="0" SelectedItem="{Binding SelectedImage}">
-            <ListBox.InputBindings>
-                <KeyBinding Key="A" Modifiers="Control" Command="{Binding AddContour}"/>
-                <KeyBinding Key="D" Modifiers="Control" Command="{Binding DeleteContour}" CommandParameter="{Binding SelectedSlot}"/>
-                <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveToFile}"/>
-                <KeyBinding Key="Q" Modifiers="Control" Command="{Binding MarkEmptySlot}" CommandParameter="{Binding SelectedSlot}" />
-                <KeyBinding Key="W" Modifiers="Control" Command="{Binding MarkOccupiedSlot}" CommandParameter="{Binding SelectedSlot}"/>
-            </ListBox.InputBindings>
+                 ItemsSource="{Binding Images}" SelectedIndex="0" SelectedItem="{Binding SelectedImage}" Focusable="False" IsSynchronizedWithCurrentItem="True" SelectionChanged="ImageListBox_OnSelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Image
@@ -56,14 +51,7 @@
             </Button>
             <ListBox x:Name="Contour" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                      ItemsSource="{Binding SelectedImage.ParkingSlots}" SelectedItem="{Binding SelectedSlot}"
-                     HorizontalContentAlignment="Stretch" DockPanel.Dock="Top">
-                <ListBox.InputBindings>
-                    <KeyBinding Key="A" Modifiers="Control" Command="{Binding AddContour}"/>
-                    <KeyBinding Key="D" Modifiers="Control" Command="{Binding DeleteContour}" CommandParameter="{Binding SelectedSlot}"/>
-                    <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveToFile}"/>
-                    <KeyBinding Key="Q" Modifiers="Control" Command="{Binding MarkEmptySlot}" CommandParameter="{Binding SelectedSlot}" />
-                    <KeyBinding Key="W" Modifiers="Control" Command="{Binding MarkOccupiedSlot}" CommandParameter="{Binding SelectedSlot}"/>
-                </ListBox.InputBindings>
+                     HorizontalContentAlignment="Stretch" DockPanel.Dock="Top" Focusable="False">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -103,8 +91,7 @@
                 <Canvas >
                     <Image Name="PreviewImage" Source="{Binding Path=SelectedImage.ImagePath,
                         Converter={StaticResource UriToBitmapConverter},
-                        ConverterParameter=1000,
-                        IsAsync=True}" />
+                        ConverterParameter=1000}" />
 
                     <!--draw lines-->
                     <ItemsControl ItemsSource="{Binding SelectedImage.ParkingSlots}">
