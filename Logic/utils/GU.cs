@@ -125,20 +125,24 @@ namespace Logic.utils
 
         private static Rect GetContourRect(Contour contour, int height, int width)
         {
-            var minX = (int) Math.Floor(contour.Pts.Min(p => p.X));
-            var minY = (int) Math.Floor(contour.Pts.Min(p => p.Y));
-            var maxX = (int) Math.Ceiling(contour.Pts.Max(p => p.X));
-            var maxY = (int) Math.Ceiling(contour.Pts.Max(p => p.Y));
+            var minX = (int) Math.Floor(contour.Min(p => p.X));
+            var minY = (int) Math.Floor(contour.Min(p => p.Y));
+            var maxX = (int) Math.Ceiling(contour.Max(p => p.X));
+            var maxY = (int) Math.Ceiling(contour.Max(p => p.Y));
 
-            var valueBetwen = new Func<int, int, int, int>((value, min, max) =>
-                value < min
+            int ValueBetwen(int value, int min, int max)
+            {
+                return value < min
                     ? min
-                    : value > max ? max : value);
+                    : value > max
+                        ? max
+                        : value;
+            }
 
-            minX = valueBetwen(minX, 0, width - 1);
-            maxX = valueBetwen(maxX, 1, width);
-            minY = valueBetwen(minY, 0, height - 1);
-            maxY = valueBetwen(maxY, 1, height);
+            minX = ValueBetwen(minX, 0, width - 1);
+            maxX = ValueBetwen(maxX, 1, width);
+            minY = ValueBetwen(minY, 0, height - 1);
+            maxY = ValueBetwen(maxY, 1, height);
 
             return new Rect(minX, minY, maxX - minX, maxY - minY);
         }
