@@ -30,10 +30,5 @@ namespace Logic.Model
 
             #endregion
         }
-
-        public static Contour FromIEnumerable(IEnumerable<Point> list)
-        {
-            return new Contour(list);
-        }
     }
 }

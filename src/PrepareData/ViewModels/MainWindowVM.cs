@@ -85,7 +85,7 @@ namespace PrepareData.ViewModels
                     .Select(slot => new ParkingSlot()
                     {
                         IsOccupied = slot.IsOccupied,
-                        Contour = Contour.FromIEnumerable(slot.Pts
+                        Contour = new Contour(slot.Pts
                             .Select(point => new Contour.Point()
                             {
                                 X = point.X,
