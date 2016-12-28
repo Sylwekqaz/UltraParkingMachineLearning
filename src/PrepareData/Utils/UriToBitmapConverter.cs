@@ -14,6 +14,14 @@ namespace PrepareData.Utils
             {
                 bi.DecodePixelWidth = (int) parameter;
             }
+            if (parameter is string)
+            {
+                int val;
+                if (int.TryParse((string) parameter,out val))
+                {
+                    bi.DecodePixelWidth = val;
+                }
+            }
             bi.CacheOption = BitmapCacheOption.OnLoad;
             bi.UriSource = new Uri(value.ToString());
             bi.EndInit();
