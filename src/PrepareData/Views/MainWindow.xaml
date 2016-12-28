@@ -87,11 +87,11 @@
             </ListBox>
         </DockPanel>
         <Viewbox Grid.Column="2">
-            <Grid Height="{Binding Path=ActualHeight,ElementName=PreviewImage}" Width="{Binding Path=ActualWidth,ElementName=PreviewImage}">
+            <Grid Height="{Binding Path=Source.PixelHeight,ElementName=PreviewImage}" Width="{Binding Path=Source.PixelWidth,ElementName=PreviewImage}">
                 <Canvas >
                     <Image Name="PreviewImage" Source="{Binding Path=SelectedImage.ImagePath,
-                        Converter={StaticResource UriToBitmapConverter},
-                        ConverterParameter=1000}" />
+                        Converter={StaticResource UriToBitmapConverter}}" 
+                        Height="{Binding Path=Source.PixelHeight,ElementName=PreviewImage}" Width="{Binding Path=Source.PixelWidth,ElementName=PreviewImage}"/>
 
                     <!--draw lines-->
                     <ItemsControl ItemsSource="{Binding SelectedImage.ParkingSlots}">
@@ -121,10 +121,14 @@
                     </ItemsControl>
                 </Canvas>
                 <views:ContourManipulator VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Contour="{Binding SelectedSlot.Pts}"/>
-
             </Grid>
-
         </Viewbox>
-
+        <StackPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Orientation="Horizontal" Background="#33FFFFFF" >
+            <TextBlock>Dims:</TextBlock>
+            <TextBlock Text="{Binding Path=ActualWidth,ElementName=PreviewImage}"></TextBlock>
+            <TextBlock>x</TextBlock>
+            <TextBlock Text="{Binding Path=ActualHeight,ElementName=PreviewImage}"></TextBlock>
+        </StackPanel>
+        
     </Grid>
 </Window>
