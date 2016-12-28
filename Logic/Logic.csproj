@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LiteDB">
-      <HintPath>..\packages\LiteDB.2.0.2\lib\net35\LiteDB.dll</HintPath>
-    </Reference>
     <Reference Include="OpenCvSharp">
       <HintPath>..\packages\OpenCvSharp3-AnyCPU.3.1.0.20160622\lib\net45\OpenCvSharp.dll</HintPath>
     </Reference>
@@ -56,7 +53,6 @@
   <ItemGroup>
     <Compile Include="Classifiers\IClassifierr.cs" />
     <Compile Include="Model\Contour.cs" />
-    <Compile Include="Model\DbContext.cs" />
     <Compile Include="Model\ImageFeatures.cs" />
     <Compile Include="Model\ParkingSlot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
