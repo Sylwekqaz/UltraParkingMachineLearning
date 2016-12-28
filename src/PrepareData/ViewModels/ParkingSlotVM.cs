@@ -14,20 +14,16 @@ namespace PrepareData.ViewModels
     public class ParkingSlotVM : INotifyPropertyChanged
     {
         private ObservableCollection<Point> _pts;
-        private int _id;
         private bool _isOccupied;
 
         public ParkingSlotVM(ParkingSlot ps) : this()
         {
             IsOccupied = ps.IsOccupied;
-            Id = ps.Contour.Id;
-            Pts = new ObservableCollection<Point>(ps.Contour.Pts.Select(point => new Point()
+            Pts = new ObservableCollection<Point>(ps.Contour.Select(point => new Point()
             {
                 X = point.X,
                 Y = point.Y,
             }));
-
-
         }
 
         public ParkingSlotVM()
@@ -45,15 +41,6 @@ namespace PrepareData.ViewModels
             }
         }
 
-        public int Id
-        {
-            get { return _id; }
-            set
-            {
-                _id = value;
-                OnPropertyChanged(nameof(PtsCollection));
-            }
-        }
 
         public ObservableCollection<Point> Pts
         {
@@ -75,7 +62,6 @@ namespace PrepareData.ViewModels
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
         }
     }
 }

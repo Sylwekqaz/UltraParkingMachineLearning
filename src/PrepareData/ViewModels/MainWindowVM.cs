@@ -85,16 +85,13 @@ namespace PrepareData.ViewModels
                     .Select(slot => new ParkingSlot()
                     {
                         IsOccupied = slot.IsOccupied,
-                        Contour = new Contour()
-                        {
-                            Pts = slot.Pts
-                                .Select(point => new Contour.Point()
-                                {
-                                    X = point.X,
-                                    Y = point.Y,
-                                })
-                                .ToList()
-                        }
+                        Contour = Contour.FromIEnumerable(slot.Pts
+                            .Select(point => new Contour.Point()
+                            {
+                                X = point.X,
+                                Y = point.Y,
+                            }))
+
                     });
 
                 var json = JsonConvert.SerializeObject(data);

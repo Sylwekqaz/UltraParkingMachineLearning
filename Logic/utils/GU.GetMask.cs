@@ -9,7 +9,7 @@ namespace Logic.utils
     {
         public static Mat GetMask(IEnumerable<Contour> pts, int[] sizes, Scalar color, Scalar background)
         {
-            var ptss = pts.Where(c => c.Pts.Count > 0).Select(c => c.Pts.Select(p => (Point) p)).ToArray();
+            var ptss = pts.Where(c => c.Count > 0).Select(c => c.Select(p => (Point) p)).ToArray();
             var ret = new Mat(sizes, MatType.CV_8UC3, background);
 
             Cv2.FillPoly(ret, ptss, color);

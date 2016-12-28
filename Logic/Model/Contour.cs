@@ -2,15 +2,11 @@ using System.Collections.Generic;
 
 namespace Logic.Model
 {
-    public class Contour
+    public class Contour : List<Contour.Point>
     {
-        public Contour()
+        private Contour(IEnumerable<Point> list) :base(list)
         {
-            Pts = new List<Point>();
         }
-
-        public int Id { get; set; }
-        public List<Point> Pts { get; set; }
 
         public class Point
         {
@@ -29,6 +25,11 @@ namespace Logic.Model
             }
 
             #endregion
+        }
+
+        public static Contour FromIEnumerable(IEnumerable<Contour.Point> list)
+        {
+            return new Contour(list);
         }
     }
 }
