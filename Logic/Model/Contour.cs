@@ -4,7 +4,11 @@ namespace Logic.Model
 {
     public class Contour : List<Contour.Point>
     {
-        private Contour(IEnumerable<Point> list) :base(list)
+        public Contour()
+        {
+        }
+
+        public Contour(IEnumerable<Point> list) : base(list)
         {
         }
 
@@ -27,7 +31,7 @@ namespace Logic.Model
             #endregion
         }
 
-        public static Contour FromIEnumerable(IEnumerable<Contour.Point> list)
+        public static Contour FromIEnumerable(IEnumerable<Point> list)
         {
             return new Contour(list);
         }
