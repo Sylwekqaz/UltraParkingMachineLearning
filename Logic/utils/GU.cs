@@ -32,7 +32,7 @@ namespace Logic.utils
         {
             var rect = GetContourRect(contour, src.Height,src.Width);
 
-            var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
+            var mask = GetMask(contour, src.Size(), color: Scalar.White, background: Scalar.Black)
                 .Clone(rect)
                 .CvtColor(ColorConversionCodes.BGR2GRAY);
 
@@ -49,7 +49,7 @@ namespace Logic.utils
         {
             var rect = GetContourRect(contour, src.Height, src.Width);
 
-            var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
+            var mask = GetMask(contour, src.Size(), color: Scalar.White, background: Scalar.Black)
                 .Clone(rect)
                 .CvtColor(ColorConversionCodes.BGR2GRAY);
 
@@ -73,7 +73,7 @@ namespace Logic.utils
         {
             var rect = GetContourRect(contour, src.Height, src.Width);
 
-            var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
+            var mask = GetMask(contour, src.Size(), color: Scalar.White, background: Scalar.Black)
                 .Clone(rect)
                 .CvtColor(ColorConversionCodes.BGR2GRAY);
 
@@ -96,7 +96,7 @@ namespace Logic.utils
         {
             var rect = GetContourRect(contour, src.Height, src.Width);
 
-            return GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
+            return GetMask(contour, src.Size(), color: Scalar.White, background: Scalar.Black)
                 .Clone(rect)
                 .CvtColor(ColorConversionCodes.BGR2GRAY)
                 .Threshold(200, 255, ThresholdTypes.Binary)

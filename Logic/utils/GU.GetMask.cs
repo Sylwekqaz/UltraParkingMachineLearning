@@ -7,30 +7,30 @@ namespace Logic.utils
 {
     public static partial class Gu
     {
-        public static Mat GetMask(IEnumerable<Contour> pts, int[] sizes, Scalar color, Scalar background)
+        public static Mat GetMask(IEnumerable<Contour> pts, Size size, Scalar color, Scalar background)
         {
             var ptss = pts.Where(c => c.Count > 0).Select(c => c.Select(p => (Point) p)).ToArray();
-            var ret = new Mat(sizes, MatType.CV_8UC3, background);
+            var ret = new Mat(size, MatType.CV_8UC3, background);
 
             Cv2.FillPoly(ret, ptss, color);
             return ret;
         }
 
-        public static Mat GetMask(IEnumerable<Contour> pts, int[] sizes, Scalar color)
+        public static Mat GetMask(IEnumerable<Contour> pts, Size size, Scalar color)
         {
-            return GetMask(pts, sizes, color, Scalar.Black);
+            return GetMask(pts, size, color, Scalar.Black);
         }
 
-        public static Mat GetMask(Contour contour, int[] sizes, Scalar color)
+        public static Mat GetMask(Contour contour, Size size, Scalar color)
         {
-            return GetMask(new[] {contour}, sizes, color);
+            return GetMask(new[] {contour}, size, color);
         }
 
        
 
-        public static Mat GetMask(Contour contour, int[] sizes, Scalar color, Scalar background)
+        public static Mat GetMask(Contour contour, Size size, Scalar color, Scalar background)
         {
-            return GetMask(new[] {contour}, sizes, color, background);
+            return GetMask(new[] {contour}, size, color, background);
         }
     }
 }
