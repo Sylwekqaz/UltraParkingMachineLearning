@@ -10,21 +10,22 @@ namespace Logic.utils
     {
         public static Mat AddLayers(params Mat[] mats)
         {
-            if (mats.Length == 1)
+            throw new NotImplementedException(); //check implementation 
+            return mats.Aggregate((mat1, mat2) =>
             {
-                return mats[0];
-            }
-
-            var ret = new Mat();
-            var layers = AddLayers(mats.Skip(1).ToArray());
-            Cv2.Add(mats.First(), layers, ret);
-            return ret;
+                var ret = new Mat();
+                Cv2.Add(mat1, mat2, ret);
+                return ret;
+            });
         }
 
-        public static Mat DetectEdges(this Mat src)
+        public static Mat DetectEdges(this Mat src, double sigma = 0.33)
         {
-            return src.CvtColor(ColorConversionCodes.BGR2GRAY)
-                .Canny(40, 50);
+            var graySrc = src.CvtColor(ColorConversionCodes.BGR2GRAY);
+            Cv2.MeanStdDev(graySrc, out var mean, out var stddev);
+            var lower = (int) Math.Max(0, (1.0 - sigma) * mean[0]);
+            var upper = (int) Math.Min(255, (1.0 + sigma) * mean[0]);
+            return graySrc.Canny(lower, upper);
         }
 
         public static int CountEdgePixels(Contour contour, Mat src)
@@ -33,41 +34,32 @@ namespace Logic.utils
 
             var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
                 .Clone(rect)
-                .CvtColor(ColorConversionCodes.BGR2GRAY)
-                .Threshold(200,255, ThresholdTypes.Binary);
+                .CvtColor(ColorConversionCodes.BGR2GRAY);
 
-            var satMat = src
+            return src
                 .Clone(rect)
                 .DetectEdges()
                 .BitwiseAnd(mask)
-                .Threshold(100, 255, ThresholdTypes.Binary);
-
-            var white = Cv2.CountNonZero(satMat);
-
-            return white;
+                .Threshold(100, 255, ThresholdTypes.Binary)
+                .CountNonZero();
         }
 
 
         public static int CountSaturationPixels(Contour contour, Mat src)
         {
-            var rect = GetContourRect(contour,src.Height,src.Width);
+            var rect = GetContourRect(contour, src.Height, src.Width);
 
             var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
                 .Clone(rect)
-                .CvtColor(ColorConversionCodes.BGR2GRAY)
-                .Threshold(200, 255, ThresholdTypes.Binary);
+                .CvtColor(ColorConversionCodes.BGR2GRAY);
 
-            var satMat = src
+            return src
                 .Clone(rect)
                 .CvtColor(ColorConversionCodes.BGR2HSV)
                 .ScaleSaturationWithValue() // returns only saturation layer
                 .BitwiseAnd(mask)
-                .Threshold(100, 255, ThresholdTypes.Binary);
-
-
-            var white = Cv2.CountNonZero(satMat);
-
-            return white;
+                .Threshold(100, 255, ThresholdTypes.Binary)
+                .CountNonZero();
         }
 
         /// <summary>
@@ -104,13 +96,11 @@ namespace Logic.utils
         {
             var rect = GetContourRect(contour, src.Height, src.Width);
 
-            var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
+            return GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
                 .Clone(rect)
                 .CvtColor(ColorConversionCodes.BGR2GRAY)
-                .Threshold(200, 255, ThresholdTypes.Binary);
-
-            var white = Cv2.CountNonZero(mask);
-            return white;
+                .Threshold(200, 255, ThresholdTypes.Binary)
+                .CountNonZero();
         }
 
         /// <summary>
