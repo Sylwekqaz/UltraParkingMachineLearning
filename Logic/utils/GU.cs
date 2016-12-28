@@ -2,6 +2,7 @@
 using System.Linq;
 using Logic.Model;
 using OpenCvSharp;
+using OpenCvSharp.Extensions;
 
 namespace Logic.utils
 {
@@ -67,6 +68,36 @@ namespace Logic.utils
             var white = Cv2.CountNonZero(satMat);
 
             return white;
+        }
+
+        /// <summary>
+        /// Returns EX and DX (Mean and Standard Derivation) for saturation and value layers in HSV color model with values from 0.0 to 1.0 (not 0-255)
+        /// </summary>
+        /// <param name="contour"></param>
+        /// <param name="src"></param>
+        /// <returns></returns>
+        public static ((float mean, float stddev) saturation, (float mean, float stddev) value) GetHSVColorStats(
+            Contour contour, Mat src)
+        {
+            var rect = GetContourRect(contour, src.Height, src.Width);
+
+            var mask = GetMask(contour, src.GetSizes(), color: Scalar.White, background: Scalar.Black)
+                .Clone(rect)
+                .CvtColor(ColorConversionCodes.BGR2GRAY);
+
+            var layers = src.Clone(rect)
+                .CvtColor(ColorConversionCodes.BGR2HSV)
+                .Split();
+
+            (float mean, float stddev) LocalMeanStdDev(Mat area)
+            {
+                Cv2.MeanStdDev(area, out var scalarMean, out var scalarStddev, mask);
+                var mean = (float) (scalarMean[0] / 255);
+                var stddev = (float) (scalarStddev[0] / 255);
+                return (mean, stddev);
+            }
+
+            return (LocalMeanStdDev(layers[1])/*saturation layer*/, LocalMeanStdDev(layers[2])/* value layer*/);
         }
 
         public static int CountMaskArea(Contour contour, Mat src)
