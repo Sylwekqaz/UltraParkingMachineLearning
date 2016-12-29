@@ -2,7 +2,6 @@
 using System.Linq;
 using Logic.Model;
 using OpenCvSharp;
-using OpenCvSharp.Extensions;
 
 namespace Logic.utils
 {
