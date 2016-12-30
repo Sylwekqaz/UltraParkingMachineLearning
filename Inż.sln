@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra.MachineLearning", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra.Contract", "src\Ultra.Contract\Ultra.Contract.csproj", "{DE3A1472-6A80-4700-9A14-3CECEA8A7617}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra.IO", "Ultra.IO\Ultra.IO.csproj", "{A0F20716-63D9-4935-B41F-9FD547BACC42}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra.IO", "src\Ultra.IO\Ultra.IO.csproj", "{A0F20716-63D9-4935-B41F-9FD547BACC42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

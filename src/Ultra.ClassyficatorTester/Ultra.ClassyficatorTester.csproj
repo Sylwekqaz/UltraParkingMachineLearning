@@ -86,7 +86,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Ultra.IO\Ultra.IO.csproj">
+    <ProjectReference Include="..\Ultra.IO\Ultra.IO.csproj">
       <Project>{A0F20716-63D9-4935-B41F-9FD547BACC42}</Project>
       <Name>Ultra.IO</Name>
     </ProjectReference>
