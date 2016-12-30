@@ -16,6 +16,7 @@ namespace ClassyficatorTester
         static void Main(string[] args)
         {
             var observations = GetObservations().ToList();
+            Console.WriteLine($"Liczba obserwacji: {observations.Count}");
 
             var confusionMatrix = CrossValidation(observations, iterations: 1000, splitPercent: 0.7);
             Console.WriteLine(confusionMatrix);
