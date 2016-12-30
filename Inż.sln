@@ -34,9 +34,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrepareData", "src\PrepareD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassyficatorTester", "src\ClassyficatorTester\ClassyficatorTester.csproj", "{C775CCEB-F69A-4294-B327-48CC54F5ADA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contract", "src\Contract\Contract.csproj", "{DE3A1472-6A80-4700-9A14-3CECEA8A7617}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra.MachineLearning", "src\Ultra.MachineLearning\Ultra.MachineLearning.csproj", "{0AE25555-41AB-4836-A740-4B27E05EFA99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra.Contract", "src\Ultra.Contract\Ultra.Contract.csproj", "{DE3A1472-6A80-4700-9A14-3CECEA8A7617}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,14 +56,14 @@ Global
 		{C775CCEB-F69A-4294-B327-48CC54F5ADA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C775CCEB-F69A-4294-B327-48CC54F5ADA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C775CCEB-F69A-4294-B327-48CC54F5ADA9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DE3A1472-6A80-4700-9A14-3CECEA8A7617}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE3A1472-6A80-4700-9A14-3CECEA8A7617}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE3A1472-6A80-4700-9A14-3CECEA8A7617}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE3A1472-6A80-4700-9A14-3CECEA8A7617}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0AE25555-41AB-4836-A740-4B27E05EFA99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0AE25555-41AB-4836-A740-4B27E05EFA99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AE25555-41AB-4836-A740-4B27E05EFA99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AE25555-41AB-4836-A740-4B27E05EFA99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE3A1472-6A80-4700-9A14-3CECEA8A7617}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE3A1472-6A80-4700-9A14-3CECEA8A7617}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE3A1472-6A80-4700-9A14-3CECEA8A7617}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE3A1472-6A80-4700-9A14-3CECEA8A7617}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

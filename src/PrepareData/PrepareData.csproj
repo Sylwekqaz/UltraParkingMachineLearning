@@ -128,9 +128,9 @@
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Contract\Contract.csproj">
-      <Project>{DE3A1472-6A80-4700-9A14-3CECEA8A7617}</Project>
-      <Name>Contract</Name>
+    <ProjectReference Include="..\Ultra.Contract\Ultra.Contract.csproj">
+      <Project>{de3a1472-6a80-4700-9a14-3cecea8a7617}</Project>
+      <Name>Ultra.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

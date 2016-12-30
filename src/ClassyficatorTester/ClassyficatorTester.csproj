@@ -86,9 +86,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Contract\Contract.csproj">
+    <ProjectReference Include="..\Ultra.Contract\Ultra.Contract.csproj">
       <Project>{DE3A1472-6A80-4700-9A14-3CECEA8A7617}</Project>
-      <Name>Contract</Name>
+      <Name>Ultra.Contract</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ultra.MachineLearning\Ultra.MachineLearning.csproj">
       <Project>{0AE25555-41AB-4836-A740-4B27E05EFA99}</Project>

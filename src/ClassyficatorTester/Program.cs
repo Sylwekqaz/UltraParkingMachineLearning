@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Contract.Model;
+using Ultra.Contract.Model;
 using Newtonsoft.Json;
 using OpenCvSharp;
 using Ultra.MachineLearning;

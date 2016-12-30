@@ -1,4 +1,4 @@
-﻿namespace Contract.Model
+﻿namespace Ultra.Contract.Model
 {
     public class ParkingSlot
     {

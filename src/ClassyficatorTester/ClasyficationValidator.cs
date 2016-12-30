@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Contract.Model;
+using Ultra.Contract.Model;
 using Ultra.MachineLearning.Classifiers;
 
 namespace ClassyficatorTester

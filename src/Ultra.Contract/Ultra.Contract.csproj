@@ -7,8 +7,8 @@
     <ProjectGuid>{DE3A1472-6A80-4700-9A14-3CECEA8A7617}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Contract</RootNamespace>
-    <AssemblyName>Contract</AssemblyName>
+    <RootNamespace>Ultra.Contract</RootNamespace>
+    <AssemblyName>Ultra.Contract</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

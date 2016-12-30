@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Contract;
-using Contract.Model;
+using Ultra.Contract;
+using Ultra.Contract.Model;
 using OpenCvSharp;
 using OpenCvSharp.ML;
 

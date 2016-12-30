@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Contract.Model;
+using Ultra.Contract.Model;
 using OpenCvSharp;
 
 namespace Ultra.MachineLearning

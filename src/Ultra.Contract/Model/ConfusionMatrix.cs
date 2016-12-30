@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Contract.Model
+namespace Ultra.Contract.Model
 {
     public struct ConfusionMatrix
     {

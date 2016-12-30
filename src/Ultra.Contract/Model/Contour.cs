@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Contract.Model
+namespace Ultra.Contract.Model
 {
     public class Contour : List<Contour.Point>
     {

@@ -1,6 +1,6 @@
-﻿using Contract.Model;
+﻿using Ultra.Contract.Model;
 
-namespace Contract
+namespace Ultra.Contract
 {
     public interface IClassifier
     {
