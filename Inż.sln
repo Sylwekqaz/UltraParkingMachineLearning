@@ -32,7 +32,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "DataSet", "DataSet\", "{A6F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrepareData", "src\Ultra.PrepareData\Ultra.PrepareData.csproj", "{AF6105D0-35B4-4735-9649-DEE279D5E557}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassyficatorTester", "src\ClassyficatorTester\ClassyficatorTester.csproj", "{C775CCEB-F69A-4294-B327-48CC54F5ADA9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassyficatorTester", "src\Ultra.ClassyficatorTester\Ultra.ClassyficatorTester.csproj", "{C775CCEB-F69A-4294-B327-48CC54F5ADA9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra.MachineLearning", "src\Ultra.MachineLearning\Ultra.MachineLearning.csproj", "{0AE25555-41AB-4836-A740-4B27E05EFA99}"
 EndProject

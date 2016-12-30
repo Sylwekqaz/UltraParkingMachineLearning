@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using OpenCvSharp;
 using Ultra.MachineLearning;
 using static ClassyficatorTester.StatusBar;
-using static ClassyficatorTester.ClasyficationValidator;
+using static Ultra.ClassyficatorTester.ClassificationValidator;
 
 namespace ClassyficatorTester
 {

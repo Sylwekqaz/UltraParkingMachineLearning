@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using ClassyficatorTester;
 using Ultra.Contract.Model;
 using Ultra.MachineLearning.Classifiers;
 
-namespace ClassyficatorTester
+namespace Ultra.ClassyficatorTester
 {
-    public static class ClasyficationValidator
+    public static class ClassificationValidator
     {
         public static ConfusionMatrix Validate(List<ImageFeatures> train, List<ImageFeatures> validation)
         {
