@@ -10,6 +10,7 @@ using Logic.utils;
 using Newtonsoft.Json;
 using OpenCvSharp;
 using static ClassyficatorTester.StatusBar;
+using static ClassyficatorTester.ClasyficationValidator;
 
 namespace ClassyficatorTester
 {
@@ -19,19 +20,7 @@ namespace ClassyficatorTester
         {
             var observations = GetObservations().ToList();
 
-            double tp = 0;
-            double tn = 0;
-            double fp = 0;
-            double fn = 0;
-            for (int i = 0; i < 20; i++)
-            {
-                var tuple = observations.Shuffle().Split(0.7);
-                var result = ValidateClassyficator(tuple.Item1, tuple.Item2);
-                tp += result.Item1;
-                tn += result.Item2;
-                fp += result.Item3;
-                fn += result.Item4;
-            }
+            var (tp,tn,fp,fn) = CrossValidation(observations, iterations: 1000,splitPercent: 0.7);
 
             //print tp
             Console.WriteLine($"True Positive: {tp}");
@@ -48,26 +37,8 @@ namespace ClassyficatorTester
             Console.ReadKey();
         }
 
-        private static Tuple<double, double, double, double> ValidateClassyficator(List<ImageFeatures> train, List<ImageFeatures> validation)
-        {
-            var smvClassifier = SMVClassifier.Create(train);
+        
 
-            double tp = 0, tn = 0, fp = 0, fn = 0;
-            foreach (var validationObservation in validation)
-            {
-                var predict = smvClassifier.Predict(validationObservation);
-                if (predict)
-                    if (validationObservation.IsOccupied)
-                        tp++;
-                    else
-                        fp++;
-                else if (validationObservation.IsOccupied)
-                    fn++;
-                else
-                    tn++;
-            }
-            return new Tuple<double,double,double,double>(tp,tn,fp,fn);
-        }
 
         private static IEnumerable<ImageFeatures> GetObservations()
         {
