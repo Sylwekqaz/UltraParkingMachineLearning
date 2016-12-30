@@ -7,17 +7,6 @@ namespace Logic.utils
 {
     public static partial class Gu
     {
-        public static Mat AddLayers(params Mat[] mats)
-        {
-            throw new NotImplementedException(); //check implementation 
-            return mats.Aggregate((mat1, mat2) =>
-            {
-                var ret = new Mat();
-                Cv2.Add(mat1, mat2, ret);
-                return ret;
-            });
-        }
-
         public static Mat DetectEdges(this Mat src, double sigma = 0.33)
         {
             var graySrc = src.CvtColor(ColorConversionCodes.BGR2GRAY);
