@@ -19,13 +19,23 @@ namespace Ultra.IO
             return Directory.EnumerateFiles(directoryPath)
                 .Where(path => extensions
                     .Any(ext => ext.Equals(Path.GetExtension(path), StringComparison.InvariantCultureIgnoreCase)))
+                .Select(Path.GetFullPath)
                 .ToList();
         }
 
-        public static List<ParkingSlot> GetSlots(string path)
+        public static List<ParkingSlot> LoadSlots(string path)
         {
             var jsonPath = Path.ChangeExtension(path, ".json");
-            return JsonConvert.DeserializeObject<List<ParkingSlot>>(File.ReadAllText(jsonPath));
+            return File.Exists(jsonPath)
+                ? JsonConvert.DeserializeObject<List<ParkingSlot>>(File.ReadAllText(jsonPath))
+                : new List<ParkingSlot>();
+        }
+
+        public static void SaveSlots(string path, IEnumerable<ParkingSlot> slots)
+        {
+            var jsonPath = Path.ChangeExtension(path, ".json");
+            var json = JsonConvert.SerializeObject(slots);
+            File.WriteAllText(jsonPath, json);
         }
 
         public static IEnumerable<ImageFeatures> GetObservations(Action<int, int> reportProgres = null)
@@ -37,7 +47,7 @@ namespace Ultra.IO
             {
                 using (var image = new Mat(path))
                 {
-                    foreach (var slot in GetSlots(path))
+                    foreach (var slot in LoadSlots(path))
                     {
                         var calculateFeatures = image.CalculateFeatures(slot.Contour, slot.IsOccupied);
                         GC.Collect();

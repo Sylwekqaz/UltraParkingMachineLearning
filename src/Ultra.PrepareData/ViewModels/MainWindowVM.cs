@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using PropertyChanged;
 using Ultra.Contract.Model;
+using Ultra.IO;
 using Ultra.PrepareData.Utils;
 
 namespace Ultra.PrepareData.ViewModels
@@ -91,18 +92,13 @@ namespace Ultra.PrepareData.ViewModels
                             }))
                     });
 
-                var json = JsonConvert.SerializeObject(data);
-                File.WriteAllText(imageVM.JsonPath, json);
+                FeatureLoader.SaveSlots(imageVM.ImagePath,data);
             }
         }
 
         private void LoadFromFile(string directoryPath)
         {
-            string[] extensions = {".png", ".jpg", ".jpeg", ".bmp"};
-
-            var files = Directory.EnumerateFiles(directoryPath)
-                .Where(path => extensions
-                    .Any(ext => ext.Equals(Path.GetExtension(path), StringComparison.InvariantCultureIgnoreCase)))
+            var files = FeatureLoader.GetPhotos()
                 .Select(path => new ImageVM(path));
 
             Images = new ObservableCollection<ImageVM>(files);

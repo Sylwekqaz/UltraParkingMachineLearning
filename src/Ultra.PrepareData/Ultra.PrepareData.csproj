@@ -128,6 +128,10 @@
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Ultra.IO\Ultra.IO.csproj">
+      <Project>{A0F20716-63D9-4935-B41F-9FD547BACC42}</Project>
+      <Name>Ultra.IO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ultra.Contract\Ultra.Contract.csproj">
       <Project>{de3a1472-6a80-4700-9a14-3cecea8a7617}</Project>
       <Name>Ultra.Contract</Name>

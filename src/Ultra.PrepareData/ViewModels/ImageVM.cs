@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using PropertyChanged;
 using Ultra.Contract.Model;
+using Ultra.IO;
 
 namespace Ultra.PrepareData.ViewModels
 {
@@ -14,19 +15,8 @@ namespace Ultra.PrepareData.ViewModels
         public ImageVM(string imagePath)
         {
             ImagePath = imagePath;
-
-            if (File.Exists(JsonPath))
-            {
-                ParkingSlots =
-                    new ObservableCollection<ParkingSlotVM>(
-                        JsonConvert.DeserializeObject<List<ParkingSlot>>(File.ReadAllText(JsonPath))
-                        .Select(ps => new ParkingSlotVM(ps)));
-            }
-            else
-            {
-                ParkingSlots = new ObservableCollection<ParkingSlotVM>();
-            }
-
+            var slots = FeatureLoader.LoadSlots(imagePath).Select(ps => new ParkingSlotVM(ps));
+            ParkingSlots = new ObservableCollection<ParkingSlotVM>(slots);
         }
 
         public string ImagePath { get; set; }
