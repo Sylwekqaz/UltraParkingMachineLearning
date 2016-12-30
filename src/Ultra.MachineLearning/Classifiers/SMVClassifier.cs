@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using Contract;
 using Contract.Model;
-using Logic.utils;
 using OpenCvSharp;
 using OpenCvSharp.ML;
 
-namespace Logic.Classifiers
+namespace Ultra.MachineLearning.Classifiers
 {
     public class SMVClassifier : IClassifier
     {

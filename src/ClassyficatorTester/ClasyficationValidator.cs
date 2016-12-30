@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Contract.Model;
-using Logic.Classifiers;
+using Ultra.MachineLearning.Classifiers;
 
 namespace ClassyficatorTester
 {

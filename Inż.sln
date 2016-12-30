@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Turski_Sylwester_INZ.md = Turski_Sylwester_INZ.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{50E8FD66-DED2-46FA-A3E3-2B6D371B7524}"
-EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "DataSet", "DataSet\", "{A6F6B544-98FA-4D8F-A1FA-57726F553112}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
@@ -38,16 +36,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassyficatorTester", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contract", "src\Contract\Contract.csproj", "{DE3A1472-6A80-4700-9A14-3CECEA8A7617}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra.MachineLearning", "src\Ultra.MachineLearning\Ultra.MachineLearning.csproj", "{0AE25555-41AB-4836-A740-4B27E05EFA99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{50E8FD66-DED2-46FA-A3E3-2B6D371B7524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50E8FD66-DED2-46FA-A3E3-2B6D371B7524}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50E8FD66-DED2-46FA-A3E3-2B6D371B7524}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50E8FD66-DED2-46FA-A3E3-2B6D371B7524}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A6F6B544-98FA-4D8F-A1FA-57726F553112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6F6B544-98FA-4D8F-A1FA-57726F553112}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6F6B544-98FA-4D8F-A1FA-57726F553112}.Release|Any CPU.ActiveCfg = Debug|Any CPU
@@ -64,6 +60,10 @@ Global
 		{DE3A1472-6A80-4700-9A14-3CECEA8A7617}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE3A1472-6A80-4700-9A14-3CECEA8A7617}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE3A1472-6A80-4700-9A14-3CECEA8A7617}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AE25555-41AB-4836-A740-4B27E05EFA99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AE25555-41AB-4836-A740-4B27E05EFA99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AE25555-41AB-4836-A740-4B27E05EFA99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AE25555-41AB-4836-A740-4B27E05EFA99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

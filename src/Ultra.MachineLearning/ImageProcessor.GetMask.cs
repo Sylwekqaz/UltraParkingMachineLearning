@@ -3,9 +3,9 @@ using System.Linq;
 using Contract.Model;
 using OpenCvSharp;
 
-namespace Logic.utils
+namespace Ultra.MachineLearning
 {
-    public static partial class Gu
+    public static partial class ImageProcessor
     {
         public static Mat GetMask(IEnumerable<Contour> pts, Size size, Scalar color, Scalar background)
         {

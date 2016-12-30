@@ -1,8 +1,8 @@
 ﻿using OpenCvSharp;
 
-namespace Logic.utils
+namespace Ultra.MachineLearning
 {
-    public partial class Gu
+    public partial class ImageProcessor
     {
         public static Mat BitwiseAnd(this Mat mat1,Mat mat2)
         {

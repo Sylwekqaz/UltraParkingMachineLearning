@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Contract.Model;
-using Logic.Classifiers;
-using Logic.utils;
 using Newtonsoft.Json;
 using OpenCvSharp;
+using Ultra.MachineLearning;
 using static ClassyficatorTester.StatusBar;
 using static ClassyficatorTester.ClasyficationValidator;
 
@@ -20,14 +17,11 @@ namespace ClassyficatorTester
         {
             var observations = GetObservations().ToList();
 
-            var confusionMatrix = CrossValidation(observations, iterations: 1000,splitPercent: 0.7);
+            var confusionMatrix = CrossValidation(observations, iterations: 1000, splitPercent: 0.7);
             Console.WriteLine(confusionMatrix);
 
             Console.ReadKey();
         }
-
-        
-
 
         private static IEnumerable<ImageFeatures> GetObservations()
         {
@@ -57,7 +51,7 @@ namespace ClassyficatorTester
                 }
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-                DrawTextProgressBar(files.IndexOf(path)+1, files.Count);
+                DrawTextProgressBar(files.IndexOf(path) + 1, files.Count);
             }
             Console.WriteLine();
         }

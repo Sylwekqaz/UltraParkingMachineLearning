@@ -128,10 +128,6 @@
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Logic\Logic.csproj">
-      <Project>{50E8FD66-DED2-46FA-A3E3-2B6D371B7524}</Project>
-      <Name>Logic</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Contract\Contract.csproj">
       <Project>{DE3A1472-6A80-4700-9A14-3CECEA8A7617}</Project>
       <Name>Contract</Name>

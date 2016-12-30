@@ -4,21 +4,21 @@ using System.Linq;
 using Contract.Model;
 using OpenCvSharp;
 
-namespace Logic.utils
+namespace Ultra.MachineLearning
 {
     public static class ImageFeaturesExtensions
     {
         public static ImageFeatures CalculateFeatures(this Mat mat, Contour contour, bool isOccupied)
         {
-            var hsvColorStats = Gu.GetHSVColorStats(contour, mat);
+            var hsvColorStats = ImageProcessor.GetHSVColorStats(contour, mat);
 
             var features = new ImageFeatures
             {
                 IsOccupied = isOccupied,
                 // counted edges and saturated pixels
-                EdgePixels = Gu.CountEdgePixels(contour, mat),
-                SaturatedPixels = Gu.CountSaturationPixels(contour, mat),
-                MaskPixels = Gu.CountMaskArea(contour, mat),
+                EdgePixels = ImageProcessor.CountEdgePixels(contour, mat),
+                SaturatedPixels = ImageProcessor.CountSaturationPixels(contour, mat),
+                MaskPixels = ImageProcessor.CountMaskArea(contour, mat),
                 //hsv stats
                 SaturationMean = hsvColorStats.Item1.Item1,
                 SaturationStddev = hsvColorStats.Item1.Item2,
