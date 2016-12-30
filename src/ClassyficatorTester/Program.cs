@@ -20,19 +20,8 @@ namespace ClassyficatorTester
         {
             var observations = GetObservations().ToList();
 
-            var (tp,tn,fp,fn) = CrossValidation(observations, iterations: 1000,splitPercent: 0.7);
-
-            //print tp
-            Console.WriteLine($"True Positive: {tp}");
-            Console.WriteLine($"True Negative: {tn}");
-            Console.WriteLine($"False Positive: {fp}");
-            Console.WriteLine($"False Negative: {fn}");
-            Console.WriteLine();
-            // print ratio
-            Console.WriteLine($"Sensitivity TPR: {tp/(tp+fn)}");
-            Console.WriteLine($"Sensitivity TNR: {tn/(tn+fp)}");
-            Console.WriteLine($"Accuracy ACC: {(tp+tn)/(tp+tn+fp+fn)}");
-
+            var confusionMatrix = CrossValidation(observations, iterations: 1000,splitPercent: 0.7);
+            Console.WriteLine(confusionMatrix);
 
             Console.ReadKey();
         }
