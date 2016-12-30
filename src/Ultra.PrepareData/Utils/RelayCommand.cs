@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace PrepareData.Utils
+namespace Ultra.PrepareData.Utils
 {
     public class RelayCommand<T> : ICommand
     {

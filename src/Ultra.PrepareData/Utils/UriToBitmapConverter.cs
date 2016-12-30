@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
-namespace PrepareData.Utils
+namespace Ultra.PrepareData.Utils
 {
     public class UriToBitmapConverter : IValueConverter
     {

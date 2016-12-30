@@ -2,11 +2,11 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using Ultra.Contract.Model;
 using Newtonsoft.Json;
 using PropertyChanged;
+using Ultra.Contract.Model;
 
-namespace PrepareData.ViewModels
+namespace Ultra.PrepareData.ViewModels
 {
     [ImplementPropertyChanged]
     public class ImageVM

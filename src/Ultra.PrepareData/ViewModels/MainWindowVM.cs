@@ -2,12 +2,12 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using Ultra.Contract.Model;
 using Newtonsoft.Json;
-using PrepareData.Utils;
 using PropertyChanged;
+using Ultra.Contract.Model;
+using Ultra.PrepareData.Utils;
 
-namespace PrepareData.ViewModels
+namespace Ultra.PrepareData.ViewModels
 {
     [ImplementPropertyChanged]
     public class MainWindowVM

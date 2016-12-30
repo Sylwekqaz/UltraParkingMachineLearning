@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using PrepareData.Utils;
+using Ultra.PrepareData.Utils;
 
-namespace PrepareData.Views
+namespace Ultra.PrepareData.Views
 {
     /// <summary>
     /// Interaction logic for ContourManipulator.xaml

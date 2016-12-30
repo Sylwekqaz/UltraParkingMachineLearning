@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace PrepareData.Utils
+namespace Ultra.PrepareData.Utils
 {
     public static class PointUtils
     {

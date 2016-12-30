@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
 
-namespace PrepareData.Utils
+namespace Ultra.PrepareData.Utils
 {
     [MarkupExtensionReturnType(typeof(ICommand))]
     public class CommandBindingExtension : MarkupExtension
