@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Logic.Model;
+using Contract;
+using Contract.Model;
 using Logic.utils;
 using OpenCvSharp;
 using OpenCvSharp.ML;

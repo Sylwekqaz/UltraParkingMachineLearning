@@ -1,4 +1,4 @@
-﻿namespace Logic.Model
+﻿namespace Contract.Model
 {
     public class ParkingSlot
     {

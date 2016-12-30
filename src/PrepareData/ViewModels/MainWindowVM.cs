@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using Logic.Model;
+using Contract.Model;
 using Newtonsoft.Json;
 using PrepareData.Utils;
 using PropertyChanged;
@@ -19,20 +19,19 @@ namespace PrepareData.ViewModels
             AddContour = new RelayCommand<object>(AddSlotHandler, CanAddContour);
             DeleteContour = new RelayCommand<ParkingSlotVM>(DeleteSlotHandler);
             SaveToFile = new RelayCommand<object>(SaveToFileHandler);
-            MarkEmptySlot = new RelayCommand<ParkingSlotVM>(o => MarkSlot(o,occupied: false));
-            MarkOccupiedSlot = new RelayCommand<ParkingSlotVM>(o => MarkSlot(o,occupied: true));
+            MarkEmptySlot = new RelayCommand<ParkingSlotVM>(o => MarkSlot(o, occupied: false));
+            MarkOccupiedSlot = new RelayCommand<ParkingSlotVM>(o => MarkSlot(o, occupied: true));
             MoveNext = new RelayCommand<object>(o =>
             {
                 var i = Images.IndexOf(SelectedImage);
-                SelectedImage = Images[++i%Images.Count];
+                SelectedImage = Images[++i % Images.Count];
             });
             MovePrev = new RelayCommand<object>(o =>
             {
                 var i = Images.IndexOf(SelectedImage);
-                SelectedImage = Images[(--i+ Images.Count )% Images.Count];
+                SelectedImage = Images[(--i + Images.Count) % Images.Count];
             });
         }
-
 
 
         public ObservableCollection<ImageVM> Images { get; set; }
@@ -78,7 +77,6 @@ namespace PrepareData.ViewModels
 
         private void SaveToFileHandler(object o)
         {
-
             foreach (var imageVM in Images)
             {
                 var data = imageVM.ParkingSlots
@@ -91,7 +89,6 @@ namespace PrepareData.ViewModels
                                 X = point.X,
                                 Y = point.Y,
                             }))
-
                     });
 
                 var json = JsonConvert.SerializeObject(data);
@@ -101,7 +98,7 @@ namespace PrepareData.ViewModels
 
         private void LoadFromFile(string directoryPath)
         {
-            string[] extensions = { ".png", ".jpg", ".jpeg", ".bmp" };
+            string[] extensions = {".png", ".jpg", ".jpeg", ".bmp"};
 
             var files = Directory.EnumerateFiles(directoryPath)
                 .Where(path => extensions

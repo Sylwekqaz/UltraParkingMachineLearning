@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Logic.Model;
+using Contract.Model;
 using OpenCvSharp;
 
 namespace Logic.utils
@@ -9,7 +9,7 @@ namespace Logic.utils
     {
         public static Mat GetMask(IEnumerable<Contour> pts, Size size, Scalar color, Scalar background)
         {
-            var ptss = pts.Where(c => c.Count > 0).Select(c => c.Select(p => (Point) p)).ToArray();
+            var ptss = pts.Where(c => c.Count > 0).Select(c => c.Select(p => new Point(p.X,p.Y))).ToArray();
             var ret = new Mat(size, MatType.CV_8UC3, background);
 
             Cv2.FillPoly(ret, ptss, color);

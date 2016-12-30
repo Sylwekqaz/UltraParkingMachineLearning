@@ -1,6 +1,6 @@
-﻿using Logic.Model;
+﻿using Contract.Model;
 
-namespace Logic.Classifiers
+namespace Contract
 {
     public interface IClassifier
     {

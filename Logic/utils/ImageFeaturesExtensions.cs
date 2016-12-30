@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Logic.Model;
+using Contract.Model;
 using OpenCvSharp;
 
 namespace Logic.utils
@@ -10,21 +10,21 @@ namespace Logic.utils
     {
         public static ImageFeatures CalculateFeatures(this Mat mat, Contour contour, bool isOccupied)
         {
-
-            var features = new ImageFeatures();
-            features.IsOccupied = isOccupied;
-
-            // counted edges and saturated pixels
-            features.EdgePixels = Gu.CountEdgePixels(contour, mat);
-            features.SaturatedPixels = Gu.CountSaturationPixels(contour, mat);
-            features.MaskPixels = Gu.CountMaskArea(contour, mat);
-
-            //hsv stats
             var hsvColorStats = Gu.GetHSVColorStats(contour, mat);
-            features.SaturationMean = hsvColorStats.Item1.Item1;
-            features.SaturationStddev = hsvColorStats.Item1.Item2;
-            features.ValueMean = hsvColorStats.Item2.Item1;
-            features.ValueStddev = hsvColorStats.Item2.Item2;
+
+            var features = new ImageFeatures
+            {
+                IsOccupied = isOccupied,
+                // counted edges and saturated pixels
+                EdgePixels = Gu.CountEdgePixels(contour, mat),
+                SaturatedPixels = Gu.CountSaturationPixels(contour, mat),
+                MaskPixels = Gu.CountMaskArea(contour, mat),
+                //hsv stats
+                SaturationMean = hsvColorStats.Item1.Item1,
+                SaturationStddev = hsvColorStats.Item1.Item2,
+                ValueMean = hsvColorStats.Item2.Item1,
+                ValueStddev = hsvColorStats.Item2.Item2
+            };
 
             return features;
         }
@@ -67,7 +67,5 @@ namespace Logic.utils
 
             return new Mat(responses.Length, 1, MatType.CV_32SC1, responses);
         }
-
-
     }
 }

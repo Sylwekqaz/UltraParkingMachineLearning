@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using Logic.Model;
+using Contract.Model;
 using Newtonsoft.Json;
 using PropertyChanged;
 

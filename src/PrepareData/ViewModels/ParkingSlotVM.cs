@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Logic.Model;
 using System.Windows;
 using System.Windows.Media;
+using Contract.Model;
 using PropertyChanged;
 
 namespace PrepareData.ViewModels
