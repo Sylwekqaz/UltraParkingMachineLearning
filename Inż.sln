@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra.MachineLearning", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra.Contract", "src\Ultra.Contract\Ultra.Contract.csproj", "{DE3A1472-6A80-4700-9A14-3CECEA8A7617}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra.IO", "Ultra.IO\Ultra.IO.csproj", "{A0F20716-63D9-4935-B41F-9FD547BACC42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DE3A1472-6A80-4700-9A14-3CECEA8A7617}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE3A1472-6A80-4700-9A14-3CECEA8A7617}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE3A1472-6A80-4700-9A14-3CECEA8A7617}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0F20716-63D9-4935-B41F-9FD547BACC42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0F20716-63D9-4935-B41F-9FD547BACC42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0F20716-63D9-4935-B41F-9FD547BACC42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0F20716-63D9-4935-B41F-9FD547BACC42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

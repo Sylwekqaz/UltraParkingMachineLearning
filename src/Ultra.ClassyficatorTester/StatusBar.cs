@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ClassyficatorTester
+namespace Ultra.ClassyficatorTester
 {
     public static class StatusBar
     {

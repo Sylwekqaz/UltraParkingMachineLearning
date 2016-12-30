@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace ClassyficatorTester
+namespace Ultra.ClassyficatorTester
 {
     public static class LinqExtensions
     {

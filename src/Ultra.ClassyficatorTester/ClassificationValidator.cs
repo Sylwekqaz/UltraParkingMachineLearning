@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ClassyficatorTester;
 using Ultra.Contract.Model;
 using Ultra.MachineLearning.Classifiers;
 
