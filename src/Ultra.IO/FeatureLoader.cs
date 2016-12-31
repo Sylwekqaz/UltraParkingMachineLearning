@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CsvHelper;
 using Newtonsoft.Json;
 using OpenCvSharp;
 using Ultra.Contract.Model;
@@ -38,8 +39,13 @@ namespace Ultra.IO
             File.WriteAllText(jsonPath, json);
         }
 
-        public static IEnumerable<ImageFeatures> GetObservations(Action<int, int> reportProgres = null)
+        public static List<ImageFeatures> GetObservations(Action<int, int> reportProgres = null)
         {
+            if (LoadCacheObservations(out var observations))
+            {
+                return observations;
+            }
+            observations = new List<ImageFeatures>();
             var paths = GetPhotos();
             var progress = 0;
             reportProgres?.Invoke(progress, paths.Count);
@@ -52,12 +58,55 @@ namespace Ultra.IO
                         var calculateFeatures = image.CalculateFeatures(slot.Contour, slot.IsOccupied);
                         GC.Collect();
                         GC.WaitForPendingFinalizers();
-                        yield return calculateFeatures;
+                        observations.Add(calculateFeatures);
                     }
                     reportProgres?.Invoke(++progress, paths.Count);
                 }
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
+            }
+            SaveCacheObservations(observations);
+            return observations;
+        }
+
+        public static bool LoadCacheObservations(out List<ImageFeatures> observations)
+        {
+            string directoryPath = @"..\..\..\..\DataSet\PhoneCamera";
+            var csvPath = Path.Combine(directoryPath, "cachedFeatures.csv");
+            if (!File.Exists(csvPath))
+            {
+                observations = null;
+                return false;
+            }
+            try
+            {
+                using (var csv = new CsvReader(new StreamReader(csvPath)))
+                {
+                    csv.Configuration.Delimiter = ";";
+                    csv.Configuration.HasHeaderRecord = true;
+                    csv.Configuration.WillThrowOnMissingField = true;
+
+                    observations = csv.GetRecords<ImageFeatures>().ToList();
+                    return true;
+                }
+            }
+            catch (CsvHelperException)
+            {
+                observations = null;
+                return false;
+            }
+        }
+
+        public static void SaveCacheObservations(IEnumerable<ImageFeatures> observations)
+        {
+            string directoryPath = @"..\..\..\..\DataSet\PhoneCamera";
+            var csvPath = Path.Combine(directoryPath, "cachedFeatures.csv");
+            using (var csv = new CsvWriter(new StreamWriter(csvPath, append: false)))
+            {
+                csv.Configuration.Delimiter = ";";
+                csv.Configuration.HasHeaderRecord = true;
+
+                csv.WriteRecords(observations);
             }
         }
     }
