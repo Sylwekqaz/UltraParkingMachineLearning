@@ -9,8 +9,8 @@ namespace Ultra.ClassyficatorTester
     {
         static void Main(string[] args)
         {
-            var observations = FeatureLoader.GetObservations(StatusBar.DrawTextProgressBar).ToList();
-            Console.WriteLine();
+            var reloadCache = Prompt.YesNo("Odświerzyć cache?");
+            var observations = FeatureLoader.GetObservations(reloadCache,StatusBar.DrawTextProgressBar).ToList();
             Console.WriteLine($"Liczba obserwacji: {observations.Count}");
 
             var confusionMatrix = ClassificationValidator.CrossValidation(observations, iterations: 1000, splitPercent: 0.7);

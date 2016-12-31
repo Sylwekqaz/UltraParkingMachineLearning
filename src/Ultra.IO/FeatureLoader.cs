@@ -39,9 +39,9 @@ namespace Ultra.IO
             File.WriteAllText(jsonPath, json);
         }
 
-        public static List<ImageFeatures> GetObservations(Action<int, int> reportProgres = null)
+        public static List<ImageFeatures> GetObservations(bool reloadChache = false,Action<int, int> reportProgres = null)
         {
-            if (LoadCacheObservations(out var observations))
+            if (!reloadChache && LoadCacheObservations(out var observations))
             {
                 return observations;
             }
