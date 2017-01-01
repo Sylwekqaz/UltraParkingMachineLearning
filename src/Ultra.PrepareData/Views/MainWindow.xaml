@@ -25,13 +25,23 @@
         <KeyBinding Key="Tab" Modifiers="Control" Command="{Binding MovePrev}"/>
     </Window.InputBindings>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100" />
             <ColumnDefinition Width="100" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        <Menu Grid.Row="0" Grid.ColumnSpan="3">
+            <MenuItem Header="Dane">
+                <MenuItem Header="Wczytaj" Click="LoadDataMenuItem_OnClick"/>
+                <MenuItem Header="Zapisz" InputGestureText="CTRL+S" Command="{Binding SaveToFile}"/>
+            </MenuItem>
+        </Menu>
         <ListBox x:Name="ImageListBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                 ItemsSource="{Binding Images}" SelectedIndex="0" SelectedItem="{Binding SelectedImage}" Focusable="False" IsSynchronizedWithCurrentItem="True" SelectionChanged="ImageListBox_OnSelectionChanged">
+                 ItemsSource="{Binding Images}" SelectedIndex="0" SelectedItem="{Binding SelectedImage}" Focusable="False" IsSynchronizedWithCurrentItem="True" SelectionChanged="ImageListBox_OnSelectionChanged" Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Image
@@ -45,7 +55,7 @@
 
         </ListBox>
 
-        <DockPanel Grid.Column="1">
+        <DockPanel Grid.Column="1" Grid.Row="1">
             <Button DockPanel.Dock="Top" Command="{Binding AddContour}">
                 <fa:FontAwesome Icon="Plus" />
             </Button>
@@ -86,7 +96,7 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </DockPanel>
-        <Viewbox Grid.Column="2">
+        <Viewbox Grid.Column="2" Grid.Row="1">
             <Grid Height="{Binding Path=Source.PixelHeight,ElementName=PreviewImage}" Width="{Binding Path=Source.PixelWidth,ElementName=PreviewImage}">
                 <Canvas >
                     <Image Name="PreviewImage" Source="{Binding Path=SelectedImage.ImagePath,
@@ -123,12 +133,12 @@
                 <views:ContourManipulator VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Contour="{Binding SelectedSlot.Pts}"/>
             </Grid>
         </Viewbox>
-        <StackPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Orientation="Horizontal" Background="#33FFFFFF" >
+        <StackPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Orientation="Horizontal" Background="#33FFFFFF" Grid.Row="1" >
             <TextBlock>Dims:</TextBlock>
             <TextBlock Text="{Binding Path=ActualWidth,ElementName=PreviewImage}"></TextBlock>
             <TextBlock>x</TextBlock>
             <TextBlock Text="{Binding Path=ActualHeight,ElementName=PreviewImage}"></TextBlock>
         </StackPanel>
-        
+
     </Grid>
 </Window>

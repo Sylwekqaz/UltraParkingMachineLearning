@@ -15,8 +15,6 @@ namespace Ultra.PrepareData.ViewModels
     {
         public MainWindowVM()
         {
-            LoadFromFile(Properties.Settings.Default.DataSetPath);
-
             AddContour = new RelayCommand<object>(AddSlotHandler, CanAddContour);
             DeleteContour = new RelayCommand<ParkingSlotVM>(DeleteSlotHandler);
             SaveToFile = new RelayCommand<object>(SaveToFileHandler);
@@ -76,7 +74,7 @@ namespace Ultra.PrepareData.ViewModels
             return SelectedImage != null;
         }
 
-        private void SaveToFileHandler(object o)
+        public void SaveToFileHandler(object o)
         {
             foreach (var imageVM in Images)
             {
@@ -96,7 +94,7 @@ namespace Ultra.PrepareData.ViewModels
             }
         }
 
-        private void LoadFromFile(string directoryPath)
+        public void LoadFromFile(string directoryPath)
         {
             var files = FeatureLoader.GetPhotos(directoryPath)
                 .Select(path => new ImageVM(path));
