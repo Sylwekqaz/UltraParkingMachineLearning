@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Windows.Forms;
 
 namespace Ultra.ClassyficatorTester
 {
@@ -19,6 +21,20 @@ namespace Ultra.ClassyficatorTester
                         Console.WriteLine("N");
                         return false;
                 }
+            }
+        }
+
+        public static bool FolderPrompt(out string path)
+        {
+            using (var fbd = new FolderBrowserDialog() {SelectedPath = Directory.GetCurrentDirectory()})
+            {
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    path = fbd.SelectedPath;
+                    return true;
+                }
+                path = "";
+                return false;
             }
         }
     }
