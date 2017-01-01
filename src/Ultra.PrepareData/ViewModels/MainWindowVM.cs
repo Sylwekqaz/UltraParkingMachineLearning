@@ -98,7 +98,7 @@ namespace Ultra.PrepareData.ViewModels
 
         private void LoadFromFile(string directoryPath)
         {
-            var files = FeatureLoader.GetPhotos()
+            var files = FeatureLoader.GetPhotos(directoryPath)
                 .Select(path => new ImageVM(path));
 
             Images = new ObservableCollection<ImageVM>(files);
