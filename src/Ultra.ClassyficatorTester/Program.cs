@@ -22,10 +22,18 @@ namespace Ultra.ClassyficatorTester
 
             CrossValidation(observations);
 
+            NsubOneValidation(observations);
+
             Console.ReadKey();
         }
 
-        
+        private static void NsubOneValidation(List<ImageFeatures> observations)
+        {
+            Console.WriteLine("Walidacja N-1");
+            var cmatrix = ClassificationValidator.NSubOneValidation(observations);
+            cmatrix.PrintToConsole();
+        }
+
         private static void CrossValidation(List<ImageFeatures> observations)
         {
             int iterations = 1000;

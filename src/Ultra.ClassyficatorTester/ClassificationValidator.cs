@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Ultra.Contract.Model;
 using Ultra.MachineLearning.Classifiers;
 
@@ -31,5 +32,19 @@ namespace Ultra.ClassyficatorTester
             }
             return summaryConfusionMatrix;
         }
+
+        public static ConfusionMatrix NSubOneValidation(List<ImageFeatures> observations)
+        {
+            var confumaMatrix = new ConfusionMatrix();
+            for (var i = 0; i < observations.Count; i++)
+            {
+                var validation = observations.Where((features, i1) => i1==i).ToList();
+                var train = observations.Where((features, i1) => i1 != i).ToList();
+                confumaMatrix += Validate(train, validation);
+            }
+
+            return confumaMatrix;
+        }
+
     }
 }
