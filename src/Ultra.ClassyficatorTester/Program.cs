@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
+using ConsoleTables;
+using Ultra.Contract.Model;
 using Ultra.IO;
 
 namespace Ultra.ClassyficatorTester
 {
-    class Program
+    static class Program
     {
         [STAThread]
         static void Main(string[] args)
@@ -17,12 +20,33 @@ namespace Ultra.ClassyficatorTester
             var observations = FeatureLoader.GetObservations(path, reloadCache,StatusBar.DrawTextProgressBar).ToList();
             Console.WriteLine($"Liczba obserwacji: {observations.Count}");
 
-            var confusionMatrix = ClassificationValidator.CrossValidation(observations, iterations: 1000, splitPercent: 0.7);
-            Console.WriteLine(confusionMatrix);
+            CrossValidation(observations);
 
             Console.ReadKey();
         }
 
         
+        private static void CrossValidation(List<ImageFeatures> observations)
+        {
+            int iterations = 1000;
+            double splitPercent = 0.7;
+            Console.WriteLine($"Crossvalidacja {iterations} iteracji , podział zbioru {splitPercent*100}%-{100 - splitPercent * 100}%");
+            var confusionMatrix = ClassificationValidator.CrossValidation(observations, iterations, splitPercent);
+            confusionMatrix.PrintToConsole();
+        }
+
+        private static void PrintToConsole(this ConfusionMatrix cm)
+        {
+            new ConsoleTable("Predicted\\Actual", "True", "False")
+                .AddRow("True",cm.TruePositive,cm.FalsePositive)
+                .AddRow("False",cm.FalseNegative,cm.TrueNegative)
+                .Write(Format.Alternative);
+
+            // Statistics
+            Console.WriteLine($"Sensitivity TPR: {cm.TruePositiveRatio}");
+            Console.WriteLine($"Sensitivity TNR: {cm.TrueNegativeRatio}");
+            Console.WriteLine($"Accuracy ACC: {cm.Accuracy}");
+
+        }
     }
 }

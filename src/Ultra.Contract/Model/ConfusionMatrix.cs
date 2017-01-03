@@ -45,21 +45,5 @@ namespace Ultra.Contract.Model
                 FalseNegative = left.FalseNegative + right.FalseNegative,
             };
         }
-
-        public override string ToString()
-        {
-            var builder = new StringBuilder();
-            //Print Matrix
-            builder.AppendLine($"True Positive: {TruePositive}");
-            builder.AppendLine($"True Negative: {TrueNegative}");
-            builder.AppendLine($"False Positive: {FalsePositive}");
-            builder.AppendLine($"False Negative: {FalseNegative}");
-            builder.AppendLine();
-            // Statistics
-            builder.AppendLine($"Sensitivity TPR: {TruePositiveRatio}");
-            builder.AppendLine($"Sensitivity TNR: {TrueNegativeRatio}");
-            builder.AppendLine($"Accuracy ACC: {Accuracy}");
-            return builder.ToString();
-        }
     }
 }
