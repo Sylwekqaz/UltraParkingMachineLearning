@@ -24,8 +24,12 @@ namespace Ultra.ClassyficatorTester
 
             NsubOneValidation(observations);
 
-            Console.ReadKey();
-        }
+            
+            Console.WriteLine("Naciśnij dowolny klawisz aby zamknąć");
+            while (Console.KeyAvailable)
+                Console.ReadKey(true); //discard stacked keyboard events
+            Console.ReadKey(true);
+            }
 
         private static void NsubOneValidation(List<ImageFeatures> observations)
         {
