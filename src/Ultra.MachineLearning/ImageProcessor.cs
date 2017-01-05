@@ -10,9 +10,10 @@ namespace Ultra.MachineLearning
         public static Mat DetectEdges(this Mat src, double sigma = 0.33)
         {
             var graySrc = src.CvtColor(ColorConversionCodes.BGR2GRAY);
-            Cv2.MeanStdDev(graySrc, out var mean, out var stddev);
-            var lower = (int) Math.Max(0, (1.0 - sigma) * mean[0]);
-            var upper = (int) Math.Min(255, (1.0 + sigma) * mean[0]);
+            Cv2.MeanStdDev(graySrc, out var meanScalar, out var stddevScalar);
+            var mean = meanScalar[0];
+            var lower = (int) Math.Max(0, (1.0 - sigma) * mean);
+            var upper = (int) Math.Min(255, (1.0 + sigma) * mean);
             return graySrc.Canny(lower, upper);
         }
 

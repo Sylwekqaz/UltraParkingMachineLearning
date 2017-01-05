@@ -58,6 +58,8 @@ namespace Ultra.ClassyficatorTester
             Console.WriteLine($"Sensitivity TPR: {cm.TruePositiveRatio}");
             Console.WriteLine($"Sensitivity TNR: {cm.TrueNegativeRatio}");
             Console.WriteLine($"Accuracy ACC: {cm.Accuracy}");
+            Console.WriteLine();
+            Console.WriteLine();
 
         }
     }
