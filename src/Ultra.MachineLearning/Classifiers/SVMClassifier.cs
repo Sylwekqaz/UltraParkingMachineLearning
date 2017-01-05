@@ -7,11 +7,11 @@ using OpenCvSharp.ML;
 
 namespace Ultra.MachineLearning.Classifiers
 {
-    public class SMVClassifier : IClassifier
+    public class SVMClassifier : IClassifier
     {
         private readonly SVM _svm;
 
-        private SMVClassifier(SVM svm)
+        private SVMClassifier(SVM svm)
         {
             _svm = svm;
         }
@@ -22,7 +22,7 @@ namespace Ultra.MachineLearning.Classifiers
         }
 
 
-        public static SMVClassifier Create(List<ImageFeatures> trainingData)
+        public static SVMClassifier Create(List<ImageFeatures> trainingData)
         {
             var svm = SVM.Create();
             svm.Type = SVM.Types.CSvc;
@@ -37,7 +37,7 @@ namespace Ultra.MachineLearning.Classifiers
 
             svm.Train(trainingData.ToTrainingMat(), SampleTypes.RowSample, trainingData.ToResponseMat());
 
-            return new SMVClassifier(svm);
+            return new SVMClassifier(svm);
         }
     }
 }

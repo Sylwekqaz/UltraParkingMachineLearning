@@ -9,12 +9,12 @@ namespace Ultra.ClassyficatorTester
     {
         public static ConfusionMatrix Validate(List<ImageFeatures> train, List<ImageFeatures> validation)
         {
-            var smvClassifier = SMVClassifier.Create(train);
+            var svmClassifier = SVMClassifier.Create(train);
 
             var confusionMatrix = new ConfusionMatrix();
             foreach (var validationObservation in validation)
             {
-                var predict = smvClassifier.Predict(validationObservation);
+                var predict = svmClassifier.Predict(validationObservation);
                 confusionMatrix.AddVote(actual: validationObservation.IsOccupied, predicted: predict);
             }
             return confusionMatrix;
