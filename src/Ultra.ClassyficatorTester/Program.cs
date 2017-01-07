@@ -34,7 +34,7 @@ namespace Ultra.ClassyficatorTester
         private static void NsubOneValidation(List<ImageFeatures> observations)
         {
             Console.WriteLine("Walidacja N-1");
-            var cmatrix = ClassificationValidator.NSubOneValidation(observations);
+            var cmatrix = ClassificationValidator.LeaveOneOutValidation(observations);
             cmatrix.PrintToConsole();
         }
 

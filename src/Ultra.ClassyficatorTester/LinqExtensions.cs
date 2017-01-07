@@ -21,5 +21,13 @@ namespace Ultra.ClassyficatorTester
         {
             return src.OrderBy(arg => Guid.NewGuid()).ToList();
         }
+
+        public static List<T> WithoutElementAt<T>(this IEnumerable<T> src, int index)
+        {
+            var enumerable = src as IList<T> ?? src.ToList();
+            return enumerable.Take(index)
+                .Union(enumerable.Skip(index + 1))
+                .ToList();
+        }
     }
 }

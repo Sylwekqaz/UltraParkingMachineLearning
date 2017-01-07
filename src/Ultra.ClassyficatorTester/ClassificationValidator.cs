@@ -21,30 +21,29 @@ namespace Ultra.ClassyficatorTester
         }
 
         public static ConfusionMatrix CrossValidation(List<ImageFeatures> observations, int iterations,
-            double splitPercent)
+            double splitRatio)
         {
             var summaryConfusionMatrix = new ConfusionMatrix();
             for (int i = 0; i < iterations; i++)
             {
-                var tuple = observations.Shuffle().Split(splitPercent);
+                var tuple = observations.Shuffle().Split(splitRatio);
                 var iterationConfusionMatrix = Validate(tuple.Item1, tuple.Item2);
                 summaryConfusionMatrix += iterationConfusionMatrix;
             }
             return summaryConfusionMatrix;
         }
 
-        public static ConfusionMatrix NSubOneValidation(List<ImageFeatures> observations)
+        public static ConfusionMatrix LeaveOneOutValidation(List<ImageFeatures> observations)
         {
             var confumaMatrix = new ConfusionMatrix();
             for (var i = 0; i < observations.Count; i++)
             {
-                var validation = observations.Where((features, i1) => i1==i).ToList();
-                var train = observations.Where((features, i1) => i1 != i).ToList();
+                var validation = new List<ImageFeatures> {observations[i]};
+                var train = observations.WithoutElementAt(i);
                 confumaMatrix += Validate(train, validation);
             }
 
             return confumaMatrix;
         }
-
     }
 }
