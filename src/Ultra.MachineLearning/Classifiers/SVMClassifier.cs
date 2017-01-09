@@ -26,7 +26,7 @@ namespace Ultra.MachineLearning.Classifiers
         {
             var svm = SVM.Create();
             svm.Type = SVM.Types.CSvc;
-            svm.KernelType = SVM.KernelTypes.Linear;
+            svm.KernelType = SVM.KernelTypes.Rbf;
             svm.TermCriteria = TermCriteria.Both(maxCount: 1000, epsilon: 0.000001);
             svm.Gamma = 100.0;
             svm.C = 1.0;
