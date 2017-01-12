@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,17 +17,30 @@ namespace Ultra.PrepareData.Views
     {
         public ObservableCollection<Point> Contour
         {
-            get { return (ObservableCollection<Point>) GetValue(MyPropertyProperty); }
-            set { SetValue(MyPropertyProperty, value); }
+            get { return (ObservableCollection<Point>) GetValue(ContourPropertyProperty); }
+            set { SetValue(ContourPropertyProperty, value); }
+        }
+        public double Scale
+        {
+            get { return (double) GetValue(ScalePropertyProperty); }
+            set { SetValue(ScalePropertyProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MyPropertyProperty =
+        public static readonly DependencyProperty ContourPropertyProperty =
             DependencyProperty
                 .Register("Contour",
                     typeof(ObservableCollection<Point>),
                     typeof(ContourManipulator),
                     new FrameworkPropertyMetadata((o, args) => { ((ContourManipulator) o).ContourChanged(); }));
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ScalePropertyProperty =
+            DependencyProperty
+                .Register("Scale",
+                    typeof(double),
+                    typeof(ContourManipulator),
+                    new FrameworkPropertyMetadata((o, args) => { ((ContourManipulator) o).FullRedraw(); }));
 
 
         private void ContourChanged()
@@ -71,12 +85,12 @@ namespace Ultra.PrepareData.Views
         {
             var e = new Ellipse
             {
-                Height = 10,
-                Width = 10,
-                RenderTransform = new TranslateTransform(-5, -5),
+                Height = 10 / Scale,
+                Width = 10 / Scale,
+                RenderTransform = new TranslateTransform(-5 / Scale, -5 / Scale),
                 Stroke = Brushes.White,
                 Fill = Brushes.Black,
-                StrokeThickness = 1,
+                StrokeThickness = 1 / Scale,
             };
             e.MouseUp += RootCanvas_OnMouseUp;
             Canvas.SetLeft(e, point.X);
@@ -94,11 +108,11 @@ namespace Ultra.PrepareData.Views
                 X2 = point2.X,
                 Y2 = point2.Y,
                 Stroke = Brushes.Magenta,
-                StrokeThickness = 1,
+                StrokeThickness = 1 / Scale,
             };
             if (dashed)
             {
-                e.StrokeDashArray = new DoubleCollection() {2, 2};
+                e.StrokeDashArray = new DoubleCollection() { 2 / Scale, 2 / Scale };
             }
 
             e.MouseUp += RootCanvas_OnMouseUp;
@@ -111,7 +125,7 @@ namespace Ultra.PrepareData.Views
             if (Contour == null) return;
 
             var clickPosition = e.GetPosition(RootCanvas);
-            var point = Contour.FirstOrDefault(p => p.DistanceTo(clickPosition) < 12);
+            var point = Contour.FirstOrDefault(p => p.DistanceTo(clickPosition) < (12 / Scale));
             var index = Contour.IndexOf(point);
 
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -143,7 +157,7 @@ namespace Ultra.PrepareData.Views
         private void RootCanvas_OnMouseMove(object sender, MouseEventArgs e)
         {
             var clickPosition = e.GetPosition(RootCanvas);
-            var pointNearby = Contour?.Any(p => p.DistanceTo(clickPosition) < 12) ?? false;
+            var pointNearby = Contour?.Any(p => p.DistanceTo(clickPosition) < (12 / Scale)) ?? false;
             Cursor = pointNearby ? Cursors.SizeAll : Cursors.Arrow;
 
             if (ActivePointIndex != null)
