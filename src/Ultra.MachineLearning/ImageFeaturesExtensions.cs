@@ -15,9 +15,9 @@ namespace Ultra.MachineLearning
             var features = new ImageFeatures
             {
                 IsOccupied = isOccupied,
-                // counted edges and saturated pixels
+                // counted edges and Chromated pixels
                 EdgePixels = ImageProcessor.CountEdgePixels(contour, mat),
-                SaturatedPixels = ImageProcessor.CountSaturationPixels(contour, mat),
+                ChromatedPixels = ImageProcessor.CountChromatedPixels(contour, mat),
                 MaskPixels = ImageProcessor.CountMaskArea(contour, mat),
                 //hsv stats
                 SaturationMean = hsvColorStats.Item1.Item1,
@@ -52,7 +52,7 @@ namespace Ultra.MachineLearning
         {
             return new[]
             {
-                features.SaturatedPixelsRatio,
+                features.ChromatedPixelsRatio,
                 features.EdgePixelsRatio,
                 features.SaturationMean,
                 features.SaturationStddev,

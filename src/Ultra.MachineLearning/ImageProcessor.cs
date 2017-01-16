@@ -34,7 +34,7 @@ namespace Ultra.MachineLearning
         }
 
 
-        public static int CountSaturationPixels(Contour contour, Mat src)
+        public static int CountChromatedPixels(Contour contour, Mat src)
         {
             var rect = GetContourRect(contour, src.Height, src.Width);
 
@@ -45,7 +45,7 @@ namespace Ultra.MachineLearning
             return src
                 .Clone(rect)
                 .CvtColor(ColorConversionCodes.BGR2HSV)
-                .ScaleSaturationWithValue() // returns only saturation layer
+                .GetChromaLayer()
                 .BitwiseAnd(mask)
                 .Threshold(100, 255, ThresholdTypes.Binary)
                 .CountNonZero();
@@ -92,11 +92,7 @@ namespace Ultra.MachineLearning
                 .CountNonZero();
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="src"></param>
-        /// <returns>Only Saturate Layer</returns>
-        public static Mat ScaleSaturationWithValue(this Mat src)
+        public static Mat GetChromaLayer(this Mat src)
         {
             var mats = src.Split();
             return mats[1].Mul(mats[2], 1.0/255);

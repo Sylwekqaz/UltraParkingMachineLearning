@@ -1,4 +1,4 @@
-SaturatedPixels;EdgePixels;MaskPixels;IsOccupied;EdgePixelsRatio;SaturatedPixelsRatio;SaturationMean;SaturationStddev;ValueMean;ValueStddev
+ChromatedPixels;EdgePixels;MaskPixels;IsOccupied;EdgePixelsRatio;ChromatedPixelsRatio;SaturationMean;SaturationStddev;ValueMean;ValueStddev
 2407;1051;7596;True;0,1383623;0,3168773;0,3976241;0,2680583;0,5800999;0,3721956
 49;320;5426;False;0,05897531;0,009030594;0,1910699;0,1273448;0,3316284;0,2380358
 0;191;4283;False;0,04459491;0;0,1470007;0,1035402;0,3362441;0,2803129
