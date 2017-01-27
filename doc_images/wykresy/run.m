@@ -4,7 +4,7 @@ false_ob = ob(ob(:, 4) == 0, :);
 
 freecolor = [255 72 0] /255;
 takencolor = [100 100 100] /255;
-labels = {'','','','','Wspolczynnik krawedzi','Wspolczynnik chrominancji','Srednia saturacja', 'Odchylenie standardowe saturacji','Srednia wartosc','Odchylenie standardowe wartosci'};
+labels = {'','','','','Wspolczynnik krawedzi','Wspolczynnik chrominancji','Srednia saturacja', 'Odchylenie standardowe saturacji','Srednia jaskrawosc','Odchylenie standardowe jaskrawosci'};
 for x = 5:10
   for y = x:10
   if x==y
