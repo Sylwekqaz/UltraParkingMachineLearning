@@ -19,8 +19,6 @@ namespace Ultra.LivePreview.ViewModels
             AddContour = new RelayCommand<object>(AddSlotHandler, CanAddContour);
             DeleteContour = new RelayCommand<ParkingSlotVM>(DeleteSlotHandler);
             SaveToFile = new RelayCommand<object>(SaveToFileHandler);
-            MarkEmptySlot = new RelayCommand<ParkingSlotVM>(o => MarkSlot(o, occupied: false));
-            MarkOccupiedSlot = new RelayCommand<ParkingSlotVM>(o => MarkSlot(o, occupied: true));
             MoveNext = new RelayCommand<object>(o =>
             {
                 var i = Images.IndexOf(SelectedImage);
@@ -44,10 +42,6 @@ namespace Ultra.LivePreview.ViewModels
         public RelayCommand<ParkingSlotVM> DeleteContour { get; }
 
         public RelayCommand<object> SaveToFile { get; }
-
-        public RelayCommand<ParkingSlotVM> MarkEmptySlot { get; }
-
-        public RelayCommand<ParkingSlotVM> MarkOccupiedSlot { get; }
 
         public RelayCommand<object> MoveNext { get; }
         public RelayCommand<object> MovePrev { get; }
@@ -104,12 +98,6 @@ namespace Ultra.LivePreview.ViewModels
 
             SelectedImage = Images.FirstOrDefault();
             SelectedSlot = SelectedImage?.ParkingSlots?.FirstOrDefault();
-        }
-
-        private void MarkSlot(ParkingSlotVM slotVM, bool occupied)
-        {
-            if (slotVM == null) return;
-            slotVM.IsOccupied = occupied;
         }
     }
 }
