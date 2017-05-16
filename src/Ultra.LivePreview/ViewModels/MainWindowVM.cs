@@ -28,7 +28,7 @@ namespace Ultra.LivePreview.ViewModels
             AddContour = new RelayCommand<object>(AddSlotHandler,o => ParkingSlots!=null );
             DeleteContour = new RelayCommand<ParkingSlotVM>(DeleteSlotHandler);
             SaveToFile = new RelayCommand<object>(SaveToFileHandler);
-            MakeScreenShot = new RelayCommand<object>(MakeSS,_ => !string.IsNullOrEmpty(TrainDataPath));
+            MakeScreenShot = new RelayCommand<object>(MakeScreenShotHandler,_ => !string.IsNullOrEmpty(TrainDataPath));
 
             LoadContours();
 
@@ -39,7 +39,7 @@ namespace Ultra.LivePreview.ViewModels
             _dispatcherTimer.Start();
         }
 
-        private void MakeSS(object o1)
+        private void MakeScreenShotHandler(object o1)
         {
             var frame = new Mat();
             Camera.NextFrame(frame);
