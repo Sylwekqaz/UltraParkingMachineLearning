@@ -60,6 +60,9 @@ namespace Ultra.PrepareData.Views
 
         public void FullRedraw()
         {
+            if (Scale == 0) //window not fully yet, skip redrawing
+                return;
+
             RootCanvas.Children.Clear();
             var contour = Contour;
             if (contour == null) return;

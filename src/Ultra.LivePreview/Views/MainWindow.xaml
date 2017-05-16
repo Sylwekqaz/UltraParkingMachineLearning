@@ -1,0 +1,124 @@
+﻿<Window x:Class="Ultra.LivePreview.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:viewModels1="clr-namespace:Ultra.LivePreview.ViewModels"
+        xmlns:utils1="clr-namespace:Ultra.PrepareData.Utils;assembly=Ultra.PrepareData"
+        xmlns:livePreviewViews="clr-namespace:Ultra.LivePreview.Views"
+        xmlns:prepareDataViews="clr-namespace:Ultra.PrepareData.Views;assembly=Ultra.PrepareData"
+        mc:Ignorable="d"
+        Title="MainWindow" WindowState="Maximized"
+        SizeChanged="MainWindow_OnSizeChanged">
+    <Window.DataContext>
+        <viewModels1:MainWindowVM />
+    </Window.DataContext>
+    <Window.Resources>
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="A" Command="{Binding AddContour}"/>
+        <KeyBinding Key="D" Command="{Binding DeleteContour}" CommandParameter="{Binding SelectedSlot}"/>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveToFile}"/>
+        <KeyBinding Key="F5" Command="{Binding MakeScreenShot}"/>
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Row="0" Grid.ColumnSpan="2">
+            <MenuItem Header="Dane">
+                <MenuItem Header="Wczytaj" Click="LoadDataMenuItem_OnClick"/>
+                <MenuItem Header="Zapisz" InputGestureText="CTRL+S" Command="{Binding SaveToFile}"/>
+            </MenuItem>
+        </Menu>
+
+        <DockPanel Grid.Column="0" Grid.Row="1">
+            <Button DockPanel.Dock="Top" Command="{Binding AddContour}">
+                <fa:FontAwesome Icon="Plus" />
+            </Button>
+            <ListBox x:Name="Contour" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                     ItemsSource="{Binding ParkingSlots}" SelectedItem="{Binding SelectedSlot}"
+                     HorizontalContentAlignment="Stretch" DockPanel.Dock="Top" Focusable="False">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="20" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Pts.Count}" VerticalAlignment="Stretch">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOccupied}" Value="false">
+                                                <Setter Property="Background" Value="LightBlue" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsOccupied}" Value="true">
+                                                <Setter Property="Background" Value="IndianRed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <Button Grid.Column="1"
+                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type livePreviewViews:MainWindow}},
+                                                      Path=DataContext.DeleteContour}"
+                                    CommandParameter="{Binding}">
+                                <fa:FontAwesome Icon="Trash" />
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+        <Viewbox Grid.Column="1" Grid.Row="1"  Name="Viewbox">
+            <Grid Height="{Binding Path=Source.PixelHeight,ElementName=PreviewImage}" Width="{Binding Path=Source.PixelWidth,ElementName=PreviewImage}">
+                <Canvas >
+                    <Image Name="PreviewImage" Source="{Binding Path=CameraFrame}" 
+                        Height="{Binding Path=Source.PixelHeight,ElementName=PreviewImage}" Width="{Binding Path=Source.PixelWidth,ElementName=PreviewImage}"/>
+
+                    <!--draw lines-->
+                    <ItemsControl ItemsSource="{Binding ParkingSlots}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Polyline Points="{Binding PtsCollection}"  Opacity="0.4">
+                                    <Polyline.Style>
+                                        <Style TargetType="{x:Type Polyline}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsOccupied}" Value="false">
+                                                    <Setter Property="Fill" Value="LightBlue" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsOccupied}" Value="true">
+                                                    <Setter Property="Fill" Value="IndianRed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Polyline.Style>
+                                </Polyline>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Canvas>
+                <prepareDataViews:ContourManipulator VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Contour="{Binding SelectedSlot.Pts}" x:Name="Manipulator"/>
+            </Grid>
+        </Viewbox>
+        <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Orientation="Horizontal" Background="#33FFFFFF" Grid.Row="1" >
+            <TextBlock>Dims:</TextBlock>
+            <TextBlock Text="{Binding Path=ActualWidth,ElementName=PreviewImage}"></TextBlock>
+            <TextBlock>x</TextBlock>
+            <TextBlock Text="{Binding Path=ActualHeight,ElementName=PreviewImage}"></TextBlock>
+        </StackPanel>
+
+    </Grid>
+</Window>
