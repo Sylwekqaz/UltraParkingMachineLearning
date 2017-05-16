@@ -20,6 +20,7 @@
         <KeyBinding Key="A" Command="{Binding AddContour}"/>
         <KeyBinding Key="D" Command="{Binding DeleteContour}" CommandParameter="{Binding SelectedSlot}"/>
         <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveToFile}"/>
+        <KeyBinding Key="F5" Command="{Binding MakeScreenShot}"/>
     </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>

@@ -28,6 +28,7 @@ namespace Ultra.LivePreview.ViewModels
             AddContour = new RelayCommand<object>(AddSlotHandler,o => ParkingSlots!=null );
             DeleteContour = new RelayCommand<ParkingSlotVM>(DeleteSlotHandler);
             SaveToFile = new RelayCommand<object>(SaveToFileHandler);
+            MakeScreenShot = new RelayCommand<object>(MakeSS,_ => !string.IsNullOrEmpty(TrainDataPath));
 
             LoadContours();
 
@@ -36,6 +37,13 @@ namespace Ultra.LivePreview.ViewModels
             _dispatcherTimer.Tick += dispatcherTimer_Tick;
             _dispatcherTimer.Interval = new TimeSpan(1000);
             _dispatcherTimer.Start();
+        }
+
+        private void MakeSS(object o1)
+        {
+            var frame = new Mat();
+            Camera.NextFrame(frame);
+            frame.SaveImage(Path.Combine(TrainDataPath, $@"{Guid.NewGuid()}.jpg"));
         }
 
         private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer(); // get progress every second
@@ -52,6 +60,7 @@ namespace Ultra.LivePreview.ViewModels
         public RelayCommand<ParkingSlotVM> DeleteContour { get; }
 
         public RelayCommand<object> SaveToFile { get; }
+        public RelayCommand<object> MakeScreenShot { get; }
 
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
@@ -122,11 +131,15 @@ namespace Ultra.LivePreview.ViewModels
         public void LoadTrainData(string trainDataPath)
         {
             TrainDataPath = trainDataPath;
+            if (!Directory.GetFiles(trainDataPath).Any())
+                return;
+
             var features = FeatureLoader.GetObservations(trainDataPath);
             SvmClassifier = SVMClassifier.Create(features);
         }
 
         private string TrainDataPath { get; set; }
         private SVMClassifier SvmClassifier { get; set; }
+
     }
 }
