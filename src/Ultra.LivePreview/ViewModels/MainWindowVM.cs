@@ -20,7 +20,7 @@ namespace Ultra.LivePreview.ViewModels
     {
         public MainWindowVM()
         {
-            AddContour = new RelayCommand<object>(AddSlotHandler);
+            AddContour = new RelayCommand<object>(AddSlotHandler,o => ParkingSlots!=null );
             DeleteContour = new RelayCommand<ParkingSlotVM>(DeleteSlotHandler);
             SaveToFile = new RelayCommand<object>(SaveToFileHandler);
 
