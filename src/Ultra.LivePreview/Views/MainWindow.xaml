@@ -83,8 +83,7 @@
         <Viewbox Grid.Column="1" Grid.Row="1"  Name="Viewbox">
             <Grid Height="{Binding Path=Source.PixelHeight,ElementName=PreviewImage}" Width="{Binding Path=Source.PixelWidth,ElementName=PreviewImage}">
                 <Canvas >
-                    <Image Name="PreviewImage" Source="{Binding Path=SelectedImage.ImagePath,
-                        Converter={StaticResource UriToBitmapConverter}}" 
+                    <Image Name="PreviewImage" Source="{Binding Path=CameraFrame}" 
                         Height="{Binding Path=Source.PixelHeight,ElementName=PreviewImage}" Width="{Binding Path=Source.PixelWidth,ElementName=PreviewImage}"/>
 
                     <!--draw lines-->

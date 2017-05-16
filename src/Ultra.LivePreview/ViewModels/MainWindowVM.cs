@@ -2,7 +2,11 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Newtonsoft.Json;
+using OpenCvSharp;
+using OpenCvSharp.Extensions;
 using PropertyChanged;
 using Ultra.Contract.Model;
 using Ultra.IO;
@@ -19,7 +23,18 @@ namespace Ultra.LivePreview.ViewModels
             AddContour = new RelayCommand<object>(AddSlotHandler);
             DeleteContour = new RelayCommand<ParkingSlotVM>(DeleteSlotHandler);
             SaveToFile = new RelayCommand<object>(SaveToFileHandler);
+
+            Camera = Cv2.CreateFrameSource_Camera(0);
+
+            _dispatcherTimer.Tick += dispatcherTimer_Tick;
+            _dispatcherTimer.Interval = new TimeSpan(1000);
+            _dispatcherTimer.Start();
         }
+
+        private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer(); // get progress every second
+        public FrameSource Camera { get; set; }
+        public BitmapSource CameraFrame { get; set; }
+
 
 
         public ObservableCollection<ParkingSlotVM> ParkingSlots { get; set; }
@@ -30,6 +45,14 @@ namespace Ultra.LivePreview.ViewModels
         public RelayCommand<ParkingSlotVM> DeleteContour { get; }
 
         public RelayCommand<object> SaveToFile { get; }
+
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            var frame = new Mat();
+            Camera.NextFrame(frame);
+            CameraFrame = frame.ToBitmapSource();
+        }
 
 
         private void AddSlotHandler(object o)
