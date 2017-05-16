@@ -1,8 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
-using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using WinForms = System.Windows.Forms;
 using Ultra.PrepareData.ViewModels;
@@ -21,12 +19,6 @@ namespace Ultra.LivePreview.Views
             SetScale();
         }
 
-        private void ImageListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var listBox = sender as ListBox;
-            listBox?.ScrollIntoView(listBox.SelectedItem);
-            SetScale();
-        }
 
         private void LoadDataMenuItem_OnClick(object sender, RoutedEventArgs e)
         {
@@ -74,6 +66,7 @@ namespace Ultra.LivePreview.Views
         private void MainWindow_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             SetScale();
+            Task.Delay(1000).ContinueWith(_ => Dispatcher.Invoke(SetScale));
         }
     }
 }

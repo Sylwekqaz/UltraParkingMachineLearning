@@ -4,9 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
-        xmlns:viewModels="clr-namespace:Ultra.PrepareData.ViewModels"
-        xmlns:utils="clr-namespace:Ultra.PrepareData.Utils"
-        xmlns:views="clr-namespace:Ultra.PrepareData.Views"
         xmlns:viewModels1="clr-namespace:Ultra.LivePreview.ViewModels"
         xmlns:utils1="clr-namespace:Ultra.PrepareData.Utils;assembly=Ultra.PrepareData"
         xmlns:livePreviewViews="clr-namespace:Ultra.LivePreview.Views"
@@ -18,7 +15,6 @@
         <viewModels1:MainWindowVM />
     </Window.DataContext>
     <Window.Resources>
-        <utils1:UriToBitmapConverter x:Key="UriToBitmapConverter" />
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="A" Command="{Binding AddContour}"/>
@@ -46,7 +42,7 @@
                 <fa:FontAwesome Icon="Plus" />
             </Button>
             <ListBox x:Name="Contour" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                     ItemsSource="{Binding SelectedImage.ParkingSlots}" SelectedItem="{Binding SelectedSlot}"
+                     ItemsSource="{Binding ParkingSlots}" SelectedItem="{Binding SelectedSlot}"
                      HorizontalContentAlignment="Stretch" DockPanel.Dock="Top" Focusable="False">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -87,7 +83,7 @@
                         Height="{Binding Path=Source.PixelHeight,ElementName=PreviewImage}" Width="{Binding Path=Source.PixelWidth,ElementName=PreviewImage}"/>
 
                     <!--draw lines-->
-                    <ItemsControl ItemsSource="{Binding SelectedImage.ParkingSlots}">
+                    <ItemsControl ItemsSource="{Binding ParkingSlots}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <Canvas/>

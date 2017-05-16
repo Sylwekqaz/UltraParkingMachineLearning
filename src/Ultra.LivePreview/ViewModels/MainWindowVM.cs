@@ -18,11 +18,15 @@ namespace Ultra.LivePreview.ViewModels
     [ImplementPropertyChanged]
     public class MainWindowVM
     {
+
+        private const string ContourDataPath = @"ContourData.jpg";
         public MainWindowVM()
         {
             AddContour = new RelayCommand<object>(AddSlotHandler,o => ParkingSlots!=null );
             DeleteContour = new RelayCommand<ParkingSlotVM>(DeleteSlotHandler);
             SaveToFile = new RelayCommand<object>(SaveToFileHandler);
+
+            LoadContours();
 
             Camera = Cv2.CreateFrameSource_Camera(0);
 
@@ -74,33 +78,26 @@ namespace Ultra.LivePreview.ViewModels
 
         public void SaveToFileHandler(object o)
         {
-//            foreach (var imageVM in Images)
-//            {
-//                var data = imageVM.ParkingSlots
-//                    .Select(slot => new ParkingSlot()
-//                    {
-//                        IsOccupied = slot.IsOccupied,
-//                        Contour = new Contour(slot.Pts
-//                            .Select(point => new Contour.Point()
-//                            {
-//                                X = point.X,
-//                                Y = point.Y,
-//                            }))
-//                    });
-//
-//                FeatureLoader.SaveSlots(imageVM.ImagePath,data);
-//            }
+            var data = ParkingSlots
+                .Select(slot => new ParkingSlot()
+                {
+                    IsOccupied = slot.IsOccupied,
+                    Contour = new Contour(slot.Pts
+                        .Select(point => new Contour.Point()
+                        {
+                            X = point.X,
+                            Y = point.Y,
+                        }))
+                });
+
+            FeatureLoader.SaveSlots(ContourDataPath, data);
         }
 
-        public void LoadFromFile(string directoryPath)
+        public void LoadContours()
         {
-//            var files = FeatureLoader.GetPhotos(directoryPath)
-//                .Select(path => new ImageVM(path));
-//
-//            Images = new ObservableCollection<ImageVM>(files);
-//
-//            SelectedImage = Images.FirstOrDefault();
-//            SelectedSlot = SelectedImage?.ParkingSlots?.FirstOrDefault();
+            var parkingSlots = FeatureLoader.LoadSlots(ContourDataPath);
+            ParkingSlots = new ObservableCollection<ParkingSlotVM>(parkingSlots.Select(ps => new ParkingSlotVM(ps)));
+            SelectedSlot = ParkingSlots?.FirstOrDefault();
         }
     }
 }
