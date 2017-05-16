@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -49,7 +50,7 @@ namespace Ultra.LivePreview.Views
             {
                 if (fbd.ShowDialog() == WinForms.DialogResult.OK)
                 {
-                    ((ViewModels.MainWindowVM) DataContext).LoadFromFile(fbd.SelectedPath);
+                    ((ViewModels.MainWindowVM) DataContext).LoadTrainData(fbd.SelectedPath);
                 }
             }
         }

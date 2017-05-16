@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
@@ -10,6 +11,8 @@ using OpenCvSharp.Extensions;
 using PropertyChanged;
 using Ultra.Contract.Model;
 using Ultra.IO;
+using Ultra.MachineLearning;
+using Ultra.MachineLearning.Classifiers;
 using Ultra.PrepareData.Utils;
 using Ultra.PrepareData.ViewModels;
 
@@ -56,6 +59,22 @@ namespace Ultra.LivePreview.ViewModels
             var frame = new Mat();
             Camera.NextFrame(frame);
             CameraFrame = frame.ToBitmapSource();
+
+            if (SvmClassifier == null)
+                return;
+
+            foreach (var slot in ParkingSlots)
+            {
+                var contour = new Contour(slot.Pts
+                    .Select(point => new Contour.Point()
+                    {
+                        X = point.X,
+                        Y = point.Y,
+                    }));
+                var features = frame.CalculateFeatures(contour, false);
+                Debug.WriteLine(features);
+                slot.IsOccupied = SvmClassifier.Predict(features);
+            }
         }
 
 
@@ -99,5 +118,15 @@ namespace Ultra.LivePreview.ViewModels
             ParkingSlots = new ObservableCollection<ParkingSlotVM>(parkingSlots.Select(ps => new ParkingSlotVM(ps)));
             SelectedSlot = ParkingSlots?.FirstOrDefault();
         }
+
+        public void LoadTrainData(string trainDataPath)
+        {
+            TrainDataPath = trainDataPath;
+            var features = FeatureLoader.GetObservations(trainDataPath);
+            SvmClassifier = SVMClassifier.Create(features);
+        }
+
+        private string TrainDataPath { get; set; }
+        private SVMClassifier SvmClassifier { get; set; }
     }
 }

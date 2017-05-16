@@ -130,6 +130,10 @@
       <Project>{a0f20716-63d9-4935-b41f-9fd547bacc42}</Project>
       <Name>Ultra.IO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ultra.MachineLearning\Ultra.MachineLearning.csproj">
+      <Project>{0AE25555-41AB-4836-A740-4B27E05EFA99}</Project>
+      <Name>Ultra.MachineLearning</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ultra.PrepareData\Ultra.PrepareData.csproj">
       <Project>{af6105d0-35b4-4735-9649-dee279d5e557}</Project>
       <Name>Ultra.PrepareData</Name>
