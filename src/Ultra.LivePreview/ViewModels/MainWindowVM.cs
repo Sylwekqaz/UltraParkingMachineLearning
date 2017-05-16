@@ -16,25 +16,13 @@ namespace Ultra.LivePreview.ViewModels
     {
         public MainWindowVM()
         {
-            AddContour = new RelayCommand<object>(AddSlotHandler, CanAddContour);
+            AddContour = new RelayCommand<object>(AddSlotHandler);
             DeleteContour = new RelayCommand<ParkingSlotVM>(DeleteSlotHandler);
             SaveToFile = new RelayCommand<object>(SaveToFileHandler);
-            MoveNext = new RelayCommand<object>(o =>
-            {
-                var i = Images.IndexOf(SelectedImage);
-                SelectedImage = Images[++i % Images.Count];
-            });
-            MovePrev = new RelayCommand<object>(o =>
-            {
-                var i = Images.IndexOf(SelectedImage);
-                SelectedImage = Images[(--i + Images.Count) % Images.Count];
-            });
         }
 
 
-        public ObservableCollection<ImageVM> Images { get; set; }
-
-        public ImageVM SelectedImage { get; set; }
+        public ObservableCollection<ParkingSlotVM> ParkingSlots { get; set; }
         public ParkingSlotVM SelectedSlot { get; set; }
 
 
@@ -43,61 +31,53 @@ namespace Ultra.LivePreview.ViewModels
 
         public RelayCommand<object> SaveToFile { get; }
 
-        public RelayCommand<object> MoveNext { get; }
-        public RelayCommand<object> MovePrev { get; }
-
 
         private void AddSlotHandler(object o)
         {
-            SelectedImage.ParkingSlots.Add(new ParkingSlotVM());
-            SelectedSlot = SelectedImage.ParkingSlots.LastOrDefault();
+            ParkingSlots.Add(new ParkingSlotVM());
+            SelectedSlot = ParkingSlots.LastOrDefault();
         }
 
         private void DeleteSlotHandler(ParkingSlotVM parkingSlotVM)
         {
-            var index = SelectedImage.ParkingSlots.IndexOf(parkingSlotVM);
-            SelectedImage.ParkingSlots.Remove(parkingSlotVM);
+            var index = ParkingSlots.IndexOf(parkingSlotVM);
+            ParkingSlots.Remove(parkingSlotVM);
             SelectedSlot = index == -1
                 ? null
-                : SelectedImage.ParkingSlots.Count <= index
-                    ? SelectedImage.ParkingSlots.LastOrDefault()
-                    : SelectedImage.ParkingSlots[index];
-        }
-
-        private bool CanAddContour(object o)
-        {
-            return SelectedImage != null;
+                : ParkingSlots.Count <= index
+                    ? ParkingSlots.LastOrDefault()
+                    : ParkingSlots[index];
         }
 
         public void SaveToFileHandler(object o)
         {
-            foreach (var imageVM in Images)
-            {
-                var data = imageVM.ParkingSlots
-                    .Select(slot => new ParkingSlot()
-                    {
-                        IsOccupied = slot.IsOccupied,
-                        Contour = new Contour(slot.Pts
-                            .Select(point => new Contour.Point()
-                            {
-                                X = point.X,
-                                Y = point.Y,
-                            }))
-                    });
-
-                FeatureLoader.SaveSlots(imageVM.ImagePath,data);
-            }
+//            foreach (var imageVM in Images)
+//            {
+//                var data = imageVM.ParkingSlots
+//                    .Select(slot => new ParkingSlot()
+//                    {
+//                        IsOccupied = slot.IsOccupied,
+//                        Contour = new Contour(slot.Pts
+//                            .Select(point => new Contour.Point()
+//                            {
+//                                X = point.X,
+//                                Y = point.Y,
+//                            }))
+//                    });
+//
+//                FeatureLoader.SaveSlots(imageVM.ImagePath,data);
+//            }
         }
 
         public void LoadFromFile(string directoryPath)
         {
-            var files = FeatureLoader.GetPhotos(directoryPath)
-                .Select(path => new ImageVM(path));
-
-            Images = new ObservableCollection<ImageVM>(files);
-
-            SelectedImage = Images.FirstOrDefault();
-            SelectedSlot = SelectedImage?.ParkingSlots?.FirstOrDefault();
+//            var files = FeatureLoader.GetPhotos(directoryPath)
+//                .Select(path => new ImageVM(path));
+//
+//            Images = new ObservableCollection<ImageVM>(files);
+//
+//            SelectedImage = Images.FirstOrDefault();
+//            SelectedSlot = SelectedImage?.ParkingSlots?.FirstOrDefault();
         }
     }
 }
