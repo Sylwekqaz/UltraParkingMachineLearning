@@ -21,14 +21,14 @@ namespace Ultra.LivePreview.ViewModels
     [ImplementPropertyChanged]
     public class MainWindowVM
     {
-
         private const string ContourDataPath = @"ContourData.jpg";
+
         public MainWindowVM()
         {
-            AddContour = new RelayCommand<object>(AddSlotHandler,o => ParkingSlots!=null );
+            AddContour = new RelayCommand<object>(AddSlotHandler, o => ParkingSlots != null);
             DeleteContour = new RelayCommand<ParkingSlotVM>(DeleteSlotHandler);
             SaveToFile = new RelayCommand<object>(SaveToFileHandler);
-            MakeScreenShot = new RelayCommand<object>(MakeScreenShotHandler,_ => !string.IsNullOrEmpty(TrainDataPath));
+            MakeScreenShot = new RelayCommand<object>(MakeScreenShotHandler, _ => !string.IsNullOrEmpty(TrainDataPath));
 
             LoadContours();
 
@@ -51,7 +51,6 @@ namespace Ultra.LivePreview.ViewModels
         public BitmapSource CameraFrame { get; set; }
 
 
-
         public ObservableCollection<ParkingSlotVM> ParkingSlots { get; set; }
         public ParkingSlotVM SelectedSlot { get; set; }
 
@@ -70,6 +69,8 @@ namespace Ultra.LivePreview.ViewModels
             CameraFrame = frame.ToBitmapSource();
 
             if (SvmClassifier == null)
+                return;
+            if (!IsStarted)
                 return;
 
             foreach (var slot in ParkingSlots)
@@ -141,5 +142,6 @@ namespace Ultra.LivePreview.ViewModels
         private string TrainDataPath { get; set; }
         private SVMClassifier SvmClassifier { get; set; }
 
+        public bool IsStarted { get; set; }
     }
 }

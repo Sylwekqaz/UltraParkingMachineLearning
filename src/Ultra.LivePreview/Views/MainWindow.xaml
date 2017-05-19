@@ -39,6 +39,9 @@
         </Menu>
 
         <DockPanel Grid.Column="0" Grid.Row="1">
+            <ToggleButton DockPanel.Dock="Top" IsChecked="{Binding IsStarted}">
+                <fa:FontAwesome Icon="Camera" />
+            </ToggleButton>
             <Button DockPanel.Dock="Top" Command="{Binding AddContour}">
                 <fa:FontAwesome Icon="Plus" />
             </Button>
